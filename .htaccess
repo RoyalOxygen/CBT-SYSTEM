@@ -1,0 +1,42 @@
+# CBT System - Security Configuration
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect config files
+<FilesMatch "\.(sql|log|ini)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect vendor directory
+RewriteEngine On
+RewriteRule ^vendor/ - [F,L]
+RewriteRule ^logs/ - [F,L]
+RewriteRule ^config/ - [F,L]
+
+# PHP settings (if allowed by server)
+php_flag display_errors off
+php_value upload_max_filesize 5M
+php_value post_max_size 8M
+php_value max_execution_time 300
+php_value memory_limit 128M
+
+# Enable rewrite for clean URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

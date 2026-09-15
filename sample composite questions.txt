@@ -1,0 +1,346 @@
+-- =====================================================
+-- COMPOSITE QUESTIONS SAMPLE DATA FOR EXAM ID 1
+-- =====================================================
+
+-- Delete existing samples if re-running
+DELETE FROM `composite_sub_options` WHERE `composite_sub_question_id` IN (
+    SELECT id FROM `composite_sub_questions` WHERE `composite_question_id` IN (
+        SELECT id FROM `composite_questions` WHERE `composite_exam_id` = 1
+    )
+);
+DELETE FROM `composite_sub_questions` WHERE `composite_question_id` IN (
+    SELECT id FROM `composite_questions` WHERE `composite_exam_id` = 1
+);
+DELETE FROM `composite_questions` WHERE `composite_exam_id` = 1;
+
+-- =====================================================
+-- MAIN QUESTION 1: English Comprehension Passage
+-- =====================================================
+INSERT INTO `composite_questions` 
+(`composite_exam_id`, `question_text`, `question_image`, `marks`, `question_order`, `status`) 
+VALUES 
+(1, 'Read the following passage carefully and answer the questions below:\n\n"Education is the most powerful weapon which you can use to change the world. It is the key to unlocking a better future for individuals and society as a whole. Through education, we develop critical thinking skills, expand our knowledge, and gain the ability to make informed decisions. Education empowers people to break the cycle of poverty and build a more equitable society. Every child deserves access to quality education regardless of their background or circumstances."', NULL, 4.00, 1, 1);
+
+SET @q1_id = LAST_INSERT_ID();
+
+-- Sub-question A for Question 1
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q1_id, 'A', 'According to the passage, what is described as the "most powerful weapon"?', 'A', 1.00, 1);
+
+SET @sq_a = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq_a, 'A', 'Education', 1),
+(@sq_a, 'B', 'Money', 2),
+(@sq_a, 'C', 'Technology', 3),
+(@sq_a, 'D', 'Military power', 4);
+
+-- Sub-question B for Question 1
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q1_id, 'B', 'What does education help individuals develop according to the passage?', 'C', 1.00, 2);
+
+SET @sq_b = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq_b, 'A', 'Physical strength', 1),
+(@sq_b, 'B', 'Wealth accumulation', 2),
+(@sq_b, 'C', 'Critical thinking skills', 3),
+(@sq_b, 'D', 'Political power', 4);
+
+-- Sub-question C for Question 1
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q1_id, 'C', 'What does education help people break according to the passage?', 'B', 1.00, 3);
+
+SET @sq_c = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq_c, 'A', 'The law', 1),
+(@sq_c, 'B', 'The cycle of poverty', 2),
+(@sq_c, 'C', 'The economy', 3),
+(@sq_c, 'D', 'The government', 4);
+
+-- Sub-question D for Question 1
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q1_id, 'D', 'Which statement best summarizes the author\'s main argument?', 'D', 1.00, 4);
+
+SET @sq_d = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq_d, 'A', 'Only rich children deserve education', 1),
+(@sq_d, 'B', 'Technology is more important than education', 2),
+(@sq_d, 'C', 'Education is only for the elite', 3),
+(@sq_d, 'D', 'Education is a transformative tool for individuals and society', 4);
+
+
+-- =====================================================
+-- MAIN QUESTION 2: Mathematics - Geometry
+-- =====================================================
+INSERT INTO `composite_questions` 
+(`composite_exam_id`, `question_text`, `question_image`, `marks`, `question_order`, `status`) 
+VALUES 
+(1, 'Study the following information about a rectangle ABCD where AB = 8 cm and BC = 6 cm, then answer the questions below.', NULL, 4.00, 2, 1);
+
+SET @q2_id = LAST_INSERT_ID();
+
+-- Sub-question A
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q2_id, 'A', 'What is the perimeter of the rectangle?', 'C', 1.00, 1);
+
+SET @sq2a = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq2a, 'A', '14 cm', 1),
+(@sq2a, 'B', '24 cm', 2),
+(@sq2a, 'C', '28 cm', 3),
+(@sq2a, 'D', '48 cm', 4);
+
+-- Sub-question B
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q2_id, 'B', 'What is the area of the rectangle?', 'B', 1.00, 2);
+
+SET @sq2b = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq2b, 'A', '28 cm²', 1),
+(@sq2b, 'B', '48 cm²', 2),
+(@sq2b, 'C', '56 cm²', 3),
+(@sq2b, 'D', '64 cm²', 4);
+
+-- Sub-question C
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q2_id, 'C', 'What is the length of the diagonal of the rectangle?', 'B', 1.00, 3);
+
+SET @sq2c = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq2c, 'A', '8 cm', 1),
+(@sq2c, 'B', '10 cm', 2),
+(@sq2c, 'C', '12 cm', 3),
+(@sq2c, 'D', '14 cm', 4);
+
+-- Sub-question D
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q2_id, 'D', 'If the length is doubled and width remains the same, what is the new area?', 'C', 1.00, 4);
+
+SET @sq2d = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq2d, 'A', '48 cm²', 1),
+(@sq2d, 'B', '72 cm²', 2),
+(@sq2d, 'C', '96 cm²', 3),
+(@sq2d, 'D', '128 cm²', 4);
+
+
+-- =====================================================
+-- MAIN QUESTION 3: Biology - The Human Body
+-- =====================================================
+INSERT INTO `composite_questions` 
+(`composite_exam_id`, `question_text`, `question_image`, `marks`, `question_order`, `status`) 
+VALUES 
+(1, 'Read the following information about the human circulatory system:\n\nThe human circulatory system consists of the heart, blood vessels, and blood. The heart pumps blood through a network of arteries, veins, and capillaries. Blood carries oxygen and nutrients to body cells and removes carbon dioxide and waste products. The average adult heart beats about 72 times per minute, circulating approximately 5 liters of blood throughout the body.', NULL, 4.00, 3, 1);
+
+SET @q3_id = LAST_INSERT_ID();
+
+-- Sub-question A
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q3_id, 'A', 'Which organ is the main pump of the circulatory system?', 'B', 1.00, 1);
+
+SET @sq3a = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq3a, 'A', 'Lungs', 1),
+(@sq3a, 'B', 'Heart', 2),
+(@sq3a, 'C', 'Liver', 3),
+(@sq3a, 'D', 'Kidney', 4);
+
+-- Sub-question B
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q3_id, 'B', 'What is the average heart rate of an adult per minute?', 'B', 1.00, 2);
+
+SET @sq3b = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq3b, 'A', '60 times', 1),
+(@sq3b, 'B', '72 times', 2),
+(@sq3b, 'C', '85 times', 3),
+(@sq3b, 'D', '100 times', 4);
+
+-- Sub-question C
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q3_id, 'C', 'Which of the following is NOT a component of the circulatory system?', 'D', 1.00, 3);
+
+SET @sq3c = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq3c, 'A', 'Heart', 1),
+(@sq3c, 'B', 'Blood vessels', 2),
+(@sq3c, 'C', 'Blood', 3),
+(@sq3c, 'D', 'Lungs', 4);
+
+-- Sub-question D
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q3_id, 'D', 'What is the approximate volume of blood circulated in an adult body?', 'C', 1.00, 4);
+
+SET @sq3d = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq3d, 'A', '2 liters', 1),
+(@sq3d, 'B', '3 liters', 2),
+(@sq3d, 'C', '5 liters', 3),
+(@sq3d, 'D', '8 liters', 4);
+
+
+-- =====================================================
+-- MAIN QUESTION 4: History - Nigerian Independence
+-- =====================================================
+INSERT INTO `composite_questions` 
+(`composite_exam_id`, `question_text`, `question_image`, `marks`, `question_order`, `status`) 
+VALUES 
+(1, 'Read the following passage about Nigerian independence:\n\nNigeria gained independence from British colonial rule on October 1, 1960. The country became a republic in 1963. Sir Abubakar Tafawa Balewa served as the first Prime Minister, while Dr. Nnamdi Azikiwe became the first President when Nigeria became a republic. The independence movement was championed by several nationalist leaders who fought for self-governance and freedom from colonial rule.', NULL, 4.00, 4, 1);
+
+SET @q4_id = LAST_INSERT_ID();
+
+-- Sub-question A
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q4_id, 'A', 'On what date did Nigeria gain independence?', 'C', 1.00, 1);
+
+SET @sq4a = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq4a, 'A', 'October 1, 1958', 1),
+(@sq4a, 'B', 'January 1, 1960', 2),
+(@sq4a, 'C', 'October 1, 1960', 3),
+(@sq4a, 'D', 'October 1, 1963', 4);
+
+-- Sub-question B
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q4_id, 'B', 'Who was Nigeria\'s first Prime Minister?', 'B', 1.00, 2);
+
+SET @sq4b = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq4b, 'A', 'Dr. Nnamdi Azikiwe', 1),
+(@sq4b, 'B', 'Sir Abubakar Tafawa Balewa', 2),
+(@sq4b, 'C', 'Chief Obafemi Awolowo', 3),
+(@sq4b, 'D', 'Sir Ahmadu Bello', 4);
+
+-- Sub-question C
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q4_id, 'C', 'When did Nigeria become a republic?', 'C', 1.00, 3);
+
+SET @sq4c = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq4c, 'A', '1958', 1),
+(@sq4c, 'B', '1960', 2),
+(@sq4c, 'C', '1963', 3),
+(@sq4c, 'D', '1966', 4);
+
+-- Sub-question D
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q4_id, 'D', 'Who became the first President of Nigeria?', 'A', 1.00, 4);
+
+SET @sq4d = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq4d, 'A', 'Dr. Nnamdi Azikiwe', 1),
+(@sq4d, 'B', 'Sir Abubakar Tafawa Balewa', 2),
+(@sq4d, 'C', 'Chief Obafemi Awolowo', 3),
+(@sq4d, 'D', 'General Yakubu Gowon', 4);
+
+
+-- =====================================================
+-- MAIN QUESTION 5: Computer Science - Programming
+-- =====================================================
+INSERT INTO `composite_questions` 
+(`composite_exam_id`, `question_text`, `question_image`, `marks`, `question_order`, `status`) 
+VALUES 
+(1, 'Study the following Python code snippet and answer the questions below:\n\n```python\ndef calculate_total(items):\n    total = 0\n    for item in items:\n        if item > 0:\n            total += item\n    return total\n\nresult = calculate_total([5, -3, 10, -1, 8])\nprint(result)\n```', NULL, 4.00, 5, 1);
+
+SET @q5_id = LAST_INSERT_ID();
+
+-- Sub-question A
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q5_id, 'A', 'What is the output of the code when executed?', 'C', 1.00, 1);
+
+SET @sq5a = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq5a, 'A', '19', 1),
+(@sq5a, 'B', '20', 2),
+(@sq5a, 'C', '23', 3),
+(@sq5a, 'D', '24', 4);
+
+-- Sub-question B
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q5_id, 'B', 'What is the purpose of the function `calculate_total`?', 'B', 1.00, 2);
+
+SET @sq5b = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq5b, 'A', 'Count all items in the list', 1),
+(@sq5b, 'B', 'Sum all positive numbers in the list', 2),
+(@sq5b, 'C', 'Multiply all numbers in the list', 3),
+(@sq5b, 'D', 'Find the average of the list', 4);
+
+-- Sub-question C
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q5_id, 'C', 'What programming concept does this code demonstrate?', 'A', 1.00, 3);
+
+SET @sq5c = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq5c, 'A', 'Iteration with conditional filtering', 1),
+(@sq5c, 'B', 'Recursion', 2),
+(@sq5c, 'C', 'Object-oriented programming', 3),
+(@sq5c, 'D', 'Exception handling', 4);
+
+-- Sub-question D
+INSERT INTO `composite_sub_questions` 
+(`composite_question_id`, `sub_question_label`, `sub_question_text`, `correct_answer`, `marks`, `sub_order`) 
+VALUES 
+(@q5_id, 'D', 'What would be the output if the list was `[5, 3, 10, 1, 8]` (all positive)?', 'C', 1.00, 4);
+
+SET @sq5d = LAST_INSERT_ID();
+INSERT INTO `composite_sub_options` (`composite_sub_question_id`, `option_label`, `option_text`, `option_order`) VALUES
+(@sq5d, 'A', '19', 1),
+(@sq5d, 'B', '24', 2),
+(@sq5d, 'C', '27', 3),
+(@sq5d, 'D', '30', 4);
+
+
+-- =====================================================
+-- VERIFICATION QUERY
+-- =====================================================
+-- Run this to verify the data was inserted correctly:
+SELECT 
+    cq.id as main_q_id,
+    cq.question_order,
+    LEFT(cq.question_text, 60) as question_preview,
+    COUNT(DISTINCT csq.id) as sub_questions,
+    COUNT(cso.id) as total_options
+FROM composite_questions cq
+LEFT JOIN composite_sub_questions csq ON csq.composite_question_id = cq.id
+LEFT JOIN composite_sub_options cso ON cso.composite_sub_question_id = csq.id
+WHERE cq.composite_exam_id = 1
+GROUP BY cq.id
+ORDER BY cq.question_order;
