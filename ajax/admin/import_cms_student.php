@@ -7,6 +7,7 @@
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/functions.php';
+node_require('student_edit');
 
 if (ob_get_level()) {
     ob_end_clean();

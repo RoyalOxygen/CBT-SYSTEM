@@ -7,6 +7,7 @@
 
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../includes/auth.php';
+node_require('results_view');
 
 $pageTitle = 'Update Student Results';
 $db = getDB();
@@ -27,6 +28,7 @@ function getGradeFromScore($score, $totalMarks) {
 
 // Handle result update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_result') {
+    node_require('results_edit');
     $csrf_token = $_POST[CSRF_TOKEN_NAME] ?? '';
     
     if (!validateCSRFToken($csrf_token)) {
@@ -118,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // Handle delete result
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_result') {
+    node_require('results_edit');
     $csrf_token = $_POST[CSRF_TOKEN_NAME] ?? '';
     
     if (!validateCSRFToken($csrf_token)) {

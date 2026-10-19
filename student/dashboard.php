@@ -182,6 +182,12 @@ $totalExamsTaken = $totalPublishedResults + $totalPendingResults;
 require_once __DIR__ . '/../includes/student_header.php';
 ?>
 
+<?php if (node_is_leaf() && !node_can('exam_access')): ?>
+<div class="alert alert-warning mb-4">
+    Examinations are currently disabled on this server by the online administrator. You can still view your dashboard.
+</div>
+<?php endif; ?>
+
 <style>
 /* ===== Taraba State University Theme ===== */
 :root {

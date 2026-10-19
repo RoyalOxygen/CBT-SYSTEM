@@ -7,6 +7,10 @@
 
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../includes/auth.php';
+node_require('results_view');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    node_require('results_edit');
+}
 
 $pageTitle = 'Results & Analytics';
 $db = getDB();

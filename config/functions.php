@@ -493,3 +493,8 @@ function getFlashMessage(): array {
     unset($_SESSION['flash_message'], $_SESSION['flash_type']);
     return ['message' => $message, 'type' => $type];
 }
+
+// Online/offline sync must load before the suspension guard so a suspended
+// leaf can still reach the hub and receive the "unsuspend" policy.
+require_once __DIR__ . '/sync.php';
+require_once __DIR__ . '/restrictions.php';

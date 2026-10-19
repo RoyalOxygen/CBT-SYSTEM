@@ -39,6 +39,33 @@ $pageTitle = $pageTitle ?? 'Dashboard';
         </div>
     </div>
 
+    <?php
+    $nodePolicy = node_policy();
+    $restricted = [];
+    $nodeLabels = [
+        'student_edit' => 'Student editing',
+        'question_edit' => 'Question editing',
+        'exam_edit' => 'Exam management',
+        'exam_access' => 'Exam access',
+        'results_view' => 'Result viewing',
+        'results_edit' => 'Result editing',
+        'file_updates' => 'File updates',
+    ];
+    foreach ($nodeLabels as $capability => $label) {
+        if (empty($nodePolicy[$capability])) {
+            $restricted[] = $label;
+        }
+    }
+    ?>
+    <?php if (node_is_leaf() && $restricted): ?>
+        <div class="alert alert-warning border-0 rounded-0 mb-0 py-2 small text-center">
+            <i class="bi bi-shield-lock me-1"></i>
+            Restrictions from the online server: <strong><?php echo e(implode(', ', $restricted)); ?></strong> disabled.
+            <?php if (!empty($nodePolicy['updated_at'])): ?>
+                <span class="text-muted ms-2">(policy <?php echo e($nodePolicy['updated_at']); ?>)</span>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
     <div class="wrapper">
         <?php require_once __DIR__ . '/sidebar.php'; ?>
         

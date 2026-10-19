@@ -115,6 +115,28 @@ $role = $_SESSION['admin_role'] ?? 'admin';
                 <span>Settings</span>
             </a>
         </li>
+
+        <?php if (node_is_hub()): ?>
+        <li class="<?php echo $currentPage === 'nodes.php' ? 'active' : ''; ?>">
+            <a href="<?php echo APP_URL; ?>/admin/nodes.php">
+                <i class="bi bi-hdd-network-fill"></i>
+                <span>Offline Nodes</span>
+            </a>
+        </li>
+        <?php else: ?>
+        <li class="<?php echo $currentPage === 'sync_status.php' ? 'active' : ''; ?>">
+            <a href="<?php echo APP_URL; ?>/admin/sync_status.php">
+                <i class="bi bi-arrow-repeat"></i>
+                <span>Sync Status</span>
+            </a>
+        </li>
+        <li class="<?php echo $currentPage === 'file_updates.php' ? 'active' : ''; ?>">
+            <a href="<?php echo APP_URL; ?>/admin/file_updates.php">
+                <i class="bi bi-cloud-arrow-down-fill"></i>
+                <span>Project Updates</span>
+            </a>
+        </li>
+        <?php endif; ?>
         <?php endif; ?>
         
         <!-- Logout - Visible to all -->

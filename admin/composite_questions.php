@@ -6,6 +6,7 @@
 
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../includes/auth.php';
+node_require('question_edit');
 
 $pageTitle = 'Composite Questions';
 $db = getDB();

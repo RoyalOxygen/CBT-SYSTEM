@@ -5,6 +5,7 @@
 
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../includes/auth.php';
+node_require('exam_edit');
 
 $pageTitle = 'Assign Students to Composite Exams';
 $db = getDB();

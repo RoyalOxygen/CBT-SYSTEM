@@ -9,22 +9,24 @@ if (!defined('CBT_SYSTEM')) {
     die('Unauthorized access');
 }
 
+require_once __DIR__ . '/node.php';
+
 class Database {
     private static ?PDO $instance = null;
-    
-    private const DB_HOST = 'localhost';
-    private const DB_NAME = 'cbt_system';
-    private const DB_USER = 'root';
-    private const DB_PASS = '';  // Change in production
-    private const DB_CHARSET = 'utf8mb4';
-    
+
     /**
      * Get PDO database connection instance (Singleton)
      */
     public static function getInstance(): PDO {
         if (self::$instance === null) {
             try {
-                $dsn = "mysql:host=" . self::DB_HOST . ";dbname=" . self::DB_NAME . ";charset=" . self::DB_CHARSET;
+                $host = defined('NODE_DB_HOST') ? NODE_DB_HOST : 'localhost';
+                $name = defined('NODE_DB_NAME') ? NODE_DB_NAME : 'cbt_system';
+                $user = defined('NODE_DB_USER') ? NODE_DB_USER : 'root';
+                $pass = defined('NODE_DB_PASS') ? NODE_DB_PASS : '';
+                $charset = 'utf8mb4';
+
+                $dsn = "mysql:host=" . $host . ";dbname=" . $name . ";charset=" . $charset;
                 $options = [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -36,9 +38,15 @@ class Database {
                     // timestamps written by MySQL to be misread by PHP's
                     // strtotime(), and vice versa. That mismatch is what was
                     // producing wildly wrong exam timer values.
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . self::DB_CHARSET . " COLLATE utf8mb4_unicode_ci, time_zone = '+01:00'"
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $charset . " COLLATE utf8mb4_unicode_ci, time_zone = '+01:00'"
                 ];
-                self::$instance = new PDO($dsn, self::DB_USER, self::DB_PASS, $options);
+                self::$instance = new PDO($dsn, $user, $pass, $options);
+
+                // Used by sync triggers to attribute change-log rows.
+                self::$instance->exec(
+                    "SET @cbt_node_uid = " . self::$instance->quote(defined('NODE_UID') ? NODE_UID : 'unknown')
+                    . ", @cbt_sync_applying = 0"
+                );
             } catch (PDOException $e) {
                 error_log("Database Connection Error: " . $e->getMessage());
                 die(json_encode(['success' => false, 'message' => 'Database connection failed. Please try again later.']));
@@ -46,7 +54,7 @@ class Database {
         }
         return self::$instance;
     }
-    
+
     /**
      * Prevent cloning and unserialization
      */

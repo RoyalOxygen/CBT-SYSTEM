@@ -9,6 +9,7 @@
 
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../includes/student_auth.php';
+node_require('exam_access');
 
 $db = getDB();
 $studentId = $_SESSION['student_id'];

@@ -11,6 +11,7 @@ define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../../config/config.php';
 // FIXED: Added missing opening parenthesis before the closing bracket
 require_once __DIR__ . '/../../config/functions.php';
+node_require('results_view');
 
 // Create a simple error handler
 function sendError($message) {

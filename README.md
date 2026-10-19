@@ -14,6 +14,7 @@ A complete, production-ready Computer Based Testing (CBT) application built with
 - **Biometric Enrollment** - Web-based fingerprint capture with multiple SDK support
 - **Results & Analytics** - Grade distribution, pass/fail statistics, CSV export
 - **Settings** - System configuration, grading scale, biometric settings
+- **Offline Nodes** - Control offline exam halls from the online hub (sync, restrictions, signed updates)
 
 ### Student Portal
 - **Login** - Matric number + password authentication
@@ -23,6 +24,7 @@ A complete, production-ready Computer Based Testing (CBT) application built with
 - **Anti-Cheating** - Right-click block, tab switch detection, copy/paste prevention
 - **Auto-Save** - Answers saved every 30 seconds via AJAX
 - **Results** - View published results with grade cards
+- **Background sync** - Offline halls push/pull exam data automatically when the internet is available
 
 ### Security
 - PDO prepared statements (SQL injection prevention)
@@ -53,9 +55,10 @@ A complete, production-ready Computer Based Testing (CBT) application built with
 1. Clone or extract to your web root directory
 2. Create database: `cbt_system`
 3. Import schema: `sql/schema.sql`
-4. Update database credentials in `config/database.php`
-5. Set folder permissions for `assets/uploads/` and `logs/`
-6. Access: `http://localhost/cbt-system/`
+4. Copy `config/node.local.example.php` to `config/node.local.php` and set database credentials
+5. Set folder permissions for `assets/uploads/`, `logs/` and `storage/sync/`
+6. For online/offline sync see `docs/SYNC.md`
+7. Access: `http://localhost/cbt-system/`
 
 ### Default Login
 - **Admin:** username `admin`, password `Admin@123`
@@ -109,6 +112,7 @@ cbt-system/
 
 ## Documentation
 - See `docs/INSTALLATION.md` for detailed setup instructions
+- See `docs/SYNC.md` for online hub + offline exam-hall synchronisation
 - See `docs/BIOMETRIC_INTEGRATION.md` for fingerprint SDK integration
 - See `docs/API_DOCUMENTATION.md` for AJAX endpoint reference
 

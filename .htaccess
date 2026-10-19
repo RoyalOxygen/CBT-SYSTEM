@@ -20,6 +20,7 @@ RewriteEngine On
 RewriteRule ^vendor/ - [F,L]
 RewriteRule ^logs/ - [F,L]
 RewriteRule ^config/ - [F,L]
+RewriteRule ^storage/ - [F,L]
 
 # PHP settings (if allowed by server)
 php_flag display_errors off

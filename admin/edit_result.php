@@ -8,6 +8,7 @@
 
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../includes/auth.php';
+node_require('results_view');
 
 $pageTitle = 'Update Student Results';
 $db = getDB();
@@ -74,6 +75,7 @@ function getGradeFromPercentage($percentage) {
 
 // Handle result update via POST - Only correct answers count is editable
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_result') {
+    node_require('results_edit');
     $result_id = intval($_POST['result_id']);
     $correct_count = intval($_POST['correct_count']);
     

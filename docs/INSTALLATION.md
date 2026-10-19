@@ -16,6 +16,7 @@
 - session
 - fileinfo
 - mbstring
+- zip (required only for signed project updates)
 
 ## Step-by-Step Installation
 
@@ -47,13 +48,19 @@ mysql -u root -p cbt_system < sql/schema.sql
 ```
 
 ### 4. Configure Database
-Edit `config/database.php`:
+Copy `config/node.local.example.php` to `config/node.local.php` and set credentials:
 ```php
-private const DB_HOST = 'localhost';
-private const DB_NAME = 'cbt_system';
-private const DB_USER = 'root';        // Change to your DB user
-private const DB_PASS = '';            // Change to your DB password
+return [
+    'role' => 'hub',                   // hub = online, leaf = offline hall
+    'app_url' => 'http://localhost/cbt-system',
+    'db_host' => 'localhost',
+    'db_name' => 'cbt_system',
+    'db_user' => 'root',
+    'db_pass' => '',
+];
 ```
+
+For a pair of online + offline servers, follow `docs/SYNC.md` after this installation.
 
 ### 5. Set Permissions
 ```bash

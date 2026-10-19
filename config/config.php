@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/node.php';
+
 // Session configuration - keep student sessions alive as long as possible
 // (only ends on explicit logout or a new login)
 define('STUDENT_SESSION_TIMEOUT', 2592000); // 30 days - students stay logged in as long as possible
@@ -30,8 +32,10 @@ date_default_timezone_set('Africa/Lagos');
 
 // Application constants
 define('APP_NAME', 'OXYGEN CBT SYSTEM');
-define('APP_URL', 'http://localhost/cbt-system'); // Change to your actual URL
-define('APP_VERSION', '1.0.0');
+if (!defined('APP_URL')) {
+    define('APP_URL', NODE_APP_URL ?: 'http://localhost/cbt-system'); // Override in config/node.local.php
+}
+define('APP_VERSION', '1.1.0');
 
 // Security constants - IMPORTANT: These must match what's used in functions.php
 define('CSRF_TOKEN_NAME', 'csrf_token');

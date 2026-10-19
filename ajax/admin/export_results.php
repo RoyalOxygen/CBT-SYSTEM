@@ -10,6 +10,7 @@
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/functions.php';
+node_require('results_view');
 
 if (!isAdminLoggedIn()) {
     exit('Not authenticated');
