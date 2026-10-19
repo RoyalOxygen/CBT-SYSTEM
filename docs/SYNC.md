@@ -23,61 +23,27 @@ Project file updates from the hub are **signed ZIP packages**. The offline super
 
 ## Hub setup (online)
 
-1. Import `sql/schema.sql` into MySQL/MariaDB.
-2. Create `config/node.local.php` from `config/node.local.example.php`:
-
-```php
-<?php
-return [
-    'role' => 'hub',
-    'name' => 'Online CBT',
-    'app_url' => 'https://cbt.example.edu',
-    'db_host' => 'localhost',
-    'db_name' => 'cbt_system',
-    'db_user' => 'cbt_user',
-    'db_pass' => 'change-me',
-];
-```
-
-3. Install the sync schema and triggers:
-
-```bash
-php sync/install.php --role=hub --name="Online CBT"
-```
-
-4. Register each offline server. The secret is printed once:
-
-```bash
-php sync/register_node.php --name="Offline Campus A"
-```
-
-Paste the printed snippet into the leaf's `config/node.local.php`.
-
-5. Open **Admin > Offline Nodes** as super-admin to set restrictions, suspend, retire, or queue a signed ZIP update.
+1. Copy the project onto the online server and make `config/`, `storage/`, `logs/` and `assets/uploads/` writable.
+2. Open the site in a browser. The installer starts automatically.
+3. Choose **Online server**, enter the database login and first super-admin account, then click **Install now**.
+4. Sign in as super-admin and open **Admin > Offline Nodes**.
+5. Click **Add exam hall**, name it, and copy the pairing code. That code is shown once.
 
 ## Leaf setup (offline exam hall)
 
-1. Deploy the same codebase and import `sql/schema.sql`.
-2. Put the snippet from `register_node.php` into `config/node.local.php`. Set `hub_url` to the public URL of the hub (no trailing slash).
-3. Install the sync schema:
+1. Copy the same project onto the exam-hall computer.
+2. Open the site in a browser and choose **Offline exam hall**.
+3. Enter that computer's database login and a local admin account.
+4. Paste the pairing code from the online server, then click **Install now**.
+5. If the hall is offline during install, setup still finishes. Sync starts automatically when the internet is available.
 
-```bash
-php sync/install.php --role=leaf --name="Offline Campus A"
-```
-
-4. Run one sync (or wait for the background hook):
-
-```bash
-php bin/sync-once.php
-```
-
-5. Optional worker for busy exam days:
+Optional worker for busy exam days:
 
 ```bash
 php bin/sync-worker.php
 ```
 
-A systemd unit or supervisor should restart that process. Web requests also sync after the response is sent, so the worker is optional.
+A systemd unit or supervisor should restart that process. Web requests also sync after the response is sent, so the worker is optional. The CLI commands below remain available for recovery.
 
 ### Cron (optional)
 
@@ -107,7 +73,9 @@ Restrictions are stored in `storage/sync/policy.json` on the leaf and applied on
 2. On the leaf, open **Project Updates**, download (checksum + HMAC verified), then **Approve & apply**.
 3. Backups land in `storage/sync/backups/`.
 
-## Commands
+## Commands (optional / recovery)
+
+New deployments should use `/install/` in a browser. These remain for recovery:
 
 ```bash
 php sync/install.php --role=hub|leaf

@@ -5,6 +5,8 @@
  */
 
 define('CBT_SYSTEM', true);
+require_once __DIR__ . '/../install/guard.php';
+cbt_redirect_to_installer(dirname(__DIR__), '../install/');
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/functions.php';
 

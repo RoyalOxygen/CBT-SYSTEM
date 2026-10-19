@@ -53,21 +53,20 @@ A complete, production-ready Computer Based Testing (CBT) application built with
 
 ### Installation
 1. Clone or extract to your web root directory
-2. Create database: `cbt_system`
-3. Import schema: `sql/schema.sql`
-4. Copy `config/node.local.example.php` to `config/node.local.php` and set database credentials
-5. Set folder permissions for `assets/uploads/`, `logs/` and `storage/sync/`
-6. For online/offline sync see `docs/SYNC.md`
-7. Access: `http://localhost/cbt-system/`
+2. Make `config/`, `storage/`, `logs/` and `assets/uploads/` writable
+3. Open `http://localhost/cbt-system/` and complete the installer (online server or offline exam hall)
+4. For a second offline hall, add it from Admin > Offline Nodes and paste the pairing code into that hall's installer
+5. Details: `docs/INSTALLATION.md` and `docs/SYNC.md`
 
-### Default Login
-- **Admin:** username `admin`, password `Admin@123`
-- **Student:** matric number (use any student you create), password = matric number (first login)
+### First login
+Use the admin username and password you entered in the installer.
+Students use a matric number (password = matric number on first login).
 
 ### File Structure
 ```
 cbt-system/
 ├── index.php                 # Entry point
+├── install/                  # Browser installer (online hub or offline hall)
 ├── config/                   # Configuration files
 │   ├── database.php          # PDO connection
 │   ├── config.php            # Global settings

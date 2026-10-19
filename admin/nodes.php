@@ -39,7 +39,12 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="bi bi-hdd-network me-2"></i>Registered offline servers</h5>
-                <span class="badge bg-primary"><?php echo count($nodes); ?> node(s)</span>
+                <div>
+                    <span class="badge bg-primary me-2"><?php echo count($nodes); ?> node(s)</span>
+                    <button type="button" class="btn btn-sm btn-primary" id="addNodeBtn">
+                        <i class="bi bi-plus-lg me-1"></i> Add exam hall
+                    </button>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
@@ -54,7 +59,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </thead>
                     <tbody>
                     <?php if (!$nodes): ?>
-                        <tr><td colspan="5" class="text-center text-muted py-4">No offline node has been registered yet. Run <code>php sync/register_node.php --name="..."</code> on this hub.</td></tr>
+                        <tr><td colspan="5" class="text-center text-muted py-4">No offline exam hall yet. Click <strong>Add exam hall</strong> and paste the pairing code into the installer on that computer.</td></tr>
                     <?php endif; ?>
                     <?php foreach ($nodes as $node):
                         $policy = json_decode((string) $node['policy_json'], true) ?: [];
@@ -220,10 +225,74 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add offline exam hall</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="registerFormWrap">
+                    <p class="text-muted small">Give the hall a name. You will get a pairing code to paste into the installer on that computer.</p>
+                    <label class="form-label">Hall name</label>
+                    <input type="text" id="registerName" class="form-control" placeholder="e.g. Campus A hall">
+                </div>
+                <div id="registerResult" class="d-none">
+                    <p class="small">Copy this code into the installer on the offline computer (step: Pair with the online server). It is shown only once.</p>
+                    <textarea id="pairingCode" class="form-control font-monospace" rows="6" readonly></textarea>
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="copyPairing">Copy code</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="registerNode">Create pairing</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
 const nodeModal = new bootstrap.Modal(document.getElementById('nodeModal'));
+const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+
+document.getElementById('addNodeBtn').addEventListener('click', () => {
+    document.getElementById('registerFormWrap').classList.remove('d-none');
+    document.getElementById('registerResult').classList.add('d-none');
+    document.getElementById('registerName').value = '';
+    document.getElementById('registerNode').classList.remove('d-none');
+    registerModal.show();
+});
+
+document.getElementById('registerNode').addEventListener('click', () => {
+    const name = document.getElementById('registerName').value.trim();
+    if (!name) { showToast('Enter a hall name', 'error'); return; }
+    const form = new FormData();
+    form.append('csrf_token', CSRF_TOKEN);
+    form.append('action', 'register');
+    form.append('name', name);
+    showLoading();
+    fetch(APP_URL + '/ajax/admin/save_node.php', { method: 'POST', body: form })
+        .then(r => r.json())
+        .then(data => {
+            hideLoading();
+            if (!data.success) throw new Error(data.message || 'Could not register');
+            document.getElementById('pairingCode').value = data.pairing || '';
+            document.getElementById('registerFormWrap').classList.add('d-none');
+            document.getElementById('registerResult').classList.remove('d-none');
+            document.getElementById('registerNode').classList.add('d-none');
+            showToast(data.message || 'Registered');
+        })
+        .catch(err => { hideLoading(); showToast(err.message, 'error'); });
+});
+
+document.getElementById('copyPairing').addEventListener('click', () => {
+    const box = document.getElementById('pairingCode');
+    box.select();
+    navigator.clipboard.writeText(box.value).then(() => showToast('Copied')).catch(() => document.execCommand('copy'));
+});
 
 document.querySelectorAll('.manage-node').forEach(button => {
     button.addEventListener('click', () => {

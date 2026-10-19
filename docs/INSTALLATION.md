@@ -20,6 +20,8 @@
 
 ## Step-by-Step Installation
 
+Use the browser installer. You do not need to run PHP commands or import SQL by hand.
+
 ### 1. Download & Extract
 Extract the CBT System files to your web server directory:
 ```bash
@@ -30,50 +32,34 @@ sudo cp -r cbt-system /var/www/html/
 Copy cbt-system folder to C:\xampp\htdocs\
 ```
 
-### 2. Create Database
-```sql
-CREATE DATABASE cbt_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### 3. Import Schema
-```bash
-# Using MySQL command line
-mysql -u root -p cbt_system < sql/schema.sql
-
-# Using phpMyAdmin
-- Select the cbt_system database
-- Go to Import tab
-- Choose sql/schema.sql file
-- Click Go
-```
-
-### 4. Configure Database
-Copy `config/node.local.example.php` to `config/node.local.php` and set credentials:
-```php
-return [
-    'role' => 'hub',                   // hub = online, leaf = offline hall
-    'app_url' => 'http://localhost/cbt-system',
-    'db_host' => 'localhost',
-    'db_name' => 'cbt_system',
-    'db_user' => 'root',
-    'db_pass' => '',
-];
-```
-
-For a pair of online + offline servers, follow `docs/SYNC.md` after this installation.
-
-### 5. Set Permissions
+### 2. Make folders writable
+The installer writes `config/node.local.php` and sync files:
 ```bash
 # Linux/Mac
 chmod -R 755 /var/www/html/cbt-system
+chmod -R 777 /var/www/html/cbt-system/config
+chmod -R 777 /var/www/html/cbt-system/storage
 chmod -R 777 /var/www/html/cbt-system/assets/uploads
 chmod -R 777 /var/www/html/cbt-system/logs
-
-# Windows
-# Right-click folder → Properties → Security → Edit Permissions
 ```
 
-### 6. Configure Apache
+### 3. Open the installer
+Visit `http://localhost/cbt-system/` (or `http://localhost/cbt-system/install/`).
+
+1. Choose **Online server** or **Offline exam hall**.
+2. Confirm the checklist is green.
+3. Enter the site name, database login, and the first super-admin account.
+4. For an offline hall, paste the pairing code from the online server (Admin > Offline Nodes > Add exam hall).
+5. Click **Install now**.
+
+The wizard creates the database (if the MySQL user is allowed), imports tables, writes local settings, and prepares background sync.
+
+### 4. First login
+Use the admin username and password you typed in the wizard.
+
+For a pair of online + offline servers, see `docs/SYNC.md`.
+
+### 5. Configure Apache
 Ensure mod_rewrite is enabled:
 ```bash
 # Linux
@@ -89,21 +75,14 @@ Update Apache virtual host to allow .htaccess:
 </Directory>
 ```
 
-### 7. Access Application
+### 6. Access Application
 - Admin Panel: `http://localhost/cbt-system/admin/`
 - Student Portal: `http://localhost/cbt-system/student/login.php`
-
-### 8. First Login
-- **Admin:** username `admin`, password `Admin@123`
-- **Student:** Use matric number (password = matric number on first login)
 
 ## Configuration
 
 ### App URL
-Edit `config/config.php`:
-```php
-const APP_URL = 'http://localhost/cbt-system';
-```
+Set `app_url` in `config/node.local.php` (the installer writes this file).
 
 ### Timezone
 ```php
@@ -141,9 +120,10 @@ $GRADING_SCALE = [
 - Ensure AllowOverride All is set
 
 ### Database Connection Failed
-- Verify DB credentials in config/database.php
+- Re-open `/install/` if setup did not finish
+- Verify DB credentials in `config/node.local.php`
 - Check MySQL service is running
-- Verify database exists
+- Verify the database user can create or use the named database
 
 ### Upload Errors
 - Check upload folder permissions (777)
