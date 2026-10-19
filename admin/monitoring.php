@@ -322,7 +322,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <?php else: ?>
                                     <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:32px;height:32px;"><i class="bi bi-person"></i></div>
                                 <?php endif; ?>
-                                <?php echo e($attempt['last_name'] . ', ' . $attempt['first_name']); ?>
+                                <?php echo e(studentDisplayName($attempt['last_name'] ?? null, $attempt['first_name'] ?? null)); ?>
                             </div>
                         </td>
                         <td><?php echo e($attempt['matric_number']); ?></td>

@@ -612,6 +612,10 @@ function sync_run(bool $force = false): array {
 
     try {
         $lastAttempt = (int) sync_state_get('last_attempt_at', 0);
+        if (!empty($GLOBALS['cbt_sync_force_next'])) {
+            $force = true;
+            unset($GLOBALS['cbt_sync_force_next']);
+        }
         if (!$force && $lastAttempt > 0 && (time() - $lastAttempt) < NODE_SYNC_INTERVAL) {
             return ['ok' => true, 'skipped' => true, 'reason' => 'interval'];
         }
@@ -673,6 +677,13 @@ function sync_maybe_background(): void {
     } catch (Throwable $e) {
         error_log('Background sync failed: ' . $e->getMessage());
     }
+}
+
+function sync_request_immediate(): void {
+    if (!node_is_leaf() || !NODE_SYNC_ENABLED) {
+        return;
+    }
+    $GLOBALS['cbt_sync_force_next'] = true;
 }
 
 function sync_register_background(): void {

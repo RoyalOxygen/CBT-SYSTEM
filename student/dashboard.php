@@ -989,7 +989,7 @@ require_once __DIR__ . '/../includes/student_header.php';
                             <i class="bi bi-person-fill"></i>
                         </div>
                     <?php endif; ?>
-                    <div class="profile-name"><?php echo strtoupper(e($student['last_name'] . ', ' . $student['first_name'])); ?></div>
+                    <div class="profile-name"><?php echo strtoupper(e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null))); ?></div>
                     <div class="profile-matric"><?php echo e($student['matric_number']); ?></div>
                     <div class="profile-level">LEVEL: <?php echo strtoupper(e($student['level_name'] ?? 'N/A')); ?></div>
                     <div class="profile-dept"><?php echo e($student['dept_name'] ?? 'N/A'); ?></div>
@@ -1127,7 +1127,7 @@ require_once __DIR__ . '/../includes/student_header.php';
                 </div>
                 <table class="table table-sm">
                     <tr><th width="40%">Matric Number</th><td><?php echo e($student['matric_number']); ?></td></tr>
-                    <tr><th>Full Name</th><td><?php echo e($student['last_name'] . ', ' . $student['first_name'] . ' ' . ($student['other_name'] ?? '')); ?></td></tr>
+                    <tr><th>Full Name</th><td><?php echo e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null, $student['other_name'] ?? null)); ?></td></tr>
                     <tr><th>Email</th><td><?php echo e($student['email'] ?? 'N/A'); ?></td></tr>
                     <tr><th>Phone</th><td><?php echo e($student['phone'] ?? 'N/A'); ?></td></tr>
                     <tr><th>Gender</th><td><?php echo e($student['gender'] ?? 'N/A'); ?></td></tr>

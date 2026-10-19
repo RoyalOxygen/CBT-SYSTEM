@@ -106,7 +106,7 @@ try {
             <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width:120px;height:120px;border:4px solid #e8c84c;">
                 <i class="bi bi-person-fill fs-1"></i>
             </div>') . '
-            <h5>' . e($student['first_name'] . ' ' . $student['last_name']) . '</h5>
+            <h5>' . e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null, $student['other_name'] ?? null)) . '</h5>
             <p class="text-muted">' . e($student['matric_number']) . '</p>
             <p class="small">' . e($student['dept_name'] ?? 'N/A') . ' | ' . e($student['level_name'] ?? 'N/A') . '</p>
             <hr>
@@ -153,11 +153,11 @@ try {
                         $statusColor = $exam['assignment_status'] === 'assigned' ? 'assigned' : 'started';
                         $statusLabel = $exam['assignment_status'] === 'assigned' ? 'Assigned' : 'Started';
                         $dateInfo = '';
-                        if ($exam['batch_id']) {
-                            $dateInfo = '<i class="bi bi-calendar me-1"></i>' . date('M d, Y', strtotime($exam['batch_date'])) . ' at ' . date('h:i A', strtotime($exam['batch_start_time']));
-                        } else {
-                            $dateInfo = '<i class="bi bi-calendar me-1"></i>' . date('M d, Y', strtotime($exam['exam_date'])) . ' at ' . date('h:i A', strtotime($exam['start_time']));
-                        }
+                         if ($exam['batch_id']) {
+                             $dateInfo = '<i class="bi bi-calendar me-1"></i>' . e(formatDate($exam['batch_date'] ?? '')) . ' at ' . e(formatDate($exam['batch_start_time'] ?? '', 'h:i A'));
+                         } else {
+                             $dateInfo = '<i class="bi bi-calendar me-1"></i>' . e(formatDate($exam['exam_date'] ?? '')) . ' at ' . e(formatDate($exam['start_time'] ?? '', 'h:i A'));
+                         }
                         return '<div class="exam-item">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>

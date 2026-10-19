@@ -23,38 +23,27 @@ try {
     $db = getDB();
     
     // Sanitize inputs
-    $matric_number = sanitize($_POST['matric_number'] ?? '');
-    $first_name = sanitize($_POST['first_name'] ?? '');
-    $last_name = sanitize($_POST['last_name'] ?? '');
-    $other_name = sanitize($_POST['other_name'] ?? '');
-    $email = sanitize($_POST['email'] ?? '');
-    $phone = sanitize($_POST['phone'] ?? '');
-    $gender = sanitize($_POST['gender'] ?? '');
-    $date_of_birth = !empty($_POST['date_of_birth']) ? $_POST['date_of_birth'] : null;
-    $department_id = intval($_POST['department_id'] ?? 0);
-    $level_id = intval($_POST['level_id'] ?? 0);
-    $semester_id = intval($_POST['semester_id'] ?? 0);
-    $session_id = intval($_POST['session_id'] ?? 0);
+    $matric_number = blankToNull(sanitize($_POST['matric_number'] ?? ''));
+    $first_name = blankToNull(sanitize($_POST['first_name'] ?? ''));
+    $last_name = blankToNull(sanitize($_POST['last_name'] ?? ''));
+    $other_name = blankToNull(sanitize($_POST['other_name'] ?? ''));
+    $email = blankToNull(sanitize($_POST['email'] ?? ''));
+    $phone = blankToNull(sanitize($_POST['phone'] ?? ''));
+    $gender = blankToNull(sanitize($_POST['gender'] ?? ''));
+    $date_of_birth = blankToNull($_POST['date_of_birth'] ?? '');
+    $department_id = optionalId($_POST['department_id'] ?? 0);
+    $level_id = optionalId($_POST['level_id'] ?? 0);
+    $semester_id = optionalId($_POST['semester_id'] ?? 0);
+    $session_id = optionalId($_POST['session_id'] ?? 0);
     $auto_password = isset($_POST['auto_password']);
     
+    if ($gender !== null && !in_array($gender, ['Male', 'Female'], true)) {
+        $gender = null;
+    }
+
     // Validate required fields
-    if (empty($matric_number)) {
+    if ($matric_number === null) {
         jsonResponse(false, 'Matric number is required');
-    }
-    if (empty($first_name) || empty($last_name)) {
-        jsonResponse(false, 'First name and last name are required');
-    }
-    if ($department_id <= 0) {
-        jsonResponse(false, 'Department is required');
-    }
-    if ($level_id <= 0) {
-        jsonResponse(false, 'Level is required');
-    }
-    if ($semester_id <= 0) {
-        jsonResponse(false, 'Semester is required');
-    }
-    if ($session_id <= 0) {
-        jsonResponse(false, 'Session is required');
     }
     
     // Check if matric number already exists
@@ -73,13 +62,12 @@ try {
         }
     }
     
-    // Generate password
+    $password = null;
+    $hashed_password = null;
     if ($auto_password) {
-        $password = $matric_number; // Default password is matric number
-    } else {
-        $password = generatePassword();
+        $password = $matric_number;
+        $hashed_password = hashPassword($password);
     }
-    $hashed_password = hashPassword($password);
     
     // Handle photo upload
     $photo_path = null;
@@ -121,7 +109,7 @@ try {
     // Log activity
     logActivity('admin', $_SESSION['admin_id'], 'add_student', "Added student: $matric_number");
     
-    jsonResponse(true, 'Student added successfully. ' . ($auto_password ? "Password: $password" : ''), [
+    jsonResponse(true, 'Student added successfully' . ($auto_password && $password !== null ? ". Password: $password" : ''), [
         'student_id' => $student_id,
         'password' => $auto_password ? $password : null
     ]);

@@ -88,7 +88,7 @@ try {
     <div class="row g-3">
         <div class="col-12">
             <div class="alert alert-info small">
-                <strong>Student:</strong> ' . htmlspecialchars($result['last_name'] . ', ' . $result['first_name'] . ' (' . $result['matric_number'] . ')') . '<br>
+                 <strong>Student:</strong> ' . e(studentDisplayName($result['last_name'] ?? null, $result['first_name'] ?? null) . ' (' . ($result['matric_number'] ?? '') . ')') . '<br>
                 <strong>Exam:</strong> ' . htmlspecialchars($result['exam_code'] . ' - ' . $result['exam_title']) . '
             </div>
         </div>

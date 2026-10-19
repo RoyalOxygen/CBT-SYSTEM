@@ -67,7 +67,7 @@ try {
             <img src="<?php echo APP_URL; ?>/assets/uploads/student_photos/<?php echo e($result['photo']); ?>" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
         <?php endif; ?>
         
-        <h5><?php echo e($result['last_name'] . ', ' . $result['first_name']); ?></h5>
+        <h5><?php echo e(studentDisplayName($result['last_name'] ?? null, $result['first_name'] ?? null, $result['other_name'] ?? null)); ?></h5>
         <p class="text-muted"><?php echo e($result['matric_number']); ?></p>
         <p class="text-muted small"><?php echo e($result['exam_code'] . ' - ' . $result['exam_title']); ?></p>
         

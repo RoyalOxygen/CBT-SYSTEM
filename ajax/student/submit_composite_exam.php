@@ -292,6 +292,9 @@ try {
     // 10. Commit
     // ============================================================
     $db->commit();
+    if (function_exists('sync_request_immediate')) {
+        sync_request_immediate();
+    }
     
     logActivity(
         'student', 

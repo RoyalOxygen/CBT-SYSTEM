@@ -98,31 +98,25 @@ try {
     
     $wrong_count = $answered_count - $total_correct;
     
-    // Calculate percentage of correct answers
-    $percentage_correct = ($total_correct / max(1, $total_questions)) * 100;
-    
-    // Calculate score based on overall_score setting
-    $overall_score = intval($attempt['overall_score'] ?? 100);
-    
-    if ($overall_score == 70) {
-        // Questions contribute to 70% of overall score
-        $score_from_questions = ($total_correct / max(1, $total_questions)) * 70;
-        $score_display = $score_from_questions;
-        $total_marks_display = 70;
-        $percentage = $score_from_questions;
-    } else {
-        // Full 100% from questions
-        $score_from_questions = ($total_score / max(1, $total_questions_marks)) * 100;
-        $score_display = $score_from_questions;
-        $total_marks_display = 100;
-        $percentage = $score_from_questions;
-    }
+    $overall_score = examOverallScore($attempt['overall_score'] ?? 100);
+    $computed = calculateScaledExamScore(
+        (int) $total_correct,
+        (int) $total_questions,
+        (float) $total_score,
+        (float) $total_questions_marks,
+        $overall_score
+    );
+    $score_display = $computed['score'];
+    $total_marks_display = $computed['total_marks'];
+    $percentage = $computed['percentage'];
     
     // Update exam attempt
+    $grade = getGrade($percentage);
     $updateStmt = $db->prepare("
         UPDATE exam_attempts 
         SET score = ?, 
             percentage = ?, 
+            grade = ?,
             correct_count = ?, 
             answered_count = ?,
             end_time = NOW(),
@@ -131,7 +125,7 @@ try {
         WHERE id = ?
     ");
     $submission_method = $auto_submit ? 'auto' : 'manual';
-    $updateStmt->execute([$score_display, $percentage, $total_correct, $answered_count, $submission_method, $attempt_id]);
+    $updateStmt->execute([$score_display, $percentage, $grade['grade'], $total_correct, $answered_count, $submission_method, $attempt_id]);
     
     // Check if result already exists
     $checkResultStmt = $db->prepare("
@@ -139,8 +133,6 @@ try {
     ");
     $checkResultStmt->execute([$attempt['exam_id'], $_SESSION['student_id']]);
     $existingResult = $checkResultStmt->fetch();
-    
-    $grade = getGrade($percentage);
     
     if ($existingResult) {
         // UPDATE existing result
@@ -253,6 +245,10 @@ try {
         ];
     }
     
+    if (function_exists('sync_request_immediate')) {
+        sync_request_immediate();
+    }
+
     echo json_encode($response_data);
     
 } catch (PDOException $e) {

@@ -937,7 +937,7 @@ body {
                     <i class="bi bi-person-fill"></i>
                 </div>
             <?php endif; ?>
-            <div class="student-name"><?php echo strtoupper(e($student['last_name'] . ' ' . $student['first_name'])); ?></div>
+            <div class="student-name"><?php echo strtoupper(e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null))); ?></div>
             <div class="student-matric"><?php echo e($student['matric_number']); ?></div>
             <div class="student-level">LEVEL: <?php echo strtoupper(e($student['level_name'] ?? 'N/A')); ?></div>
             <div class="student-dept"><?php echo e($student['dept_name'] ?? 'N/A'); ?></div>

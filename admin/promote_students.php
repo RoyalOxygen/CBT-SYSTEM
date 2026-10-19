@@ -769,7 +769,7 @@ require_once __DIR__ . '/../includes/header.php';
                                                                class="student-checkbox" onchange="updateSelectedCount()">
                                                     </td>
                                                     <td><strong><?php echo e($student['matric_number']); ?></strong></td>
-                                                    <td><?php echo e($student['last_name'] . ', ' . $student['first_name']); ?></td>
+                                                    <td><?php echo e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null)); ?></td>
                                                     <td><?php echo e($student['dept_name'] ?? 'N/A'); ?></td>
                                                     <td><?php echo e($student['level_name'] ?? 'N/A'); ?></td>
                                                     <td><?php echo e($student['semester_name'] ?? 'N/A'); ?></td>
@@ -871,7 +871,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php foreach ($history as $item): ?>
                             <tr>
                                 <td>
-                                    <strong><?php echo e($item['last_name'] . ', ' . $item['first_name']); ?></strong><br>
+                                    <strong><?php echo e(studentDisplayName($item['last_name'] ?? null, $item['first_name'] ?? null)); ?></strong><br>
                                     <small class="text-muted"><?php echo e($item['matric_number']); ?></small>
                                 </td>
                                 <td>

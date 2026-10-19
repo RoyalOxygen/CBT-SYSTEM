@@ -12,18 +12,11 @@ node_require('results_view');
 $pageTitle = 'Update Student Results';
 $db = getDB();
 
-// Helper function to get grade based on SCORE (actual marks)
 function getGradeFromScore($score, $totalMarks) {
-    if ($totalMarks <= 0) return ['grade' => 'F', 'remark' => 'Fail'];
-    
-    $ratio = $score / $totalMarks;
-    
-    if ($ratio >= 0.7) return ['grade' => 'A', 'remark' => 'Excellent'];
-    if ($ratio >= 0.6) return ['grade' => 'B', 'remark' => 'Very Good'];
-    if ($ratio >= 0.5) return ['grade' => 'C', 'remark' => 'Good'];
-    if ($ratio >= 0.45) return ['grade' => 'D', 'remark' => 'Pass'];
-    if ($ratio >= 0.4) return ['grade' => 'E', 'remark' => 'Pass'];
-    return ['grade' => 'F', 'remark' => 'Fail'];
+    if ($totalMarks <= 0) {
+        return getGrade(0);
+    }
+    return getGrade(((float) $score / (float) $totalMarks) * 100);
 }
 
 // Handle result update
@@ -50,14 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $answered = $existing ? $existing['answered'] : $total_questions;
     $wrong = $answered - $correct;
     
-    // Calculate SCORE based on correct answers (proportional to total marks)
-    $score = ($total_questions > 0) ? ($correct / $total_questions) * $total_marks : 0;
-    
-    // Calculate percentage (for display only)
-    $percentage = ($total_marks > 0) ? ($score / $total_marks) * 100 : 0;
-    
-    // Get grade based on SCORE (actual marks)
-    $grade_array = getGradeFromScore($score, $total_marks);
+    $examScaleStmt = $db->prepare("SELECT e.overall_score FROM results r JOIN exams e ON r.exam_id = e.id WHERE r.id = ?");
+    $examScaleStmt->execute([$result_id]);
+    $examScale = $examScaleStmt->fetch();
+    $overall = examOverallScore($examScale['overall_score'] ?? ($total_marks > 0 ? $total_marks : 100));
+    $computed = calculateScaledExamScore((int) $correct, (int) $total_questions, 0.0, 0.0, $overall);
+    $score = $computed['score'];
+    $percentage = $computed['percentage'];
+    $total_marks = $computed['total_marks'];
+    $grade_array = getGrade((float) $percentage);
     
     try {
         // Get the exam_id and attempt_id for this result
@@ -75,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 correct = ?,
                 wrong = ?,
                 score = ?,
+                total_marks = ?,
                 percentage = ?,
                 grade = ?,
                 remark = ?,
@@ -85,7 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $updateStmt->execute([
             $correct, 
             $wrong,
-            round($score, 2), 
+            round($score, 2),
+            round($total_marks, 2),
             round($percentage, 2), 
             $grade_array['grade'], 
             $grade_array['remark'], 
@@ -165,7 +161,7 @@ if (!empty($search_matric) || $selected_exam > 0) {
     $search_performed = true;
     
     $sql = "
-        SELECT r.*, e.exam_code, e.exam_title, e.duration, e.pass_mark,
+        SELECT r.*, e.exam_code, e.exam_title, e.duration, e.pass_mark, e.overall_score,
                s.matric_number, s.first_name, s.last_name, s.other_name, s.email, s.phone, s.photo
         FROM results r
         JOIN exams e ON r.exam_id = e.id
@@ -320,7 +316,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <?php endif; ?>
                 </div>
                 <div class="col-md-6">
-                    <h4 class="mb-1"><?php echo e($student_info['last_name'] . ', ' . $student_info['first_name']); ?></h4>
+                    <h4 class="mb-1"><?php echo e(studentDisplayName($student_info['last_name'] ?? null, $student_info['first_name'] ?? null, $student_info['other_name'] ?? null)); ?></h4>
                     <p class="text-muted mb-2">
                         <i class="bi bi-person-badge me-1"></i> <?php echo e($student_info['matric_number']); ?>
                     </p>

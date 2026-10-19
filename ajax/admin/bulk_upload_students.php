@@ -34,18 +34,21 @@ try {
     
     while (($data = fgetcsv($handle)) !== false) {
         $row++;
-        $matric = sanitize(trim($data[0] ?? ''));
-        $firstName = sanitize(trim($data[1] ?? ''));
-        $lastName = sanitize(trim($data[2] ?? ''));
-        $otherName = sanitize(trim($data[3] ?? ''));
-        $email = sanitize(trim($data[4] ?? ''));
-        $phone = sanitize(trim($data[5] ?? ''));
-        $gender = sanitize(trim($data[6] ?? ''));
-        $dob = sanitize(trim($data[7] ?? ''));
+        $matric = blankToNull(sanitize(trim($data[0] ?? '')));
+        $firstName = blankToNull(sanitize(trim($data[1] ?? '')));
+        $lastName = blankToNull(sanitize(trim($data[2] ?? '')));
+        $otherName = blankToNull(sanitize(trim($data[3] ?? '')));
+        $email = blankToNull(sanitize(trim($data[4] ?? '')));
+        $phone = blankToNull(sanitize(trim($data[5] ?? '')));
+        $gender = blankToNull(sanitize(trim($data[6] ?? '')));
+        $dob = blankToNull(sanitize(trim($data[7] ?? '')));
+        if ($gender !== null && !in_array($gender, ['Male', 'Female'], true)) {
+            $gender = null;
+        }
         
-        if (empty($matric) || empty($firstName) || empty($lastName)) {
+        if ($matric === null) {
             $failed++;
-            $results[] = ['row' => $row, 'matric' => $matric, 'status' => 'failed', 'message' => 'Missing required fields'];
+            $results[] = ['row' => $row, 'matric' => '', 'status' => 'failed', 'message' => 'Matric number is required'];
             continue;
         }
         
@@ -61,7 +64,21 @@ try {
         try {
             $password = hashPassword($matric);
             $stmt = $db->prepare("INSERT INTO students (matric_number, password, first_name, last_name, other_name, email, phone, gender, date_of_birth, department_id, level_id, semester_id, session_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$matric, $password, $firstName, $lastName, $otherName, $email, $phone, $gender ?: null, $dob ?: null, $departmentId, $levelId, $semesterId, $sessionId]);
+            $stmt->execute([
+                $matric,
+                $password,
+                $firstName,
+                $lastName,
+                $otherName,
+                $email,
+                $phone,
+                $gender,
+                $dob,
+                optionalId($departmentId),
+                optionalId($levelId),
+                optionalId($semesterId),
+                optionalId($sessionId)
+            ]);
             $imported++;
             $results[] = ['row' => $row, 'matric' => $matric, 'status' => 'success', 'message' => 'Imported'];
         } catch (PDOException $e) {

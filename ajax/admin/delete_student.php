@@ -31,22 +31,30 @@ try {
         jsonResponse(false, 'Student not found');
     }
     
-    // Delete related records first (foreign key constraints)
+    $db->beginTransaction();
+
     $db->prepare("DELETE FROM answers WHERE attempt_id IN (SELECT id FROM exam_attempts WHERE student_id = ?)")->execute([$student_id]);
     $db->prepare("DELETE FROM exam_attempts WHERE student_id = ?")->execute([$student_id]);
     $db->prepare("DELETE FROM exam_students WHERE student_id = ?")->execute([$student_id]);
     $db->prepare("DELETE FROM fingerprint_templates WHERE student_id = ?")->execute([$student_id]);
     $db->prepare("DELETE FROM results WHERE student_id = ?")->execute([$student_id]);
     $db->prepare("DELETE FROM time_extensions WHERE student_id = ?")->execute([$student_id]);
-    
-    // Delete student
+    $db->prepare("DELETE FROM composite_exam_answers WHERE attempt_id IN (SELECT id FROM composite_exam_attempts WHERE student_id = ?)")->execute([$student_id]);
+    $db->prepare("DELETE FROM composite_exam_attempts WHERE student_id = ?")->execute([$student_id]);
+    $db->prepare("DELETE FROM composite_exam_students WHERE student_id = ?")->execute([$student_id]);
+    $db->prepare("DELETE FROM composite_exam_results WHERE student_id = ?")->execute([$student_id]);
+
     $db->prepare("DELETE FROM students WHERE id = ?")->execute([$student_id]);
+    $db->commit();
     
     logActivity('admin', $_SESSION['admin_id'], 'delete_student', "Deleted student: " . $student['matric_number']);
     
     jsonResponse(true, 'Student deleted successfully');
     
 } catch (PDOException $e) {
+    if (isset($db) && $db->inTransaction()) {
+        $db->rollBack();
+    }
     jsonResponse(false, 'Database error: ' . $e->getMessage());
 }
 ?>

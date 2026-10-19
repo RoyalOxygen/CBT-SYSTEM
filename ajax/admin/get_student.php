@@ -34,50 +34,103 @@ try {
     if (!$student) {
         jsonResponse(false, 'Student not found');
     }
+
+    $departments = $db->query("SELECT id, dept_name FROM departments WHERE status = 1 ORDER BY dept_name")->fetchAll();
+    $levels = $db->query("SELECT id, level_name FROM levels WHERE status = 1 ORDER BY level_order")->fetchAll();
+    $semesters = $db->query("SELECT id, semester_name FROM semesters WHERE status = 1 ORDER BY semester_order")->fetchAll();
+    $sessions = $db->query("SELECT id, session_name FROM sessions WHERE status = 1 ORDER BY session_name DESC")->fetchAll();
+
+    $deptOpts = '<option value="">Select Department</option>';
+    foreach ($departments as $d) {
+        $sel = ((int) ($student['department_id'] ?? 0) === (int) $d['id']) ? ' selected' : '';
+        $deptOpts .= '<option value="' . (int) $d['id'] . '"' . $sel . '>' . e($d['dept_name']) . '</option>';
+    }
+    $levelOpts = '<option value="">Select Level</option>';
+    foreach ($levels as $l) {
+        $sel = ((int) ($student['level_id'] ?? 0) === (int) $l['id']) ? ' selected' : '';
+        $levelOpts .= '<option value="' . (int) $l['id'] . '"' . $sel . '>' . e($l['level_name']) . '</option>';
+    }
+    $semOpts = '<option value="">Select Semester</option>';
+    foreach ($semesters as $s) {
+        $sel = ((int) ($student['semester_id'] ?? 0) === (int) $s['id']) ? ' selected' : '';
+        $semOpts .= '<option value="' . (int) $s['id'] . '"' . $sel . '>' . e($s['semester_name']) . '</option>';
+    }
+    $sesOpts = '<option value="">Select Session</option>';
+    foreach ($sessions as $s) {
+        $sel = ((int) ($student['session_id'] ?? 0) === (int) $s['id']) ? ' selected' : '';
+        $sesOpts .= '<option value="' . (int) $s['id'] . '"' . $sel . '>' . e($s['session_name']) . '</option>';
+    }
     
     // Build HTML for edit form
     $html = '
     <div class="row g-3">
         <div class="col-md-6">
             <label class="form-label">Matric Number *</label>
-            <input type="text" name="matric_number" class="form-control" value="' . e($student['matric_number']) . '" required>
+            <input type="text" name="matric_number" class="form-control" value="' . e($student['matric_number'] ?? '') . '" required>
         </div>
         <div class="col-md-6">
             <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="' . e($student['email']) . '">
+            <input type="email" name="email" class="form-control" value="' . e($student['email'] ?? '') . '">
         </div>
         <div class="col-md-4">
-            <label class="form-label">First Name *</label>
-            <input type="text" name="first_name" class="form-control" value="' . e($student['first_name']) . '" required>
+            <label class="form-label">First Name</label>
+            <input type="text" name="first_name" class="form-control" value="' . e($student['first_name'] ?? '') . '">
         </div>
         <div class="col-md-4">
-            <label class="form-label">Last Name *</label>
-            <input type="text" name="last_name" class="form-control" value="' . e($student['last_name']) . '" required>
+            <label class="form-label">Last Name</label>
+            <input type="text" name="last_name" class="form-control" value="' . e($student['last_name'] ?? '') . '">
         </div>
         <div class="col-md-4">
             <label class="form-label">Other Name</label>
-            <input type="text" name="other_name" class="form-control" value="' . e($student['other_name']) . '">
+            <input type="text" name="other_name" class="form-control" value="' . e($student['other_name'] ?? '') . '">
         </div>
         <div class="col-md-6">
             <label class="form-label">Phone</label>
-            <input type="tel" name="phone" class="form-control" value="' . e($student['phone']) . '">
+            <input type="tel" name="phone" class="form-control" value="' . e($student['phone'] ?? '') . '">
         </div>
         <div class="col-md-6">
             <label class="form-label">Gender</label>
             <select name="gender" class="form-select">
                 <option value="">Select</option>
-                <option value="Male" ' . ($student['gender'] === 'Male' ? 'selected' : '') . '>Male</option>
-                <option value="Female" ' . ($student['gender'] === 'Female' ? 'selected' : '') . '>Female</option>
+                <option value="Male" ' . (($student['gender'] ?? '') === 'Male' ? 'selected' : '') . '>Male</option>
+                <option value="Female" ' . (($student['gender'] ?? '') === 'Female' ? 'selected' : '') . '>Female</option>
             </select>
         </div>
         <div class="col-md-6">
             <label class="form-label">Date of Birth</label>
-            <input type="date" name="date_of_birth" class="form-control" value="' . e($student['date_of_birth']) . '">
+            <input type="date" name="date_of_birth" class="form-control" value="' . e($student['date_of_birth'] ?? '') . '">
         </div>
         <div class="col-md-6">
             <label class="form-label">New Photo (optional)</label>
             <input type="file" name="photo" class="form-control" accept="image/*">
-            ' . ($student['photo'] ? '<small class="text-muted">Current: <img src="' . APP_URL . '/assets/uploads/student_photos/' . e($student['photo']) . '" style="height:30px;"></small>' : '') . '
+            ' . (!empty($student['photo']) ? '<small class="text-muted">Current: <img src="' . APP_URL . '/assets/uploads/student_photos/' . e($student['photo']) . '" style="height:30px;"></small>' : '') . '
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Department</label>
+            <select name="department_id" class="form-select">' . $deptOpts . '</select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Level</label>
+            <select name="level_id" class="form-select">' . $levelOpts . '</select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Semester</label>
+            <select name="semester_id" class="form-select">' . $semOpts . '</select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Session</label>
+            <select name="session_id" class="form-select">' . $sesOpts . '</select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">New Password (optional)</label>
+            <input type="password" name="password" class="form-control" autocomplete="new-password" placeholder="Leave blank to keep current">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-select">
+                <option value="1"' . ((int) ($student['status'] ?? 1) === 1 ? ' selected' : '') . '>Active</option>
+                <option value="0"' . ((int) ($student['status'] ?? 1) === 0 ? ' selected' : '') . '>Inactive</option>
+            </select>
         </div>
     </div>';
     

@@ -157,6 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $duration = intval($_POST['duration']);
     $question_limit = intval($_POST['question_limit']);
     $pass_mark = intval($_POST['pass_mark']);
+    $overall_score = examOverallScore($_POST['overall_score'] ?? 100);
     $has_batches = isset($_POST['has_batches']) ? 1 : 0;
     $instruction = sanitize($_POST['instruction']);
     $fingerprint_required = isset($_POST['fingerprint_required']) ? 1 : 0;
@@ -178,6 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 duration = ?,
                 question_limit = ?,
                 pass_mark = ?,
+                overall_score = ?,
                 has_batches = ?,
                 instruction = ?,
                 fingerprint_required = ?,
@@ -189,13 +191,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         
         $stmt->execute([
             $exam_code, $exam_title, $department_id, $level_id, $semester_id, $session_id,
-            $exam_date, $start_time, $duration, $question_limit, $pass_mark, $has_batches,
+            $exam_date, $start_time, $duration, $question_limit, $pass_mark, $overall_score, $has_batches,
             $instruction, $fingerprint_required, $shuffle_questions, $shuffle_options, $show_result,
             $examId
         ]);
         
-        logActivity('admin', $_SESSION['admin_id'], 'update_exam', "Updated exam ID: $examId");
-        redirect(APP_URL . '/admin/exams.php', 'Exam updated successfully');
+        $recalculated = recalculateExamResults($db, $examId);
+        logActivity('admin', $_SESSION['admin_id'], 'update_exam', "Updated exam ID: $examId (recalculated $recalculated results)");
+        redirect(APP_URL . '/admin/exams.php', 'Exam updated successfully' . ($recalculated ? " ($recalculated result(s) recalculated)" : ''));
     } catch (PDOException $e) {
         error_log("Update exam error: " . $e->getMessage());
         redirect(APP_URL . '/admin/exams.php', 'Error: ' . $e->getMessage(), 'error');
@@ -578,6 +581,11 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="col-md-4">
                             <label class="form-label">Pass Mark (%)</label>
                             <input type="number" name="pass_mark" class="form-control" value="40" min="0" max="100">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Overall Score</label>
+                            <input type="number" name="overall_score" class="form-control" value="100" min="1" max="100">
+                            <small class="text-muted">Scale for results, e.g. 70, 20, 100</small>
                         </div>
                         <div class="col-md-4">
                             <div class="form-check mt-4">

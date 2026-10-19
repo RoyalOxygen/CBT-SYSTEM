@@ -132,7 +132,12 @@ try {
         </div>
         <div class="col-md-4">
             <label class="form-label">Pass Mark (%)</label>
-            <input type="number" name="pass_mark" class="form-control" value="' . $exam['pass_mark'] . '" min="0" max="100">
+            <input type="number" name="pass_mark" class="form-control" value="' . (int) $exam['pass_mark'] . '" min="0" max="100">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Overall Score</label>
+            <input type="number" name="overall_score" class="form-control" value="' . examOverallScore($exam['overall_score'] ?? 100) . '" min="1" max="100">
+            <small class="text-muted">Scale for results, e.g. 70, 20, 100</small>
         </div>
         <div class="col-md-4">
             <div class="form-check mt-4">
@@ -145,7 +150,7 @@ try {
     $html .= '
         <div class="col-12">
             <label class="form-label">Instructions</label>
-            <textarea name="instruction" class="form-control" rows="3">' . htmlspecialchars($exam['instruction']) . '</textarea>
+            <textarea name="instruction" class="form-control" rows="3">' . htmlspecialchars((string) ($exam['instruction'] ?? '')) . '</textarea>
         </div>';
     
     // Checkboxes

@@ -21,14 +21,27 @@ if ($student_id <= 0) {
 try {
     $db = getDB();
     
-    $matric_number = sanitize($_POST['matric_number'] ?? '');
-    $first_name = sanitize($_POST['first_name'] ?? '');
-    $last_name = sanitize($_POST['last_name'] ?? '');
-    $other_name = sanitize($_POST['other_name'] ?? '');
-    $email = sanitize($_POST['email'] ?? '');
-    $phone = sanitize($_POST['phone'] ?? '');
-    $gender = sanitize($_POST['gender'] ?? '');
-    $date_of_birth = !empty($_POST['date_of_birth']) ? $_POST['date_of_birth'] : null;
+    $matric_number = blankToNull(sanitize($_POST['matric_number'] ?? ''));
+    $first_name = blankToNull(sanitize($_POST['first_name'] ?? ''));
+    $last_name = blankToNull(sanitize($_POST['last_name'] ?? ''));
+    $other_name = blankToNull(sanitize($_POST['other_name'] ?? ''));
+    $email = blankToNull(sanitize($_POST['email'] ?? ''));
+    $phone = blankToNull(sanitize($_POST['phone'] ?? ''));
+    $gender = blankToNull(sanitize($_POST['gender'] ?? ''));
+    $date_of_birth = blankToNull($_POST['date_of_birth'] ?? '');
+    $department_id = optionalId($_POST['department_id'] ?? 0);
+    $level_id = optionalId($_POST['level_id'] ?? 0);
+    $semester_id = optionalId($_POST['semester_id'] ?? 0);
+    $session_id = optionalId($_POST['session_id'] ?? 0);
+    $new_password = (string) ($_POST['password'] ?? '');
+    $status = array_key_exists('status', $_POST) ? (intval($_POST['status']) ? 1 : 0) : null;
+
+    if ($matric_number === null) {
+        jsonResponse(false, 'Matric number is required');
+    }
+    if ($gender !== null && !in_array($gender, ['Male', 'Female'], true)) {
+        $gender = null;
+    }
     
     // Check if matric number exists for other student
     $checkStmt = $db->prepare("SELECT id FROM students WHERE matric_number = ? AND id != ?");
@@ -68,13 +81,25 @@ try {
         "email = ?",
         "phone = ?",
         "gender = ?",
-        "date_of_birth = ?"
+        "date_of_birth = ?",
+        "department_id = ?",
+        "level_id = ?",
+        "semester_id = ?",
+        "session_id = ?"
     ];
-    $params = [$matric_number, $first_name, $last_name, $other_name, $email, $phone, $gender, $date_of_birth];
+    $params = [$matric_number, $first_name, $last_name, $other_name, $email, $phone, $gender, $date_of_birth, $department_id, $level_id, $semester_id, $session_id];
     
     if ($photo_path) {
         $updates[] = "photo = ?";
         $params[] = $photo_path;
+    }
+    if ($new_password !== '') {
+        $updates[] = "password = ?";
+        $params[] = hashPassword($new_password);
+    }
+    if ($status !== null) {
+        $updates[] = "status = ?";
+        $params[] = $status;
     }
     
     $params[] = $student_id;

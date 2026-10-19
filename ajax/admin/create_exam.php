@@ -23,8 +23,8 @@ try {
     if ($check->fetch()) jsonResponse(false, 'Exam code already exists');
     
     $stmt = $db->prepare("INSERT INTO exams 
-        (exam_code, exam_title, department_id, level_id, semester_id, session_id, question_limit, exam_date, start_time, duration, fingerprint_required, shuffle_questions, shuffle_options, show_result, pass_mark, instruction, status, has_batches, created_by) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?)");
+        (exam_code, exam_title, department_id, level_id, semester_id, session_id, question_limit, exam_date, start_time, duration, fingerprint_required, shuffle_questions, shuffle_options, show_result, overall_score, pass_mark, instruction, status, has_batches, created_by)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?)");
     
     $stmt->execute([
         sanitize($_POST['exam_code']),
@@ -41,6 +41,7 @@ try {
         !empty($_POST['shuffle_questions']) ? 1 : 0,
         !empty($_POST['shuffle_options']) ? 1 : 0,
         !empty($_POST['show_result']) ? 1 : 0,
+        examOverallScore($_POST['overall_score'] ?? 100),
         intval($_POST['pass_mark'] ?? DEFAULT_PASS_MARK),
         sanitize($_POST['instruction'] ?? ''),
         !empty($_POST['has_batches']) ? 1 : 0,

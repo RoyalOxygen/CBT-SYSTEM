@@ -189,7 +189,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <?php endif; ?>
                         </td>
                         <td><strong><?php echo e($student['matric_number']); ?></strong></td>
-                        <td><?php echo e($student['last_name'] . ', ' . $student['first_name']); ?></td>
+                        <td><?php echo e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null)); ?></td>
                         <td><?php echo e($student['dept_name'] ?? 'N/A'); ?></td>
                         <td><?php echo e($student['level_name'] ?? 'N/A'); ?></td>
                         <td><?php echo e($student['session_name'] ?? 'N/A'); ?></td>
@@ -269,12 +269,12 @@ require_once __DIR__ . '/../includes/header.php';
                             <input type="email" name="email" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">First Name *</label>
-                            <input type="text" name="first_name" class="form-control" required>
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="first_name" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Last Name *</label>
-                            <input type="text" name="last_name" class="form-control" required>
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="last_name" class="form-control">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Other Name</label>
@@ -301,8 +301,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <input type="file" name="photo" class="form-control" accept="image/*">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Department *</label>
-                            <select name="department_id" class="form-select" required>
+                            <label class="form-label">Department</label>
+                            <select name="department_id" class="form-select">
                                 <option value="">Select Department</option>
                                 <?php foreach ($departments as $d): ?>
                                     <option value="<?php echo $d['id']; ?>"><?php echo e($d['dept_name']); ?></option>
@@ -310,8 +310,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Level *</label>
-                            <select name="level_id" class="form-select" required>
+                            <label class="form-label">Level</label>
+                            <select name="level_id" class="form-select">
                                 <option value="">Select Level</option>
                                 <?php foreach ($levels as $l): ?>
                                     <option value="<?php echo $l['id']; ?>"><?php echo e($l['level_name']); ?></option>
@@ -319,8 +319,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Semester *</label>
-                            <select name="semester_id" class="form-select" required>
+                            <label class="form-label">Semester</label>
+                            <select name="semester_id" class="form-select">
                                 <option value="">Select Semester</option>
                                 <?php foreach ($semesters as $s): ?>
                                     <option value="<?php echo $s['id']; ?>"><?php echo e($s['semester_name']); ?></option>
@@ -328,8 +328,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Session *</label>
-                            <select name="session_id" class="form-select" required>
+                            <label class="form-label">Session</label>
+                            <select name="session_id" class="form-select">
                                 <option value="">Select Session</option>
                                 <?php foreach ($sessions as $s): ?>
                                     <option value="<?php echo $s['id']; ?>"><?php echo e($s['session_name']); ?></option>

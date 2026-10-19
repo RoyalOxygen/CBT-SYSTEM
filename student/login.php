@@ -66,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 session_regenerate_id(true);
                 $_SESSION['student_id'] = $student['id'];
                 $_SESSION['matric_number'] = $student['matric_number'];
-                $_SESSION['student_name'] = $student['last_name'] . ', ' . $student['first_name'];
-                $_SESSION['student_first_name'] = $student['first_name'];
-                $_SESSION['student_last_name'] = $student['last_name'];
+                $_SESSION['student_name'] = studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null);
+                $_SESSION['student_first_name'] = $student['first_name'] ?? '';
+                $_SESSION['student_last_name'] = $student['last_name'] ?? '';
                 $_SESSION['fingerprint_enrolled'] = $student['fingerprint_enrolled'];
                 $_SESSION['last_activity'] = time();
 

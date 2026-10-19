@@ -98,9 +98,9 @@ function autoLoginFromRememberCookie(string $matric): bool {
 
         $_SESSION['student_id'] = $student['id'];
         $_SESSION['matric_number'] = $student['matric_number'];
-        $_SESSION['student_name'] = $student['last_name'] . ', ' . $student['first_name'];
-        $_SESSION['student_first_name'] = $student['first_name'];
-        $_SESSION['student_last_name'] = $student['last_name'];
+        $_SESSION['student_name'] = studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null);
+        $_SESSION['student_first_name'] = $student['first_name'] ?? '';
+        $_SESSION['student_last_name'] = $student['last_name'] ?? '';
         $_SESSION['fingerprint_enrolled'] = $student['fingerprint_enrolled'];
         $_SESSION['last_activity'] = time();
 
@@ -164,15 +164,43 @@ function hasAdminRole(array $allowedRoles): bool {
 /**
  * Sanitize input
  */
-function sanitize(string $data): string {
-    return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES, 'UTF-8');
+function sanitize($data): string {
+    return htmlspecialchars(strip_tags(trim((string) ($data ?? ''))), ENT_QUOTES, 'UTF-8');
 }
 
 /**
  * Clean output
  */
-function e(string $text): string {
-    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+function e($text): string {
+    return htmlspecialchars((string) ($text ?? ''), ENT_QUOTES, 'UTF-8');
+}
+
+function blankToNull($value): ?string {
+    $v = trim((string) ($value ?? ''));
+    return $v === '' ? null : $v;
+}
+
+function optionalId($value): ?int {
+    $n = intval($value ?? 0);
+    return $n > 0 ? $n : null;
+}
+
+function studentDisplayName($lastName, $firstName, $otherName = null, string $empty = 'Unnamed'): string {
+    $last = trim((string) ($lastName ?? ''));
+    $first = trim((string) ($firstName ?? ''));
+    $other = trim((string) ($otherName ?? ''));
+    if ($last === '' && $first === '') {
+        return $empty;
+    }
+    if ($last !== '' && $first !== '') {
+        $name = $last . ', ' . $first;
+    } else {
+        $name = $last !== '' ? $last : $first;
+    }
+    if ($other !== '') {
+        $name .= ' ' . $other;
+    }
+    return $name;
 }
 
 /**
@@ -185,8 +213,11 @@ function hashPassword(string $password): string {
 /**
  * Verify password
  */
-function verifyPassword(string $password, string $hash): bool {
-    return password_verify($password, $hash);
+function verifyPassword(string $password, $hash): bool {
+    if ($hash === null || $hash === '') {
+        return false;
+    }
+    return password_verify($password, (string) $hash);
 }
 
 /**
@@ -214,15 +245,23 @@ function generateBatchCode(int $examId, string $batchName): string {
 /**
  * Format date
  */
-function formatDate(string $date, string $format = 'M d, Y'): string {
-    return date($format, strtotime($date));
+function formatDate($date, string $format = 'M d, Y'): string {
+    if ($date === null || $date === '' || $date === '0000-00-00') {
+        return '';
+    }
+    $ts = strtotime((string) $date);
+    return $ts ? date($format, $ts) : '';
 }
 
 /**
  * Format datetime
  */
-function formatDateTime(string $datetime, string $format = 'M d, Y h:i A'): string {
-    return date($format, strtotime($datetime));
+function formatDateTime($datetime, string $format = 'M d, Y h:i A'): string {
+    if ($datetime === null || $datetime === '' || $datetime === '0000-00-00 00:00:00') {
+        return '';
+    }
+    $ts = strtotime((string) $datetime);
+    return $ts ? date($format, $ts) : '';
 }
 
 /**
@@ -243,11 +282,76 @@ function formatDuration(int $minutes): string {
 function getGrade(float $percentage): array {
     global $GRADING_SCALE;
     foreach ($GRADING_SCALE as $grade) {
-        if ($percentage >= $grade['min'] && $percentage <= $grade['max']) {
+        if ($percentage >= (float) $grade['min']) {
             return $grade;
         }
     }
     return ['grade' => 'F', 'remark' => 'Fail'];
+}
+
+function examOverallScore($value, int $default = 100): int {
+    $n = (int) $value;
+    return $n > 0 ? $n : $default;
+}
+
+function calculateScaledExamScore(int $correctCount, int $totalQuestions, float $earnedMarks, float $availableMarks, int $overallScore): array {
+    $overallScore = $overallScore > 0 ? $overallScore : 100;
+    if ($availableMarks > 0) {
+        $ratio = $earnedMarks / $availableMarks;
+    } elseif ($totalQuestions > 0) {
+        $ratio = $correctCount / $totalQuestions;
+    } else {
+        $ratio = 0.0;
+    }
+    if ($ratio < 0) {
+        $ratio = 0.0;
+    }
+    if ($ratio > 1) {
+        $ratio = 1.0;
+    }
+    return [
+        'score' => round($ratio * $overallScore, 2),
+        'total_marks' => (float) $overallScore,
+        'percentage' => round($ratio * 100, 2),
+        'ratio' => $ratio,
+    ];
+}
+
+function recalculateExamResults(PDO $db, int $examId): int {
+    $stmt = $db->prepare("SELECT overall_score FROM exams WHERE id = ?");
+    $stmt->execute([$examId]);
+    $exam = $stmt->fetch();
+    if (!$exam) {
+        return 0;
+    }
+    $overall = examOverallScore($exam['overall_score']);
+    $rows = $db->prepare("SELECT id, attempt_id, correct, total_questions FROM results WHERE exam_id = ?");
+    $rows->execute([$examId]);
+    $updated = 0;
+    $updR = $db->prepare("UPDATE results SET score = ?, total_marks = ?, percentage = ?, grade = ?, remark = ? WHERE id = ?");
+    $updA = $db->prepare("UPDATE exam_attempts SET score = ?, percentage = ?, grade = ? WHERE id = ?");
+    while ($row = $rows->fetch()) {
+        $computed = calculateScaledExamScore((int) $row['correct'], (int) $row['total_questions'], 0.0, 0.0, $overall);
+        $grade = getGrade($computed['percentage']);
+        $updR->execute([
+            $computed['score'],
+            $computed['total_marks'],
+            $computed['percentage'],
+            $grade['grade'],
+            $grade['remark'],
+            $row['id'],
+        ]);
+        if (!empty($row['attempt_id'])) {
+            $updA->execute([
+                $computed['score'],
+                $computed['percentage'],
+                $grade['grade'],
+                $row['attempt_id'],
+            ]);
+        }
+        $updated++;
+    }
+    return $updated;
 }
 
 /**

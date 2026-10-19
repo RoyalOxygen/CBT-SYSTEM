@@ -28,7 +28,7 @@ try {
         redirect(APP_URL . '/student/login.php', 'Account disabled or not found', 'error');
     }
 
-    $_SESSION['student_name'] = $student['last_name'] . ', ' . $student['first_name'];
+    $_SESSION['student_name'] = studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null);
     $_SESSION['matric_number'] = $student['matric_number'];
 
 } catch (PDOException $e) {

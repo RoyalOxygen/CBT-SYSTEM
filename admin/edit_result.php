@@ -63,14 +63,8 @@ if ($search_performed) {
     }
 }
 
-// Helper function to get grade from percentage - matches exam submission logic
 function getGradeFromPercentage($percentage) {
-    if ($percentage >= 70) return ['grade' => 'A', 'remark' => 'Excellent'];
-    if ($percentage >= 60) return ['grade' => 'B', 'remark' => 'Very Good'];
-    if ($percentage >= 50) return ['grade' => 'C', 'remark' => 'Good'];
-    if ($percentage >= 45) return ['grade' => 'D', 'remark' => 'Pass'];
-    if ($percentage >= 40) return ['grade' => 'E', 'remark' => 'Pass'];
-    return ['grade' => 'F', 'remark' => 'Fail'];
+    return getGrade((float) $percentage);
 }
 
 // Handle result update via POST - Only correct answers count is editable
@@ -129,22 +123,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $earned_marks += $sorted_marks[$i];
         }
         
-        // Calculate percentage - matches exam submission logic
-        $overall_score_setting = intval($result['overall_score'] ?? 100);
-        
-        if ($overall_score_setting == 70) {
-            // Questions contribute to 70% of overall score
-            $percentage = ($correct_count / max(1, $total_questions)) * 70;
-            $score_display = $percentage;
-            $total_marks_display = 70;
-        } else {
-            // Full 100% from questions
-            $percentage = $total_marks > 0 ? ($earned_marks / $total_marks) * 100 : 0;
-            $score_display = $earned_marks;
-            $total_marks_display = $total_marks;
-        }
-        
-        $grade = getGradeFromPercentage($percentage);
+        $overall_score_setting = examOverallScore($result['overall_score'] ?? 100);
+        $computed = calculateScaledExamScore(
+            (int) $correct_count,
+            (int) $total_questions,
+            (float) $earned_marks,
+            (float) $total_marks,
+            $overall_score_setting
+        );
+        $percentage = $computed['percentage'];
+        $score_display = $computed['score'];
+        $total_marks_display = $computed['total_marks'];
+        $grade = getGrade((float) $percentage);
         
         // Start transaction
         $db->beginTransaction();
@@ -423,7 +413,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <?php endif; ?>
                 </div>
                 <div class="col-md-6">
-                    <h4 class="mb-1"><?php echo e($student_info['last_name'] . ', ' . $student_info['first_name']); ?></h4>
+                    <h4 class="mb-1"><?php echo e(studentDisplayName($student_info['last_name'] ?? null, $student_info['first_name'] ?? null)); ?></h4>
                     <p class="text-muted mb-2">
                         <i class="bi bi-person-badge me-1"></i> <?php echo e($student_info['matric_number']); ?>
                     </p>
@@ -707,18 +697,11 @@ function updatePreview(correctCount) {
     let percentage = 0;
     let totalMarksDisplay = totalMarks;
     
-    // Calculate based on overall_score setting - matches exam submission logic
-    if (overallScore == 70) {
-        // Questions contribute to 70% of overall score
-        percentage = (correctCount / Math.max(1, totalQuestions)) * 70;
-        score = percentage;
-        totalMarksDisplay = 70;
-    } else {
-        // Full 100% from questions - use proportional scoring
-        score = (correctCount / Math.max(1, totalQuestions)) * totalMarks;
-        percentage = totalMarks > 0 ? (score / totalMarks) * 100 : 0;
-        totalMarksDisplay = totalMarks;
-    }
+    const scale = (overallScore > 0) ? overallScore : 100;
+    const ratio = totalQuestions > 0 ? (correctCount / totalQuestions) : 0;
+    score = ratio * scale;
+    percentage = ratio * 100;
+    totalMarksDisplay = scale;
     
     // Determine grade - matches exam submission logic
     let grade = 'F';

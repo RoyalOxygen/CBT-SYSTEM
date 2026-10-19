@@ -42,13 +42,13 @@ require_once __DIR__ . '/../includes/header.php';
                 <h6 class="text-muted">Unenrolled Students</h6>
                 <div style="max-height:300px;overflow-y:auto;">
                     <?php foreach ($unenrolledStudents as $s): ?>
-                    <div class="d-flex align-items-center p-2 rounded hover-bg cursor-pointer" onclick="selectStudent(<?php echo $s['id']; ?>, '<?php echo e($s['matric_number']); ?>', '<?php echo e($s['first_name'] . ' ' . $s['last_name']); ?>')">
+                    <div class="d-flex align-items-center p-2 rounded hover-bg cursor-pointer" onclick="selectStudent(<?php echo $s['id']; ?>, '<?php echo e($s['matric_number']); ?>', '<?php echo e(studentDisplayName($s['last_name'] ?? null, $s['first_name'] ?? null)); ?>')">
                         <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width:36px;height:36px;">
                             <i class="bi bi-person"></i>
                         </div>
                         <div>
                             <strong class="small"><?php echo e($s['matric_number']); ?></strong><br>
-                            <small class="text-muted"><?php echo e($s['last_name'] . ', ' . $s['first_name']); ?></small>
+                            <small class="text-muted"><?php echo e(studentDisplayName($s['last_name'] ?? null, $s['first_name'] ?? null)); ?></small>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -150,7 +150,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <?php endif; ?>
                             <div>
                                 <strong class="small"><?php echo e($s['matric_number']); ?></strong><br>
-                                <small class="text-muted"><?php echo e($s['last_name'] . ', ' . $s['first_name']); ?></small>
+                                <small class="text-muted"><?php echo e(studentDisplayName($s['last_name'] ?? null, $s['first_name'] ?? null)); ?></small>
                             </div>
                         </div>
                         <small class="text-muted"><?php echo formatDateTime($s['enrolled_at']); ?></small>
