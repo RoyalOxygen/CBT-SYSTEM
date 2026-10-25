@@ -109,6 +109,7 @@ try {
             <h5>' . e(studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null, $student['other_name'] ?? null)) . '</h5>
             <p class="text-muted">' . e($student['matric_number']) . '</p>
             <p class="small">' . e($student['dept_name'] ?? 'N/A') . ' | ' . e($student['level_name'] ?? 'N/A') . '</p>
+            ' . (student_attendance_percent($student) !== null ? '<p class="small mb-0">Attendance ' . number_format(student_attendance_percent($student), 1) . '%' . (attendance_check_enabled() ? ' (need ' . number_format(attendance_threshold(), 0) . '%)' : '') . '</p>' : '') . '
             <hr>
             <div class="row">
                 <div class="col-4">

@@ -59,9 +59,6 @@ $prefillMatric = $_GET['matric'] ?? ($_COOKIE['cbt_remembered_matric'] ?? '');
             </div>
             <p id="status" class="small text-center text-muted">Preparing camera...</p>
             <button id="verifyBtn" class="btn btn-login w-100 mb-3" disabled>Verify face and continue</button>
-            <div class="text-center">
-                <a href="<?php echo APP_URL; ?>/student/login.php" class="text-decoration-none small">Use matric number instead</a>
-            </div>
         </div>
     </div>
     <script src="../assets/js/face.js"></script>

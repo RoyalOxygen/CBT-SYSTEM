@@ -34,6 +34,10 @@ function face_login_enabled(): bool {
     return getSetting('face_login_enabled', '0') === '1';
 }
 
+function student_login_url(): string {
+    return APP_URL . (face_login_enabled() ? '/student/face_login.php' : '/student/login.php');
+}
+
 function face_healthy(): bool {
     $res = face_http('GET', '/health');
     return !empty($res['ok']) && (($res['json']['status'] ?? '') === 'healthy');

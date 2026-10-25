@@ -10,7 +10,7 @@ require_once __DIR__ . '/../config/functions.php';
 // Check if user is logged in as student
 if (!isStudentLoggedIn()) {
     $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-    redirect(APP_URL . '/student/login.php');
+    redirect(student_login_url());
 }
 
 // Refresh last activity time to keep the student session alive
@@ -25,7 +25,7 @@ try {
 
     if (!$student || $student['status'] != 1) {
         session_destroy();
-        redirect(APP_URL . '/student/login.php', 'Account disabled or not found', 'error');
+        redirect(student_login_url(), 'Account disabled or not found', 'error');
     }
 
     $_SESSION['student_name'] = studentDisplayName($student['last_name'] ?? null, $student['first_name'] ?? null);
@@ -33,5 +33,5 @@ try {
 
 } catch (PDOException $e) {
     error_log("Student auth verification error: " . $e->getMessage());
-    redirect(APP_URL . '/student/login.php', 'System error', 'error');
+    redirect(student_login_url(), 'System error', 'error');
 }

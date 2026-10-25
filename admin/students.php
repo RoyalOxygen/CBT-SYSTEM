@@ -172,6 +172,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <th>Level</th>
                         <th>Session</th>
                         <th>Biometric</th>
+                        <th>Attendance</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -198,6 +199,18 @@ require_once __DIR__ . '/../includes/header.php';
                                 <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Enrolled</span>
                             <?php else: ?>
                                 <span class="badge bg-secondary"><i class="bi bi-x-circle me-1"></i>Not Enrolled</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php
+                            $attPct = student_attendance_percent($student);
+                            if ($attPct === null):
+                            ?>
+                                <span class="text-muted">-</span>
+                            <?php else:
+                                $attOk = !attendance_check_enabled() || student_exam_eligible($student);
+                            ?>
+                                <span class="badge bg-<?php echo $attOk ? 'success' : 'danger'; ?>"><?php echo number_format($attPct, 1); ?>%</span>
                             <?php endif; ?>
                         </td>
                         <td>

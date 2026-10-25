@@ -115,6 +115,22 @@ require_once __DIR__ . '/../includes/header.php';
                                 <input class="form-check-input" type="checkbox" name="face_login_enabled" value="1" id="faceLoginEnabled" <?php echo ($settings['face_login_enabled'] ?? '0') == '1' ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="faceLoginEnabled">Enable student face login</label>
                             </div>
+                            <div class="form-text">When enabled, students can only sign in on the face login page. Matric login is hidden.</div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-muted mb-3">Exam attendance requirement</h6>
+                    <p class="small text-muted">Overall SAMS attendance rate is stored on each student during hub pull and hub/leaf sync. When the check is on, students below the threshold cannot start exams.</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Minimum attendance (%)</label>
+                            <input type="number" name="attendance_threshold" class="form-control" min="0" max="100" step="0.1" value="<?php echo e($settings['attendance_threshold'] ?? '75'); ?>">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" name="attendance_check_enabled" value="1" id="attendanceCheckEnabled" <?php echo ($settings['attendance_check_enabled'] ?? '0') == '1' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="attendanceCheckEnabled">Block exams below this attendance rate</label>
+                            </div>
                         </div>
                     </div>
 

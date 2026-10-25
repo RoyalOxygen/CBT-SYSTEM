@@ -58,6 +58,7 @@ if (!$exam) {
 $attemptStmt = $db->prepare("SELECT * FROM exam_attempts WHERE exam_id = ? AND student_id = ?");
 $attemptStmt->execute([$examId, $studentId]);
 $attempt = $attemptStmt->fetch();
+require_student_exam_eligible($student, $attempt && $attempt['status'] === 'in_progress');
 
 $isNewAttempt = false;
 

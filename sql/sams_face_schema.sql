@@ -32,4 +32,7 @@ CREATE TABLE IF NOT EXISTS `student_files` (
 -- ALTER TABLE `students` ADD COLUMN `sams_student_id` int(11) UNSIGNED DEFAULT NULL AFTER `matric_number`;
 -- ALTER TABLE `students` ADD COLUMN `sams_updated_at` datetime DEFAULT NULL AFTER `updated_at`;
 -- ALTER TABLE `students` ADD COLUMN `face_enrolled` tinyint(1) NOT NULL DEFAULT 0 AFTER `fingerprint_enrolled`;
+-- ALTER TABLE `students` ADD COLUMN `attendance_percent` decimal(5,1) DEFAULT NULL AFTER `face_enrolled`;
+-- ALTER TABLE `students` ADD COLUMN `attendance_present` int(11) UNSIGNED DEFAULT NULL AFTER `attendance_percent`;
+-- ALTER TABLE `students` ADD COLUMN `attendance_total` int(11) UNSIGNED DEFAULT NULL AFTER `attendance_present`;
 -- ALTER TABLE `students` ADD UNIQUE KEY `uk_sams_student` (`sams_student_id`);

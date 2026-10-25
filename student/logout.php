@@ -24,5 +24,5 @@ if (isset($_COOKIE[session_name()])) {
 }
 session_destroy();
 
-header('Location: ' . APP_URL . '/student/login.php');
+header('Location: ' . student_login_url());
 exit;

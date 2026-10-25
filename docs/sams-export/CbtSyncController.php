@@ -50,9 +50,11 @@ final class CbtSyncController
             $params
         );
 
+        $statsById = $this->attendanceStatsForIds(array_map(static fn(array $row): int => (int)$row['id'], $rows));
+        $threshold = (int)setting('exam_threshold', '75');
         $students = [];
         foreach ($rows as $row) {
-            $students[] = $this->exportStudent($row);
+            $students[] = $this->exportStudent($row, $statsById[(int)$row['id']] ?? null, $threshold);
         }
 
         json_response([
@@ -60,6 +62,7 @@ final class CbtSyncController
             'total' => $total,
             'limit' => $limit,
             'offset' => $offset,
+            'exam_threshold' => $threshold,
             'students' => $students,
         ]);
     }
@@ -76,11 +79,64 @@ final class CbtSyncController
         }
     }
 
-    private function exportStudent(array $row): array
+    /**
+     * @param list<int> $ids
+     * @return array<int, array{present:int,total:int,percent:float,threshold:int,eligible:bool}>
+     */
+    private function attendanceStatsForIds(array $ids): array
+    {
+        $ids = array_values(array_unique(array_filter($ids)));
+        if ($ids === []) {
+            return [];
+        }
+        $threshold = (int)setting('exam_threshold', '75');
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $presentMap = [];
+        foreach (Database::all(
+            "SELECT student_id, COUNT(*) AS c FROM attendance_records WHERE student_id IN ($placeholders) GROUP BY student_id",
+            $ids
+        ) as $row) {
+            $presentMap[(int)$row['student_id']] = (int)$row['c'];
+        }
+        $totalMap = [];
+        foreach (Database::all(
+            "SELECT r.student_id, COUNT(*) AS c
+             FROM attendance_sessions sess
+             JOIN course_registrations r ON r.course_id = sess.course_id
+             WHERE r.student_id IN ($placeholders) AND sess.status IN ('open','closed')
+             GROUP BY r.student_id",
+            $ids
+        ) as $row) {
+            $totalMap[(int)$row['student_id']] = (int)$row['c'];
+        }
+        $out = [];
+        foreach ($ids as $id) {
+            $p = $presentMap[$id] ?? 0;
+            $t = $totalMap[$id] ?? 0;
+            $pct = $t > 0 ? round(($p / $t) * 100, 1) : 0.0;
+            $out[$id] = [
+                'present' => $p,
+                'total' => $t,
+                'percent' => $pct,
+                'threshold' => $threshold,
+                'eligible' => $pct >= $threshold,
+            ];
+        }
+        return $out;
+    }
+
+    private function exportStudent(array $row, ?array $stats, int $threshold): array
     {
         $status = (string)($row['enrollment_status'] ?? 'preloaded');
         $active = in_array($status, ['paid', 'registered', 'active', 'face', 'photo'], true) ? 'active' : $status;
         $updated = (string)($row['updated_at'] ?: $row['created_at'] ?: date('Y-m-d H:i:s'));
+        $stats = $stats ?? [
+            'present' => 0,
+            'total' => 0,
+            'percent' => 0.0,
+            'threshold' => $threshold,
+            'eligible' => false,
+        ];
 
         $item = [
             'sams_student_id' => (int)$row['id'],
@@ -98,6 +154,11 @@ final class CbtSyncController
             'status' => $active === 'active' ? 'active' : 'inactive',
             'enrollment_status' => $status,
             'updated_at' => $updated,
+            'attendance_percent' => $stats['percent'],
+            'attendance_present' => $stats['present'],
+            'attendance_total' => $stats['total'],
+            'exam_threshold' => $stats['threshold'],
+            'exam_eligible' => $stats['eligible'],
         ];
 
         $photo = $this->encodePassport((string)($row['passport_path'] ?? ''));

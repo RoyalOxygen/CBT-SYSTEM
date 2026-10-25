@@ -50,6 +50,7 @@ if (!$exam) redirect(APP_URL . '/student/dashboard.php', 'Exam not available', '
 $attemptStmt = $db->prepare("SELECT * FROM composite_exam_attempts WHERE composite_exam_id = ? AND student_id = ?");
 $attemptStmt->execute([$examId, $studentId]);
 $attempt = $attemptStmt->fetch();
+require_student_exam_eligible($student, $attempt && $attempt['status'] === 'in_progress');
 
 $isNewAttempt = false;
 

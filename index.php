@@ -23,5 +23,5 @@ if (isStudentLoggedIn()) {
 }
 
 // Default redirect to admin login
-header('Location: ' . APP_URL . '/student/login.php');
+header('Location: ' . student_login_url());
 exit;

@@ -3,6 +3,52 @@ if (!defined('CBT_SYSTEM')) {
     die('Unauthorized access');
 }
 
+function attendance_check_enabled(): bool {
+    return getSetting('attendance_check_enabled', '0') === '1';
+}
+
+function attendance_threshold(): float {
+    $n = (float) getSetting('attendance_threshold', '75');
+    if ($n < 0) {
+        $n = 0;
+    }
+    if ($n > 100) {
+        $n = 100;
+    }
+    return $n;
+}
+
+function student_attendance_percent(?array $student): ?float {
+    if (!$student || !array_key_exists('attendance_percent', $student) || $student['attendance_percent'] === null || $student['attendance_percent'] === '') {
+        return null;
+    }
+    return round((float) $student['attendance_percent'], 1);
+}
+
+function student_exam_eligible(?array $student): bool {
+    if (!attendance_check_enabled()) {
+        return true;
+    }
+    $pct = student_attendance_percent($student);
+    if ($pct === null) {
+        return true;
+    }
+    return $pct >= attendance_threshold();
+}
+
+function student_attendance_block_reason(?array $student): string {
+    $pct = student_attendance_percent($student);
+    $shown = $pct === null ? '0.0' : number_format($pct, 1);
+    return 'Attendance ' . $shown . '% is below the ' . number_format(attendance_threshold(), 0) . '% exam requirement.';
+}
+
+function require_student_exam_eligible(?array $student, bool $alreadyInProgress = false): void {
+    if ($alreadyInProgress || student_exam_eligible($student)) {
+        return;
+    }
+    redirect(APP_URL . '/student/dashboard.php', student_attendance_block_reason($student), 'error');
+}
+
 function sams_url(): string {
     return rtrim(trim((string) getSetting('sams_url', '')), '/');
 }
@@ -59,6 +105,15 @@ function sams_ensure_schema(PDO $db): void {
         }
         if (empty($cols['face_enrolled'])) {
             $db->exec('ALTER TABLE students ADD COLUMN face_enrolled tinyint(1) NOT NULL DEFAULT 0 AFTER fingerprint_enrolled');
+        }
+        if (empty($cols['attendance_percent'])) {
+            $db->exec('ALTER TABLE students ADD COLUMN attendance_percent decimal(5,1) DEFAULT NULL AFTER face_enrolled');
+        }
+        if (empty($cols['attendance_present'])) {
+            $db->exec('ALTER TABLE students ADD COLUMN attendance_present int(11) UNSIGNED DEFAULT NULL AFTER attendance_percent');
+        }
+        if (empty($cols['attendance_total'])) {
+            $db->exec('ALTER TABLE students ADD COLUMN attendance_total int(11) UNSIGNED DEFAULT NULL AFTER attendance_present');
         }
         try {
             $db->exec('ALTER TABLE students ADD UNIQUE KEY uk_sams_student (sams_student_id)');
@@ -260,16 +315,25 @@ function sams_upsert_student(PDO $db, array $item): ?int {
     $phone = substr((string) ($item['phone'] ?? ''), 0, 20);
     $gender = in_array($item['gender'] ?? '', ['Male', 'Female'], true) ? $item['gender'] : null;
     $updatedAt = $item['updated_at'] ?? date('Y-m-d H:i:s');
+    $hasAttendance = array_key_exists('attendance_percent', $item) || array_key_exists('attendance_present', $item) || array_key_exists('attendance_total', $item);
+    $attPercent = $hasAttendance ? round((float) ($item['attendance_percent'] ?? 0), 1) : null;
+    $attPresent = $hasAttendance ? (int) ($item['attendance_present'] ?? 0) : null;
+    $attTotal = $hasAttendance ? (int) ($item['attendance_total'] ?? 0) : null;
 
     if ($existing) {
         $id = (int) $existing['id'];
         $photo = $photoName ?: $existing['photo'];
-        $db->prepare('UPDATE students SET first_name=?, last_name=?, other_name=?, email=?, phone=?, gender=?, department_id=?, level_id=?, semester_id=?, session_id=?, photo=?, sams_student_id=?, sams_updated_at=?, status=?, updated_at=NOW() WHERE id=?')
-            ->execute([$first, $last, $other !== '' ? $other : null, $email !== '' ? $email : null, $phone !== '' ? $phone : null, $gender, $deptId, $levelId, $semesterId, $sessionId, $photo, $samsId ?: null, $updatedAt, $status, $id]);
+        if ($hasAttendance) {
+            $db->prepare('UPDATE students SET first_name=?, last_name=?, other_name=?, email=?, phone=?, gender=?, department_id=?, level_id=?, semester_id=?, session_id=?, photo=?, sams_student_id=?, sams_updated_at=?, attendance_percent=?, attendance_present=?, attendance_total=?, status=?, updated_at=NOW() WHERE id=?')
+                ->execute([$first, $last, $other !== '' ? $other : null, $email !== '' ? $email : null, $phone !== '' ? $phone : null, $gender, $deptId, $levelId, $semesterId, $sessionId, $photo, $samsId ?: null, $updatedAt, $attPercent, $attPresent, $attTotal, $status, $id]);
+        } else {
+            $db->prepare('UPDATE students SET first_name=?, last_name=?, other_name=?, email=?, phone=?, gender=?, department_id=?, level_id=?, semester_id=?, session_id=?, photo=?, sams_student_id=?, sams_updated_at=?, status=?, updated_at=NOW() WHERE id=?')
+                ->execute([$first, $last, $other !== '' ? $other : null, $email !== '' ? $email : null, $phone !== '' ? $phone : null, $gender, $deptId, $levelId, $semesterId, $sessionId, $photo, $samsId ?: null, $updatedAt, $status, $id]);
+        }
     } else {
         $password = hashPassword($matric);
-        $db->prepare('INSERT INTO students (matric_number, password, first_name, last_name, other_name, email, phone, gender, department_id, level_id, semester_id, session_id, photo, sams_student_id, sams_updated_at, status, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())')
-            ->execute([$matric, $password, $first, $last, $other !== '' ? $other : null, $email !== '' ? $email : null, $phone !== '' ? $phone : null, $gender, $deptId, $levelId, $semesterId, $sessionId, $photoName, $samsId ?: null, $updatedAt, $status]);
+        $db->prepare('INSERT INTO students (matric_number, password, first_name, last_name, other_name, email, phone, gender, department_id, level_id, semester_id, session_id, photo, sams_student_id, sams_updated_at, attendance_percent, attendance_present, attendance_total, status, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW())')
+            ->execute([$matric, $password, $first, $last, $other !== '' ? $other : null, $email !== '' ? $email : null, $phone !== '' ? $phone : null, $gender, $deptId, $levelId, $semesterId, $sessionId, $photoName, $samsId ?: null, $updatedAt, $attPercent, $attPresent, $attTotal, $status]);
         $id = (int) $db->lastInsertId();
     }
 

@@ -690,6 +690,7 @@ require_once __DIR__ . '/../includes/student_header.php';
                     $statusLabel = '';
                     $canStart = false;
                     $statusMessage = '';
+                    $attendanceBlocked = !student_exam_eligible($student);
                     
                     $hasAttempt = !empty($exam['attempt_id']);
                     $attemptStatus = $exam['attempt_status'] ?? null;
@@ -786,6 +787,12 @@ require_once __DIR__ . '/../includes/student_header.php';
                                 $statusLabel = '<span class="exam-status-badge expired">Not Scheduled</span>';
                             }
                         }
+                    }
+                    if ($canStart && $attendanceBlocked) {
+                        $canStart = false;
+                        $statusClass = 'bio-pending';
+                        $statusLabel = '<span class="exam-status-badge bio-pending"><i class="bi bi-bar-chart me-1"></i>Attendance</span>';
+                        $statusMessage = student_attendance_block_reason($student);
                     }
                 ?>
                 <div class="exam-list-item <?php echo $statusClass; ?> fade-in">
@@ -993,6 +1000,18 @@ require_once __DIR__ . '/../includes/student_header.php';
                     <div class="profile-matric"><?php echo e($student['matric_number']); ?></div>
                     <div class="profile-level">LEVEL: <?php echo strtoupper(e($student['level_name'] ?? 'N/A')); ?></div>
                     <div class="profile-dept"><?php echo e($student['dept_name'] ?? 'N/A'); ?></div>
+                    <?php
+                    $dashAtt = student_attendance_percent($student);
+                    if ($dashAtt !== null):
+                        $dashEligible = student_exam_eligible($student);
+                    ?>
+                    <div class="small mt-2 <?php echo $dashEligible ? 'text-success' : 'text-danger'; ?>">
+                        Attendance <?php echo number_format($dashAtt, 1); ?>%
+                        <?php if (attendance_check_enabled()): ?>
+                            (need <?php echo number_format(attendance_threshold(), 0); ?>%)
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                     
                     <hr class="profile-divider">
                     

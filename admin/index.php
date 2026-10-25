@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <hr class="my-4">
                 
                 <div class="text-center">
-                    <a href="<?php echo APP_URL; ?>/student/login.php" class="text-decoration-none">
+                    <a href="<?php echo student_login_url(); ?>" class="text-decoration-none">
                         <i class="bi bi-mortarboard-fill me-1"></i>Student Login
                     </a>
                 </div>

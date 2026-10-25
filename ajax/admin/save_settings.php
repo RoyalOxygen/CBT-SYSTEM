@@ -11,7 +11,7 @@ if (!isAdminLoggedIn() || $_SESSION['admin_role'] !== 'super_admin') jsonRespons
 try {
     $db = getDB();
     
-    $settings = ['institution_name', 'timezone', 'default_duration', 'default_pass_mark', 'default_question_limit', 'session_timeout', 'biometric_threshold', 'face_api_url', 'face_timeout', 'face_match_threshold'];
+    $settings = ['institution_name', 'timezone', 'default_duration', 'default_pass_mark', 'default_question_limit', 'session_timeout', 'biometric_threshold', 'face_api_url', 'face_timeout', 'face_match_threshold', 'attendance_threshold'];
     foreach ($settings as $key) {
         if (isset($_POST[$key])) {
             setSetting($key, sanitize($_POST[$key]), 'general');
@@ -26,6 +26,17 @@ try {
     setSetting('maintenance_mode', !empty($_POST['maintenance_mode']) ? '1' : '0', 'general');
     setSetting('biometric_enabled', !empty($_POST['biometric_enabled']) ? '1' : '0', 'general');
     setSetting('face_login_enabled', !empty($_POST['face_login_enabled']) ? '1' : '0', 'general');
+    setSetting('attendance_check_enabled', !empty($_POST['attendance_check_enabled']) ? '1' : '0', 'general');
+    if (isset($_POST['attendance_threshold'])) {
+        $threshold = (float) $_POST['attendance_threshold'];
+        if ($threshold < 0) {
+            $threshold = 0;
+        }
+        if ($threshold > 100) {
+            $threshold = 100;
+        }
+        setSetting('attendance_threshold', (string) $threshold, 'general');
+    }
 
     if (node_is_hub()) {
         if (isset($_POST['sams_url'])) {

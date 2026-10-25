@@ -228,6 +228,8 @@ function install_seed(PDO $db, array $opts): void {
         'face_timeout' => '60',
         'face_match_threshold' => '0.50',
         'face_login_enabled' => '0',
+        'attendance_threshold' => '75',
+        'attendance_check_enabled' => '0',
         'sams_url' => '',
         'sams_sync_token' => '',
         'sams_sync_enabled' => '0',

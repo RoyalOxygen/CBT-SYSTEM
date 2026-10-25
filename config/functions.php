@@ -148,7 +148,7 @@ function requireAdminLogin(): void {
 function requireStudentLogin(): void {
     if (!isStudentLoggedIn()) {
         session_destroy();
-        header('Location: ' . APP_URL . '/student/login.php');
+        header('Location: ' . student_login_url());
         exit;
     }
     refreshStudentSessionActivity();
