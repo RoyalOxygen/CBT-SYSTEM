@@ -17,7 +17,7 @@ A complete, production-ready Computer Based Testing (CBT) application built with
 - **Offline Nodes** - Control offline exam halls from the online hub (sync, restrictions, signed updates)
 
 ### Student Portal
-- **Login** - Matric number + password authentication
+- **Login** - Matric number (optional face login when SAMS ArcFace is enabled)
 - **Dashboard** - View assigned exams with status indicators
 - **Biometric Enrollment** - Self-service fingerprint registration
 - **Exam Interface** - Fullscreen mode, countdown timer, question navigation
@@ -113,6 +113,7 @@ cbt-system/
 - See `docs/INSTALLATION.md` for detailed setup instructions
 - See `docs/SYNC.md` for online hub + offline exam-hall synchronisation
 - See `docs/BIOMETRIC_INTEGRATION.md` for fingerprint SDK integration
+- See `docs/SAMS_INTEGRATION.md` for attendance student/photo/face sync and ArcFace login
 - See `docs/API_DOCUMENTATION.md` for AJAX endpoint reference
 
 ## License

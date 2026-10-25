@@ -86,7 +86,11 @@ php bin/sync-worker.php
 php bin/sync-prune.php
 php bin/policy.php --show
 php bin/policy.php --clear-suspension
+php bin/sams-sync.php
+php bin/sams-sync.php --full
 ```
+
+Attendance students, photos and ArcFace templates are pulled on the **hub only** (`php bin/sams-sync.php`). Leaves receive `students`, `face_profiles` and `student_files` through this sync. See `docs/SAMS_INTEGRATION.md`.
 
 `--clear-suspension` only unlocks the local policy file. The next successful sync will re-apply the hub policy.
 

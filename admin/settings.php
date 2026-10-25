@@ -93,6 +93,58 @@ require_once __DIR__ . '/../includes/header.php';
                             <input type="number" name="biometric_threshold" class="form-control" value="<?php echo e($settings['biometric_threshold'] ?? '90'); ?>" min="50" max="100">
                         </div>
                     </div>
+
+                    <h6 class="text-muted mb-3">Face login (SAMS ArcFace)</h6>
+                    <p class="small text-muted">Point this node at the InsightFace FastAPI service. Offline halls typically use <code>http://127.0.0.1:9000</code>; the online hub can use a remote URL.</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label class="form-label">Face API URL</label>
+                            <input type="url" name="face_api_url" class="form-control" placeholder="http://127.0.0.1:9000" value="<?php echo e($settings['face_api_url'] ?? 'http://127.0.0.1:9000'); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Timeout (seconds)</label>
+                            <input type="number" name="face_timeout" class="form-control" min="5" max="180" value="<?php echo e($settings['face_timeout'] ?? '60'); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Match threshold</label>
+                            <input type="number" name="face_match_threshold" class="form-control" step="0.01" min="0.1" max="1" value="<?php echo e($settings['face_match_threshold'] ?? '0.50'); ?>">
+                            <div class="form-text">Cosine similarity, 0.50 default.</div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" name="face_login_enabled" value="1" id="faceLoginEnabled" <?php echo ($settings['face_login_enabled'] ?? '0') == '1' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="faceLoginEnabled">Enable student face login</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php if (node_is_hub()): ?>
+                    <h6 class="text-muted mb-3">Attendance (SAMS) sync</h6>
+                    <p class="small text-muted">The online hub pulls students, passport photos and ArcFace templates from TSU-SAMS. Offline halls receive the same records through CBT hub/leaf sync.</p>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">SAMS base URL</label>
+                            <input type="url" name="sams_url" class="form-control" placeholder="https://attendance.example.edu" value="<?php echo e($settings['sams_url'] ?? ''); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Sync token</label>
+                            <input type="text" name="sams_sync_token" class="form-control" autocomplete="off" value="<?php echo e($settings['sams_sync_token'] ?? ''); ?>">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="sams_sync_enabled" value="1" id="samsSyncEnabled" <?php echo ($settings['sams_sync_enabled'] ?? '0') == '1' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="samsSyncEnabled">Enable SAMS student pull on this hub</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="samsSyncNowBtn">
+                            <i class="bi bi-arrow-repeat me-1"></i>Sync from SAMS now
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="samsSyncFullBtn">Full resync</button>
+                        <span id="samsSyncStatus" class="small text-muted ms-2"></span>
+                    </div>
+                    <?php endif; ?>
                     
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">
@@ -122,6 +174,38 @@ document.getElementById('settingsForm').addEventListener('submit', async functio
         showToast('Failed to save settings', 'error');
     }
 });
+
+async function samsSync(full) {
+    const status = document.getElementById('samsSyncStatus');
+    const nowBtn = document.getElementById('samsSyncNowBtn');
+    const fullBtn = document.getElementById('samsSyncFullBtn');
+    if (!status || !nowBtn) return;
+    nowBtn.disabled = true;
+    if (fullBtn) fullBtn.disabled = true;
+    status.textContent = 'Syncing...';
+    const formData = new FormData();
+    formData.append('<?php echo CSRF_TOKEN_NAME; ?>', CSRF_TOKEN);
+    if (full) formData.append('full', '1');
+    try {
+        const response = await fetch(APP_URL + '/ajax/admin/sams_sync_now.php', {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+            body: formData
+        });
+        const data = await response.json();
+        status.textContent = data.message || '';
+        showToast(data.message, data.success ? 'success' : 'error');
+    } catch (error) {
+        status.textContent = 'SAMS sync failed';
+        showToast('SAMS sync failed', 'error');
+    }
+    nowBtn.disabled = false;
+    if (fullBtn) fullBtn.disabled = false;
+}
+const samsNow = document.getElementById('samsSyncNowBtn');
+const samsFull = document.getElementById('samsSyncFullBtn');
+if (samsNow) samsNow.addEventListener('click', function() { samsSync(false); });
+if (samsFull) samsFull.addEventListener('click', function() { samsSync(true); });
 </script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

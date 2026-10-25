@@ -58,6 +58,7 @@ The wizard creates the database (if the MySQL user is allowed), imports tables, 
 Use the admin username and password you typed in the wizard.
 
 For a pair of online + offline servers, see `docs/SYNC.md`.
+To pull SAMS students, photos and ArcFace templates into the online hub, see `docs/SAMS_INTEGRATION.md`. After upgrading an existing database, open the site once (schema is added automatically) then run `php sync/install.php` so the new tables join hub/leaf sync.
 
 ### 5. Configure Apache
 Ensure mod_rewrite is enabled:

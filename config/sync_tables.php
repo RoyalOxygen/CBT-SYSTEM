@@ -16,6 +16,7 @@ return [
     'settings' => [
         'priority' => 5,
         'natural_key' => ['setting_key'],
+        'local_keys' => ['face_api_url', 'face_timeout', 'sams_url', 'sams_sync_token', 'sams_sync_enabled'],
     ],
 
     'departments' => ['priority' => 10],
@@ -149,6 +150,20 @@ return [
         'priority' => 35,
         'natural_key' => ['student_id'],
         'fks' => ['student_id' => 'students'],
+    ],
+
+    'face_profiles' => [
+        'priority' => 35,
+        'natural_key' => ['student_id'],
+        'fks' => ['student_id' => 'students'],
+        'push' => false,
+    ],
+
+    'student_files' => [
+        'priority' => 36,
+        'natural_key' => ['student_id', 'file_kind'],
+        'fks' => ['student_id' => 'students'],
+        'push' => false,
     ],
 
     'time_extensions' => [

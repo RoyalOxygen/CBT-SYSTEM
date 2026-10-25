@@ -601,4 +601,15 @@ function getFlashMessage(): array {
 // Online/offline sync must load before the suspension guard so a suspended
 // leaf can still reach the hub and receive the "unsuspend" policy.
 require_once __DIR__ . '/sync.php';
+require_once __DIR__ . '/face.php';
+require_once __DIR__ . '/sams.php';
 require_once __DIR__ . '/restrictions.php';
+
+try {
+    if (function_exists('getDB')) {
+        sams_ensure_schema(getDB());
+        sams_register_background();
+    }
+} catch (Throwable $e) {
+    error_log('SAMS boot: ' . $e->getMessage());
+}

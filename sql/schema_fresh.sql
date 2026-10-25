@@ -246,6 +246,17 @@ CREATE TABLE IF NOT EXISTS `exam_students` (
   `assigned_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `face_profiles` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `student_id` int(11) UNSIGNED NOT NULL,
+  `sams_student_id` int(11) UNSIGNED DEFAULT NULL,
+  `descriptor_json` longtext NOT NULL,
+  `descriptor_hash` char(64) NOT NULL,
+  `sample_path` varchar(255) DEFAULT NULL,
+  `enrolled_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `fingerprint_templates` (
   `id` int(11) UNSIGNED NOT NULL,
   `student_id` int(11) UNSIGNED NOT NULL,
@@ -255,6 +266,17 @@ CREATE TABLE IF NOT EXISTS `fingerprint_templates` (
   `quality_score` int(3) DEFAULT NULL,
   `enrolled_by` int(11) UNSIGNED DEFAULT NULL,
   `enrolled_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `student_files` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `student_id` int(11) UNSIGNED NOT NULL,
+  `file_kind` varchar(20) NOT NULL DEFAULT 'photo',
+  `filename` varchar(255) NOT NULL,
+  `mime` varchar(80) DEFAULT 'image/jpeg',
+  `content_b64` longtext NOT NULL,
+  `content_hash` char(64) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `levels` (
@@ -358,6 +380,9 @@ CREATE TABLE IF NOT EXISTS `students` (
   `session_id` int(11) UNSIGNED DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
   `fingerprint_enrolled` tinyint(1) DEFAULT 0,
+  `face_enrolled` tinyint(1) NOT NULL DEFAULT 0,
+  `sams_student_id` int(11) UNSIGNED DEFAULT NULL,
+  `sams_updated_at` datetime DEFAULT NULL,
   `biometric_verified` tinyint(1) DEFAULT 0,
   `login_status` tinyint(1) DEFAULT 0,
   `last_login` datetime DEFAULT NULL,
@@ -436,7 +461,14 @@ ALTER TABLE `exam_batches` ADD PRIMARY KEY (`id`);
 ALTER TABLE `exam_students` ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_exam_student` (`exam_id`,`student_id`);
 
+ALTER TABLE `face_profiles` ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_face_student` (`student_id`),
+  ADD KEY `idx_face_sams` (`sams_student_id`);
+
 ALTER TABLE `fingerprint_templates` ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `student_files` ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_student_file_kind` (`student_id`,`file_kind`);
 
 ALTER TABLE `levels` ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_level_name` (`level_name`),
@@ -465,6 +497,7 @@ ALTER TABLE `settings` ADD PRIMARY KEY (`id`),
 
 ALTER TABLE `students` ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_matric` (`matric_number`),
+  ADD UNIQUE KEY `uk_sams_student` (`sams_student_id`),
   ADD KEY `idx_department` (`department_id`),
   ADD KEY `idx_level` (`level_id`),
   ADD KEY `idx_semester` (`semester_id`),
@@ -504,7 +537,11 @@ ALTER TABLE `exam_batches` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `exam_students` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `face_profiles` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `fingerprint_templates` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `student_files` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `levels` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 

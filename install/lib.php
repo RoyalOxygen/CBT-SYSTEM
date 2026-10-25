@@ -72,7 +72,7 @@ function install_requirements(): array {
     }
     $ext['zip'] = extension_loaded('zip');
     $writable = [];
-    foreach (['config', 'storage', 'storage/sync', 'logs', 'assets/uploads'] as $rel) {
+    foreach (['config', 'storage', 'storage/sync', 'logs', 'assets/uploads', 'assets/uploads/student_photos'] as $rel) {
         $path = $root . '/' . $rel;
         if (!is_dir($path)) {
             @mkdir($path, 0770, true);
@@ -80,7 +80,7 @@ function install_requirements(): array {
         $writable[$rel] = is_dir($path) && is_writable($path);
     }
     $ok = $phpOk && $ext['pdo'] && $ext['pdo_mysql'] && $ext['json'] && $ext['session'] && $ext['fileinfo']
-        && $writable['config'] && $writable['storage'] && $writable['storage/sync'] && $writable['logs'] && $writable['assets/uploads'];
+        && $writable['config'] && $writable['storage'] && $writable['storage/sync'] && $writable['logs'] && $writable['assets/uploads'] && $writable['assets/uploads/student_photos'];
     return [
         'ok' => $ok,
         'php_version' => PHP_VERSION,
@@ -224,6 +224,13 @@ function install_seed(PDO $db, array $opts): void {
         'biometric_threshold' => '90',
         'maintenance_mode' => '0',
         'biometric_enabled' => '0',
+        'face_api_url' => 'http://127.0.0.1:9000',
+        'face_timeout' => '60',
+        'face_match_threshold' => '0.50',
+        'face_login_enabled' => '0',
+        'sams_url' => '',
+        'sams_sync_token' => '',
+        'sams_sync_enabled' => '0',
     ];
     $stmt = $db->prepare('INSERT INTO settings (setting_key, setting_value, setting_group) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)');
     foreach ($settings as $key => $value) {

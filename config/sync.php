@@ -322,6 +322,14 @@ function sync_apply_change(array $change, string $originUid): string {
     $columns = sync_table_columns($table);
     $db = getDB();
 
+    if ($table === 'settings') {
+        $settingKey = (string) ($payload['setting_key'] ?? '');
+        $localKeys = $cfg['local_keys'] ?? [];
+        if ($settingKey !== '' && in_array($settingKey, $localKeys, true)) {
+            return 'skipped';
+        }
+    }
+
     foreach (($cfg['fks'] ?? []) as $column => $refTable) {
         if (!array_key_exists($column, $payload)) {
             continue;
@@ -536,6 +544,14 @@ function sync_pull_once(int $limit = 0): array {
     }
     sync_state_set('last_pull_at', time());
 
+    if ($applied > 0 && function_exists('sams_restore_photos_from_files')) {
+        try {
+            sams_restore_photos_from_files(getDB());
+        } catch (Throwable $e) {
+            error_log('Photo restore after sync: ' . $e->getMessage());
+        }
+    }
+
     return ['applied' => $applied, 'failed' => $failed, 'skipped' => $skipped, 'cursor' => (int) sync_state_get('cursor', 0)];
 }
 
@@ -553,8 +569,15 @@ function sync_push_once(int $limit = 0): array {
         return ['pushed' => 0];
     }
 
+    $tables = sync_tables();
     $changes = [];
+    $skipUids = [];
     foreach ($rows as $row) {
+        $tableName = (string) $row['table_name'];
+        if (isset($tables[$tableName]) && array_key_exists('push', $tables[$tableName]) && $tables[$tableName]['push'] === false) {
+            $skipUids[] = $row['change_uid'];
+            continue;
+        }
         $payload = json_decode((string) $row['payload'], true);
         $changes[] = [
             'change_uid' => $row['change_uid'],
@@ -565,6 +588,14 @@ function sync_push_once(int $limit = 0): array {
             'changed_at' => $row['changed_at'],
             'payload' => is_array($payload) ? $payload : null,
         ];
+    }
+
+    if ($skipUids) {
+        $placeholders = implode(',', array_fill(0, count($skipUids), '?'));
+        $db->prepare("UPDATE sync_change SET synced = 1 WHERE change_uid IN ($placeholders)")->execute($skipUids);
+    }
+    if (!$changes) {
+        return ['pushed' => 0, 'sent' => 0];
     }
 
     $data = sync_request('push', ['changes' => $changes], 30);

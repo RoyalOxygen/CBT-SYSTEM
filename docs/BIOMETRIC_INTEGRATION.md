@@ -138,6 +138,10 @@ For testing without hardware:
 | Match failures | Re-enroll student with better quality capture |
 | Timeout errors | Check USB connection, restart scanner service |
 
+## Face login (SAMS ArcFace)
+
+Student face login uses the attendance InsightFace service (`/extract` + cosine match against `face_profiles`). Configure **Face API URL** and **Enable student face login** under Admin > Settings. Details: `docs/SAMS_INTEGRATION.md`.
+
 ## Custom SDK Integration
 
 To integrate a new SDK:

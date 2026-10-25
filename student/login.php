@@ -288,6 +288,14 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
                 <button type="submit" class="btn btn-login w-100 mb-3">
                     Login
                 </button>
+
+                <?php if (face_login_enabled()): ?>
+                <div class="text-center mb-3">
+                    <a href="<?php echo APP_URL; ?>/student/face_login.php<?php echo $prefillMatric !== '' ? ('?matric=' . urlencode($prefillMatric)) : ''; ?>" class="text-decoration-none small">
+                        <i class="bi bi-camera me-1"></i>Sign in with face
+                    </a>
+                </div>
+                <?php endif; ?>
                 
                 <div class="text-center login-footer-links">
                     <a href="<?php echo APP_URL; ?>/admin/index.php" class="text-decoration-none">
