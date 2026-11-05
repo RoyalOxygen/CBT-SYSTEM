@@ -16,8 +16,12 @@ $pageTitle = $pageTitle ?? 'Exam';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
+<<<<<<< HEAD
     <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+    <title><?php echo e($pageTitle); ?> - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <style>

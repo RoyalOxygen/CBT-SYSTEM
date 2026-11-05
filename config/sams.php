@@ -225,18 +225,41 @@ function sams_restore_photos_from_files(PDO $db): int {
 }
 
 function sams_find_or_create_department(PDO $db, string $code, string $name, string $faculty): int {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     academic_ensure_schema($db);
     $code = strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $code) ?: 'GEN', 0, 20));
     $name = trim($name) !== '' ? trim($name) : 'General';
     $facultyName = trim($faculty);
     $facultyId = $facultyName !== '' ? academic_find_or_create_faculty($db, $facultyName) : null;
+<<<<<<< HEAD
+=======
+=======
+    $code = strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $code) ?: 'GEN', 0, 20));
+    $name = trim($name) !== '' ? trim($name) : 'General';
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     $stmt = $db->prepare('SELECT id FROM departments WHERE dept_code = ? LIMIT 1');
     $stmt->execute([$code]);
     $row = $stmt->fetch();
     if ($row) {
+<<<<<<< HEAD
         if ($facultyName !== '' || $facultyId) {
             $db->prepare('UPDATE departments SET dept_name = ?, faculty_id = ?, faculty = ?, status = 1 WHERE id = ?')
                 ->execute([$name, $facultyId, $facultyName !== '' ? $facultyName : $name, $row['id']]);
+=======
+<<<<<<< HEAD
+        if ($facultyName !== '' || $facultyId) {
+            $db->prepare('UPDATE departments SET dept_name = ?, faculty_id = ?, faculty = ?, status = 1 WHERE id = ?')
+                ->execute([$name, $facultyId, $facultyName !== '' ? $facultyName : $name, $row['id']]);
+=======
+        if ($faculty !== '') {
+            $db->prepare('UPDATE departments SET dept_name = ?, faculty = ?, status = 1 WHERE id = ?')
+                ->execute([$name, $faculty, $row['id']]);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         }
         return (int) $row['id'];
     }
@@ -244,6 +267,10 @@ function sams_find_or_create_department(PDO $db, string $code, string $name, str
     $stmt->execute([$name]);
     $row = $stmt->fetch();
     if ($row) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         if ($facultyId) {
             $db->prepare('UPDATE departments SET faculty_id = ?, faculty = COALESCE(NULLIF(faculty, \'\'), ?) WHERE id = ?')
                 ->execute([$facultyId, $facultyName !== '' ? $facultyName : $name, $row['id']]);
@@ -252,6 +279,15 @@ function sams_find_or_create_department(PDO $db, string $code, string $name, str
     }
     $db->prepare('INSERT INTO departments (dept_code, dept_name, faculty_id, faculty, status) VALUES (?, ?, ?, ?, 1)')
         ->execute([$code, $name, $facultyId, $facultyName !== '' ? $facultyName : $name]);
+<<<<<<< HEAD
+=======
+=======
+        return (int) $row['id'];
+    }
+    $db->prepare('INSERT INTO departments (dept_code, dept_name, faculty, status) VALUES (?, ?, ?, 1)')
+        ->execute([$code, $name, $faculty !== '' ? $faculty : $name]);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     return (int) $db->lastInsertId();
 }
 

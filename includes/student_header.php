@@ -28,8 +28,12 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
+<<<<<<< HEAD
     <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+    <title><?php echo e($pageTitle); ?> - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <style>
@@ -45,6 +49,7 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
             --tsu-warning: #fbbc04;
         }
         
+<<<<<<< HEAD
         html, body {
             min-height: 100%;
         }
@@ -86,6 +91,11 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
         .site-footer .container,
         .site-footer .container-fluid {
             max-width: 100%;
+=======
+        body {
+            background-color: #f8f9fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         }
         
         /* ===== Taraba State University Header ===== */
@@ -137,6 +147,7 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
             color: white;
             font-weight: bold;
         }
+<<<<<<< HEAD
         .student-navbar .navbar-toggler {
             border-color: rgba(255,255,255,0.35);
         }
@@ -159,6 +170,8 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
                 margin: 8px 0 4px !important;
             }
         }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         
         .student-navbar .navbar-brand:hover {
             color: rgba(255,255,255,0.9);
@@ -185,6 +198,7 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
             text-decoration: none;
         }
         
+<<<<<<< HEAD
         .navbar-brand-logo {
             width: 32px;
             height: 32px;
@@ -201,6 +215,8 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
             font-size: 0.78rem;
             font-weight: 600;
         }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         .user-dropdown .dropdown-toggle::after {
             display: inline-block;
             margin-left: 0.255em;
@@ -299,9 +315,12 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
         
         /* Responsive */
         @media (max-width: 768px) {
+<<<<<<< HEAD
             body {
                 padding-bottom: 5rem;
             }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
             .dashboard-header h2 {
                 font-size: 1.3rem;
             }
@@ -314,10 +333,13 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
             .stat-card h3 {
                 font-size: 1.25rem;
             }
+<<<<<<< HEAD
             .student-page-wrap > .container-fluid {
                 padding-left: 0.85rem;
                 padding-right: 0.85rem;
             }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         }
         
         /* Animations */
@@ -352,6 +374,7 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
     </div>
 
     <!-- Student Navbar -->
+<<<<<<< HEAD
     <nav class="navbar navbar-expand-lg navbar-dark student-navbar sticky-top">
         <div class="container-fluid px-3 px-lg-4">
             <a class="navbar-brand d-flex align-items-center" href="<?php echo APP_URL; ?>/student/dashboard.php">
@@ -365,6 +388,16 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#studentNavbar" aria-controls="studentNavbar" aria-expanded="false" aria-label="Toggle navigation">
+=======
+    <nav class="navbar navbar-expand-lg student-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="<?php echo APP_URL; ?>/student/dashboard.php">
+                <i class="bi bi-mortarboard-fill me-2"></i>
+                <strong><?php echo APP_NAME; ?></strong>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#studentNavbar">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                 <span class="navbar-toggler-icon"></span>
             </button>
             
@@ -421,8 +454,12 @@ if (!isset($student) && isset($_SESSION['student_id'])) {
 
 
     <!-- Main Content -->
+<<<<<<< HEAD
     <div class="student-page-wrap">
     <div class="container-fluid py-4">
+=======
+    <div class="container py-4">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         <!-- Flash Messages -->
         <?php if ($flash['message']): ?>
             <div class="alert alert-<?php echo $flash['type'] === 'error' ? 'danger' : $flash['type']; ?> alert-dismissible fade show mb-4" role="alert">

@@ -38,7 +38,22 @@ function hideLoading() {
     document.getElementById('loadingOverlay').classList.add('d-none');
 }
 
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', function() {
+=======
+// Sidebar toggle (mobile)
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    }
+    
+    // Theme toggle
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
         const html = document.documentElement;

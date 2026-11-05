@@ -5,13 +5,20 @@ cbt_redirect_to_installer(dirname(__DIR__), '../install/');
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/functions.php';
 
+<<<<<<< HEAD
+=======
+// If already logged in, redirect to dashboard
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 if (isAdminLoggedIn()) {
     header('Location: ' . APP_URL . '/admin/dashboard.php');
     exit;
 }
 
 $error = '';
+<<<<<<< HEAD
 $prefillUsername = '';
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $token = $_POST[CSRF_TOKEN_NAME] ?? '';
@@ -21,7 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $username = sanitize($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
+<<<<<<< HEAD
         $prefillUsername = $username;
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         
         if (empty($username) || empty($password)) {
             $error = 'Please enter both username and password.';
@@ -33,6 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $admin = $stmt->fetch();
                 
                 if ($admin && verifyPassword($password, $admin['password'])) {
+<<<<<<< HEAD
+=======
+                    // Set session
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                     session_regenerate_id(true);
                     $_SESSION['admin_id'] = $admin['id'];
                     $_SESSION['admin_username'] = $admin['username'];
@@ -42,11 +56,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['admin_photo'] = $admin['photo'];
                     $_SESSION['last_activity'] = time();
                     
+<<<<<<< HEAD
                     $updateStmt = $db->prepare("UPDATE admins SET last_login = NOW(), login_ip = ? WHERE id = ?");
                     $updateStmt->execute([getClientIP(), $admin['id']]);
                     
                     logActivity('admin', $admin['id'], 'login', 'Admin logged in successfully');
                     
+=======
+                    // Update last login
+                    $updateStmt = $db->prepare("UPDATE admins SET last_login = NOW(), login_ip = ? WHERE id = ?");
+                    $updateStmt->execute([getClientIP(), $admin['id']]);
+                    
+                    // Log activity
+                    logActivity('admin', $admin['id'], 'login', 'Admin logged in successfully');
+                    
+                    // Redirect to dashboard or previous page
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                     $redirect = $_SESSION['redirect_after_login'] ?? APP_URL . '/admin/dashboard.php';
                     unset($_SESSION['redirect_after_login']);
                     header("Location: $redirect");
@@ -62,14 +87,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+<<<<<<< HEAD
 
 $csrf_token = generateCSRFToken();
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Admin Login - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
@@ -86,10 +115,21 @@ $csrf_token = generateCSRFToken();
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+=======
+    <title>Admin Login - <?php echo APP_NAME; ?></title>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+<<<<<<< HEAD
         .login-wrap {
             flex: 1 0 auto;
             display: flex;
@@ -235,10 +275,44 @@ $csrf_token = generateCSRFToken();
                 padding-left: 20px;
                 padding-right: 20px;
             }
+=======
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+        }
+        .login-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .login-header h3 {
+            margin: 0;
+            font-weight: 600;
+        }
+        .login-body {
+            padding: 40px;
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         }
     </style>
 </head>
 <body>
+<<<<<<< HEAD
     <div class="login-wrap">
     <div class="login-card">
         <div class="login-header">
@@ -249,6 +323,13 @@ $csrf_token = generateCSRFToken();
             <?php endif; ?>
             <h3><?php echo e(institution_name()); ?><br>ADMIN LOGIN</h3>
             <span class="portal-label">Staff portal</span>
+=======
+    <div class="login-card">
+        <div class="login-header">
+            <i class="bi bi-laptop-fill" style="font-size: 3rem;"></i>
+            <h3 class="mt-2"><?php echo APP_NAME; ?></h3>
+            <p class="mb-0">Admin Portal</p>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         </div>
         <div class="login-body">
             <?php if ($error): ?>
@@ -259,6 +340,7 @@ $csrf_token = generateCSRFToken();
             <?php endif; ?>
             
             <form method="POST" action="">
+<<<<<<< HEAD
                 <input type="hidden" name="<?php echo CSRF_TOKEN_NAME; ?>" value="<?php echo $csrf_token; ?>">
                 
                 <div class="mb-3">
@@ -275,11 +357,30 @@ $csrf_token = generateCSRFToken();
                         <input type="password" name="password" id="password" class="form-control"
                                placeholder="Enter your password" required autocomplete="current-password">
                         <button class="password-toggle" type="button" id="togglePassword" aria-label="Show password">
+=======
+                <?php echo csrfField(); ?>
+                
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Enter username" required autofocus>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Enter password" required id="password">
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                             <i class="bi bi-eye"></i>
                         </button>
                     </div>
                 </div>
                 
+<<<<<<< HEAD
                 <button type="submit" class="btn btn-login w-100 mb-3">
                     Login
                 </button>
@@ -292,10 +393,23 @@ $csrf_token = generateCSRFToken();
                     <a href="<?php echo APP_URL; ?>/" class="text-decoration-none">
                         <i class="bi bi-house me-1"></i>Home
                     </a>
+=======
+                <button type="submit" class="btn btn-primary w-100 btn-login">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </button>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <a href="<?php echo student_login_url(); ?>" class="text-decoration-none">
+                        <i class="bi bi-mortarboard-fill me-1"></i>Student Login
+                    </a>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                 </div>
             </form>
         </div>
     </div>
+<<<<<<< HEAD
     </div>
     <footer class="site-footer">
         <?php echo powered_by_credit(); ?>
@@ -319,3 +433,24 @@ $csrf_token = generateCSRFToken();
     </script>
 </body>
 </html>
+=======
+    
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePassword() {
+            const password = document.getElementById('password');
+            const icon = event.currentTarget.querySelector('i');
+            if (password.type === 'password') {
+                password.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                password.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        }
+    </script>
+</body>
+</html>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c

@@ -217,7 +217,10 @@ require_once __DIR__ . '/../includes/exam_header.php';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title><?php echo e($exam['exam_code']); ?> - <?php echo e($exam['exam_title']); ?></title>
+<<<<<<< HEAD
 <?php echo student_favicon_tags(); ?>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
 <style>
@@ -227,7 +230,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     min-height: 100vh;
     padding: 0;
+<<<<<<< HEAD
     padding-bottom: 3.25rem;
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 }
 
 /* ============================================
@@ -244,7 +250,11 @@ body {
     box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 .merged-header .container-fluid {
+<<<<<<< HEAD
     max-width: 100%;
+=======
+    max-width: 1600px;
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     padding: 0 20px;
 }
 .merged-header .uni-brand {
@@ -257,6 +267,7 @@ body {
     font-size: 1.6rem;
     color: #e8c84c;
 }
+<<<<<<< HEAD
 .merged-header .uni-brand img {
     width: 40px;
     height: 40px;
@@ -265,6 +276,8 @@ body {
     border-radius: 8px;
     padding: 2px;
 }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 .merged-header .uni-brand h1 {
     font-weight: 700;
     font-size: 1.1rem;
@@ -433,9 +446,14 @@ body {
 
 /* Main Layout */
 .main-container {
+<<<<<<< HEAD
     max-width: 100%;
     width: 100%;
     margin: 0;
+=======
+    max-width: 1600px;
+    margin: 0 auto;
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     padding: 12px 20px 20px;
     display: flex;
     gap: 15px;
@@ -812,10 +830,16 @@ body {
 }
 @media (max-width: 768px) {
     .merged-header { padding: 8px 0; }
+<<<<<<< HEAD
     .merged-header .container-fluid { padding: 0 12px; }
     .merged-header .uni-brand h1 { font-size: 0.9rem; }
     .merged-header .uni-brand i { font-size: 1.3rem; }
     .main-container { padding: 10px 10px 20px; }
+=======
+    .merged-header .uni-brand h1 { font-size: 0.9rem; }
+    .merged-header .uni-brand i { font-size: 1.3rem; }
+    .main-container { padding: 10px; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     .question-card { padding: 16px; }
     .sidebar-col { grid-template-columns: 1fr; }
     .palette-grid { grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); }
@@ -829,6 +853,7 @@ body {
 
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .spin { animation: spin 1s linear infinite; display: inline-block; }
+<<<<<<< HEAD
 .site-footer {
     position: fixed;
     left: 0;
@@ -841,6 +866,8 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 .powered-by-credit { text-align: center; margin: 0; color: #5c6370; font-size: 0.78rem; font-weight: 600; }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 </style>
 </head>
 <body>
@@ -851,6 +878,7 @@ body {
         <div class="d-flex align-items-center justify-content-between gap-3">
             
             <div class="uni-brand">
+<<<<<<< HEAD
                 <?php $examLogo = institution_logo_url(); ?>
                 <?php if ($examLogo !== ''): ?>
                     <img src="<?php echo e($examLogo); ?>" alt="">
@@ -860,6 +888,12 @@ body {
                 <div>
                     <h1><?php echo e(institution_name()); ?></h1>
                     <small>Examination Portal &middot; Powered by Oxygen Cloud Tech</small>
+=======
+                <i class="bi bi-mortarboard-fill"></i>
+                <div>
+                    <h1>OXYGEN CBT SYSTEM</h1>
+                    <small>Examination Portal</small>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                 </div>
             </div>
             
@@ -1584,8 +1618,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initExam();
 });
 </script>
+<<<<<<< HEAD
 <footer class="site-footer">
 <?php echo powered_by_credit(); ?>
 </footer>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 </body>
 </html>

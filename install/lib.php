@@ -72,7 +72,11 @@ function install_requirements(): array {
     }
     $ext['zip'] = extension_loaded('zip');
     $writable = [];
+<<<<<<< HEAD
     foreach (['config', 'storage', 'storage/sync', 'logs', 'assets/uploads', 'assets/uploads/student_photos', 'assets/uploads/institution'] as $rel) {
+=======
+    foreach (['config', 'storage', 'storage/sync', 'logs', 'assets/uploads', 'assets/uploads/student_photos'] as $rel) {
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         $path = $root . '/' . $rel;
         if (!is_dir($path)) {
             @mkdir($path, 0770, true);
@@ -80,7 +84,11 @@ function install_requirements(): array {
         $writable[$rel] = is_dir($path) && is_writable($path);
     }
     $ok = $phpOk && $ext['pdo'] && $ext['pdo_mysql'] && $ext['json'] && $ext['session'] && $ext['fileinfo']
+<<<<<<< HEAD
         && $writable['config'] && $writable['storage'] && $writable['storage/sync'] && $writable['logs'] && $writable['assets/uploads'] && $writable['assets/uploads/student_photos'] && $writable['assets/uploads/institution'];
+=======
+        && $writable['config'] && $writable['storage'] && $writable['storage/sync'] && $writable['logs'] && $writable['assets/uploads'] && $writable['assets/uploads/student_photos'];
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     return [
         'ok' => $ok,
         'php_version' => PHP_VERSION,
@@ -208,6 +216,10 @@ function install_seed(PDO $db, array $opts): void {
         $db->prepare('UPDATE sessions SET is_current = 1, status = 1 WHERE session_name = ?')->execute([$sessionName]);
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     $faculty = $db->query("SELECT id FROM faculties WHERE faculty_code = 'GEN' LIMIT 1")->fetch();
     if (!$faculty) {
         $db->prepare('INSERT INTO faculties (faculty_code, faculty_name, status) VALUES (?, ?, 1)')
@@ -221,11 +233,23 @@ function install_seed(PDO $db, array $opts): void {
     if (!$dept) {
         $db->prepare('INSERT INTO departments (dept_code, dept_name, faculty_id, faculty, status) VALUES (?, ?, ?, ?, 1)')
             ->execute(['GEN', 'General', $facultyId, 'General']);
+<<<<<<< HEAD
+=======
+=======
+    $dept = $db->query("SELECT id FROM departments WHERE dept_code = 'GEN' LIMIT 1")->fetch();
+    if (!$dept) {
+        $db->prepare('INSERT INTO departments (dept_code, dept_name, faculty, status) VALUES (?, ?, ?, 1)')
+            ->execute(['GEN', 'General', 'General']);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     }
 
     $settings = [
         'institution_name' => $opts['site_name'],
+<<<<<<< HEAD
         'institution_logo' => '',
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         'timezone' => 'Africa/Lagos',
         'default_duration' => '60',
         'default_pass_mark' => '40',

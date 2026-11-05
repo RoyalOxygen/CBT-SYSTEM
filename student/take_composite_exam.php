@@ -252,7 +252,10 @@ if ($answeredJson === false) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
 <title><?php echo e($exam['exam_code']); ?> - <?php echo e($exam['exam_title']); ?></title>
+<<<<<<< HEAD
 <?php echo student_favicon_tags(); ?>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
 <style>
@@ -262,7 +265,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     min-height: 100vh;
     padding: 0;
+<<<<<<< HEAD
     padding-bottom: 3.25rem;
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 }
 
 .merged-header {
@@ -275,10 +281,16 @@ body {
     z-index: 100;
     box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
+<<<<<<< HEAD
 .merged-header .container-fluid { max-width: 100%; padding: 0 20px; }
 .merged-header .uni-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .merged-header .uni-brand i { font-size: 1.6rem; color: #e8c84c; }
 .merged-header .uni-brand img { width: 40px; height: 40px; object-fit: contain; background: #fff; border-radius: 8px; padding: 2px; }
+=======
+.merged-header .container-fluid { max-width: 1600px; padding: 0 20px; }
+.merged-header .uni-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.merged-header .uni-brand i { font-size: 1.6rem; color: #e8c84c; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 .merged-header .uni-brand h1 { font-weight: 700; font-size: 1.1rem; margin: 0; letter-spacing: 0.5px; line-height: 1.2; }
 .merged-header .uni-brand small { display: block; font-size: 0.65rem; opacity: 0.75; font-weight: 300; }
 .merged-header .exam-info { display: flex; align-items: center; gap: 15px; flex: 1; justify-content: center; flex-wrap: wrap; }
@@ -319,7 +331,11 @@ body {
 .force-submit-overlay .progress-bar { background: linear-gradient(90deg, #dc3545, #ff6b35); transition: width 0.3s ease; }
 .force-submit-overlay .status-text { margin-top: 12px; font-size: 0.85rem; color: #6c757d; }
 
+<<<<<<< HEAD
 .main-container { max-width: 100%; width: 100%; margin: 0; padding: 12px 20px 20px; display: flex; gap: 15px; }
+=======
+.main-container { max-width: 1600px; margin: 0 auto; padding: 12px 20px 20px; display: flex; gap: 15px; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 .content-col { flex: 1; min-width: 0; }
 
 .question-card { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 20px 25px; margin-bottom: 12px; }
@@ -456,10 +472,16 @@ body {
 }
 @media (max-width: 768px) {
     .merged-header { padding: 8px 0; }
+<<<<<<< HEAD
     .merged-header .container-fluid { padding: 0 12px; }
     .merged-header .uni-brand h1 { font-size: 0.9rem; }
     .merged-header .uni-brand i { font-size: 1.3rem; }
     .main-container { padding: 10px 10px 20px; }
+=======
+    .merged-header .uni-brand h1 { font-size: 0.9rem; }
+    .merged-header .uni-brand i { font-size: 1.3rem; }
+    .main-container { padding: 10px; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     .question-card { padding: 16px; }
     .sidebar-col { grid-template-columns: 1fr; }
     .palette-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
@@ -479,6 +501,7 @@ body {
 }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .spin { animation: spin 1s linear infinite; display: inline-block; }
+<<<<<<< HEAD
 .site-footer {
     position: fixed;
     left: 0;
@@ -491,6 +514,8 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 .powered-by-credit { text-align: center; margin: 0; color: #5c6370; font-size: 0.78rem; font-weight: 600; }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 </style>
 </head>
 <body>
@@ -500,6 +525,7 @@ body {
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between gap-3">
             <div class="uni-brand">
+<<<<<<< HEAD
                 <?php $examLogo = institution_logo_url(); ?>
                 <?php if ($examLogo !== ''): ?>
                     <img src="<?php echo e($examLogo); ?>" alt="">
@@ -509,6 +535,12 @@ body {
                 <div>
                     <h1><?php echo e(institution_name()); ?></h1>
                     <small>Composite Examination Portal &middot; Powered by Oxygen Cloud Tech</small>
+=======
+                <i class="bi bi-mortarboard-fill"></i>
+                <div>
+                    <h1>OXYGEN CBT SYSTEM</h1>
+                    <small>Composite Examination Portal</small>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
                 </div>
             </div>
             <div class="exam-info">
@@ -1190,8 +1222,11 @@ function escapeHtml(text) {
 
 document.addEventListener('DOMContentLoaded', initExam);
 </script>
+<<<<<<< HEAD
 <footer class="site-footer">
 <?php echo powered_by_credit(); ?>
 </footer>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 </body>
 </html>

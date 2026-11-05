@@ -220,6 +220,10 @@ require_once __DIR__ . '/../includes/student_header.php';
 }
 </style>
 
+<<<<<<< HEAD
+=======
+<div class="container py-4">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     <!-- Success Hero -->
     <div class="success-hero success-animation">
         <div class="checkmark-wrapper">
@@ -229,7 +233,11 @@ require_once __DIR__ . '/../includes/student_header.php';
             </svg>
         </div>
         
+<<<<<<< HEAD
         <h2>Exam Submitted Successfully!</h2>
+=======
+        <h2>Exam Submitted Successfully! 🎉</h2>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         <p class="subtext">
             Your exam has been submitted successfully. You can now return to your dashboard.
         </p>
@@ -298,4 +306,10 @@ require_once __DIR__ . '/../includes/student_header.php';
         </div>
     </div>
 
+<<<<<<< HEAD
+=======
+    
+</div>
+
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

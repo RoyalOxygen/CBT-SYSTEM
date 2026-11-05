@@ -607,7 +607,11 @@ require_once __DIR__ . '/../includes/student_header.php';
 }
 </style>
 
+<<<<<<< HEAD
 <div class="student-dashboard-inner">
+=======
+<div class="container">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     <!-- Alerts -->
     <?php if (empty($student['fingerprint_enrolled'])): ?>
     <div class="alert alert-warning d-flex align-items-center mb-4" style="border-left: 4px solid #f9ab00;">

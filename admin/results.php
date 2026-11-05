@@ -901,6 +901,12 @@ tr.composite-row:hover { background: #f7ecfc; }
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+<<<<<<< HEAD
+=======
+const APP_URL = '<?php echo APP_URL; ?>';
+const CSRF_TOKEN = '<?php echo generateCSRFToken(); ?>';
+
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 const regularExamsData = <?php echo json_encode($regularExams); ?>;
 const compositeExamsData = <?php echo json_encode($compositeExams); ?>;
 const grandTotal = <?php echo $grandTotal; ?>;

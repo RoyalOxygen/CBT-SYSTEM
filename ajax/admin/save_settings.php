@@ -38,6 +38,7 @@ try {
         setSetting('attendance_threshold', (string) $threshold, 'general');
     }
 
+<<<<<<< HEAD
     if (isset($_POST['groq_api_key'])) {
         setSetting('groq_api_key', trim((string) $_POST['groq_api_key']), 'general');
     }
@@ -63,6 +64,19 @@ try {
     }
 
 
+=======
+<<<<<<< HEAD
+    if (isset($_POST['gemini_api_key'])) {
+        setSetting('gemini_api_key', trim((string) $_POST['gemini_api_key']), 'general');
+    }
+    if (isset($_POST['gemini_model'])) {
+        $model = trim((string) $_POST['gemini_model']);
+        setSetting('gemini_model', $model !== '' ? $model : gemini_default_model(), 'general');
+    }
+
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     if (node_is_hub()) {
         if (isset($_POST['sams_url'])) {
             setSetting('sams_url', rtrim(sanitize($_POST['sams_url']), '/'), 'general');

@@ -24,7 +24,11 @@ $student = $studentStmt->fetch();
 require_once __DIR__ . '/../includes/student_header.php';
 ?>
 
+<<<<<<< HEAD
 <div class="student-dashboard-inner">
+=======
+<div class="container">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card border-0 shadow-sm">

@@ -14,9 +14,12 @@ $role = $_SESSION['admin_role'] ?? 'admin';
         <a href="<?php echo APP_URL; ?>/admin/dashboard.php" class="text-decoration-none">
             <h4 class="text-white mb-0"><i class="bi bi-laptop-fill me-2"></i>CBT Pro</h4>
         </a>
+<<<<<<< HEAD
         <button type="button" class="btn btn-link text-white d-lg-none sidebar-close p-0" id="sidebarClose" aria-label="Close menu">
             <i class="bi bi-x-lg fs-5"></i>
         </button>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     </div>
     
     <ul class="list-unstyled components">
@@ -31,6 +34,10 @@ $role = $_SESSION['admin_role'] ?? 'admin';
         <?php if ($role === 'super_admin' || $role === 'admin'): ?>
         <!-- Academic Section - Super Admin & Admin only -->
         <li class="sidebar-heading">Academic</li>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 
         <?php if ($role === 'super_admin'): ?>
         <li class="<?php echo $currentPage === 'faculties.php' ? 'active' : ''; ?>">
@@ -46,6 +53,11 @@ $role = $_SESSION['admin_role'] ?? 'admin';
             </a>
         </li>
         <?php endif; ?>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         
         <li class="<?php echo in_array($currentPage, ['students.php', 'bulk_upload.php']) ? 'active' : ''; ?>">
             <a href="<?php echo APP_URL; ?>/admin/students.php">

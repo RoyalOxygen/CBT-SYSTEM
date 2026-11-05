@@ -159,9 +159,15 @@ try {
     if ($isPdf) {
         exportPDF($allData, $examInfo, $resultType);
     } elseif ($isExcel) {
+<<<<<<< HEAD
         exportExcel($allData, $examInfo);
     } else {
         exportCSV($allData, $examInfo);
+=======
+        exportExcel($allData);
+    } else {
+        exportCSV($allData);
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     }
     
 } catch (PDOException $e) {
@@ -182,6 +188,7 @@ function buildFullName($row) {
     return trim($lastName . ' ' . $firstName . ($otherName ? ' ' . $otherName : ''));
 }
 
+<<<<<<< HEAD
 function exportInstitutionHeadingRows(?array $examInfo): array {
     $rows = [
         [institution_name()],
@@ -199,6 +206,12 @@ function exportInstitutionHeadingRows(?array $examInfo): array {
 // EXPORT EXCEL
 // =====================================================
 function exportExcel($data, $examInfo = null) {
+=======
+// =====================================================
+// EXPORT EXCEL
+// =====================================================
+function exportExcel($data) {
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     $headers = [
         'S/N', 'Full Name', 'Matric Number', 'Level', 'Exam Code',
         'Score', 'Grade', 'Remark'
@@ -228,9 +241,12 @@ function exportExcel($data, $examInfo = null) {
     
     $output = fopen('php://output', 'w');
     fwrite($output, "\xEF\xBB\xBF");
+<<<<<<< HEAD
     foreach (exportInstitutionHeadingRows($examInfo) as $heading) {
         fputcsv($output, $heading, "\t");
     }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     fputcsv($output, $headers, "\t");
     foreach ($rows as $r) fputcsv($output, $r, "\t");
     fclose($output);
@@ -240,7 +256,11 @@ function exportExcel($data, $examInfo = null) {
 // =====================================================
 // EXPORT CSV
 // =====================================================
+<<<<<<< HEAD
 function exportCSV($data, $examInfo = null) {
+=======
+function exportCSV($data) {
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     $headers = [
         'S/N', 'Full Name', 'Matric Number', 'Level', 'Exam Code',
         'Score', 'Grade', 'Remark'
@@ -270,9 +290,12 @@ function exportCSV($data, $examInfo = null) {
     
     $output = fopen('php://output', 'w');
     fwrite($output, "\xEF\xBB\xBF");
+<<<<<<< HEAD
     foreach (exportInstitutionHeadingRows($examInfo) as $heading) {
         fputcsv($output, $heading);
     }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
     fputcsv($output, $headers);
     foreach ($rows as $r) fputcsv($output, $r);
     fclose($output);
@@ -613,7 +636,11 @@ function exportPDF($data, $examInfo, $resultType) {
     
     <!-- Header -->
     <div class="pdf-header">
+<<<<<<< HEAD
         <div class="university-name"><?php echo e(institution_name()); ?></div>
+=======
+        <div class="university-name">TARABA STATE UNIVERSITY</div>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         <div class="report-title">Examination Results Report</div>
         <div class="report-subtitle">
             <?php echo e($typeLabel); ?>
@@ -711,7 +738,11 @@ function exportPDF($data, $examInfo, $resultType) {
     <!-- Footer -->
     <div class="pdf-footer">
         <div>
+<<<<<<< HEAD
             <strong><?php echo e(institution_name()); ?></strong> — CBT System
+=======
+            <strong>Taraba State University</strong> — CBT System
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         </div>
         <div class="page-info">
             Generated on <?php echo date('M d, Y'); ?> • <?php echo $totalStudents; ?> record(s)

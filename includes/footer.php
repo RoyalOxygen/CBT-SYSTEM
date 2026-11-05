@@ -1,4 +1,5 @@
 <?php if (!defined('CBT_SYSTEM')) die('Direct access not permitted'); ?>
+<<<<<<< HEAD
 <?php $isStudentPage = strpos((string) ($_SERVER['SCRIPT_NAME'] ?? ''), '/student/') !== false; ?>
         </div>
 <?php if ($isStudentPage): ?>
@@ -62,6 +63,19 @@
 window.APP_URL = window.APP_URL || '<?php echo APP_URL; ?>';
 window.CSRF_TOKEN_NAME = window.CSRF_TOKEN_NAME || '<?php echo CSRF_TOKEN_NAME; ?>';
 window.CSRF_TOKEN = window.CSRF_TOKEN || '<?php echo generateCSRFToken(); ?>';
+=======
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/jquery-3.7.1.min.js"></script>
+<script>
+// Global variables
+const APP_URL = '<?php echo APP_URL; ?>';
+const CSRF_TOKEN_NAME = '<?php echo CSRF_TOKEN_NAME; ?>';
+const CSRF_TOKEN = '<?php echo generateCSRFToken(); ?>';
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
 
 // Toast notification
 function showToast(message, type = 'success') {
@@ -70,7 +84,11 @@ function showToast(message, type = 'success') {
         const container = document.createElement('div');
         container.id = 'toast-container';
         container.style.position = 'fixed';
+<<<<<<< HEAD
         container.style.bottom = document.querySelector('.site-footer') ? '72px' : '20px';
+=======
+        container.style.bottom = '20px';
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
         container.style.right = '20px';
         container.style.zIndex = '9999';
         document.body.appendChild(container);
