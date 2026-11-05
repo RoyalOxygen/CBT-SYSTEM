@@ -21,6 +21,7 @@ $student = $stmt->fetch();
 // Check for just submitted exam
 $justSubmittedExamId = isset($_GET['submitted']) ? intval($_GET['submitted']) : 0; 
 $submittedExam = null;
+<<<<<<< HEAD
 $submitReason = exam_normalize_submit_reason($_GET['reason'] ?? 'manual');
 $submitMeta = exam_submit_reason_meta($submitReason);
 
@@ -35,6 +36,17 @@ if ($justSubmittedExamId) {
     if ($submittedExam) {
         $submitMeta = exam_submit_reason_meta($submittedExam['submission_method'] ?: $submitReason);
     }
+=======
+
+if ($justSubmittedExamId) {
+    $examStmt = $db->prepare("SELECT e.*, ea.id as attempt_id, ea.score, ea.percentage, ea.total_questions, ea.answered_count, ea.correct_count, ea.status
+                              FROM exams e 
+                              JOIN exam_attempts ea ON ea.exam_id = e.id 
+                              WHERE e.id = ? AND ea.student_id = ? AND ea.status IN ('submitted', 'auto_submitted')
+                              ORDER BY ea.id DESC LIMIT 1");
+    $examStmt->execute([$justSubmittedExamId, $studentId]);
+    $submittedExam = $examStmt->fetch();
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 }
 
 require_once __DIR__ . '/../includes/student_header.php';
@@ -225,6 +237,13 @@ require_once __DIR__ . '/../includes/student_header.php';
 }
 </style>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<div class="container py-4">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <!-- Success Hero -->
     <div class="success-hero success-animation">
         <div class="checkmark-wrapper">
@@ -234,9 +253,19 @@ require_once __DIR__ . '/../includes/student_header.php';
             </svg>
         </div>
         
+<<<<<<< HEAD
         <h2><?php echo e($submitMeta['title']); ?></h2>
         <p class="subtext">
             <?php echo e($submitMeta['message']); ?>
+=======
+<<<<<<< HEAD
+        <h2>Exam Submitted Successfully!</h2>
+=======
+        <h2>Exam Submitted Successfully! 🎉</h2>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+        <p class="subtext">
+            Your exam has been submitted successfully. You can now return to your dashboard.
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         </p>
         
         <?php if ($submittedExam): ?>
@@ -249,7 +278,11 @@ require_once __DIR__ . '/../includes/student_header.php';
                 <div class="col-sm-4">
                     <div class="label">Status</div>
                     <div class="value">
+<<<<<<< HEAD
                         <span class="badge <?php echo $submitMeta['method'] === 'manual' ? 'bg-success' : 'bg-warning text-dark'; ?>"><?php echo e($submitMeta['label']); ?></span>
+=======
+                        <span class="badge bg-success"><?php echo ucfirst(str_replace('_', ' ', $submittedExam['status'] ?? 'Submitted')); ?></span>
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -303,4 +336,13 @@ require_once __DIR__ . '/../includes/student_header.php';
         </div>
     </div>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    
+</div>
+
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

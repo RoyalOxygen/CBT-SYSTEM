@@ -520,7 +520,11 @@ require_once __DIR__ . '/../includes/header.php';
                             <div class="mt-2">
                                 <small class="text-muted">
                                     <i class="bi bi-info-circle"></i> 
+<<<<<<< HEAD
                                     <?php echo e(exam_submission_label($result['attempt_status'] ?? null, $result['submission_method'])['text']); ?>
+=======
+                                    <?php echo $result['submission_method'] === 'manual' ? 'Manually submitted' : 'Auto-submitted'; ?>
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                                 </small>
                             </div>
                         <?php endif; ?>

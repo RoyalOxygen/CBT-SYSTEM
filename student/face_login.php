@@ -23,16 +23,35 @@ $prefillMatric = $_GET['matric'] ?? ($_COOKIE['cbt_remembered_matric'] ?? '');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Face Login - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title>Face Login - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+    <title>Face Login - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <style>
         :root { --tsu-indigo: #6366f1; --tsu-indigo-dark: #4f46e5; --tsu-navy: #1e2749; }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         html, body { min-height: 100%; }
         body { background: #f4f5f7; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .login-wrap { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; width: 100%; padding: 24px 12px 72px; }
         .site-footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1030; width: 100%; margin: 0; background: #f4f5f7; border: 0; padding: 12px; }
+<<<<<<< HEAD
+=======
+=======
+        body { background: #f4f5f7; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         .login-card { background: white; border-radius: 16px; border-top: 4px solid var(--tsu-indigo); box-shadow: 0 10px 35px rgba(30, 39, 73, 0.08); width: 100%; max-width: 420px; overflow: hidden; }
         .login-header { padding: 28px 28px 12px; text-align: center; }
         .login-header h3 { margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--tsu-navy); }
@@ -43,6 +62,10 @@ $prefillMatric = $_GET['matric'] ?? ($_COOKIE['cbt_remembered_matric'] ?? '');
         .btn-login { background: var(--tsu-indigo); border: none; border-radius: 8px; padding: 13px; font-weight: 600; color: #fff; }
         .btn-login:hover { background: var(--tsu-indigo-dark); color: #fff; }
         .form-label { font-size: 0.85rem; font-weight: 700; color: var(--tsu-indigo-dark); }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         .powered-by-credit { text-align: center; margin: 0; color: #6c757d; font-size: 0.78rem; font-weight: 600; }
     </style>
 </head>
@@ -55,6 +78,18 @@ $prefillMatric = $_GET['matric'] ?? ($_COOKIE['cbt_remembered_matric'] ?? '');
             <img src="<?php echo e($faceLogo); ?>" alt="<?php echo e(institution_name()); ?>" style="width:72px;height:72px;object-fit:contain;margin-bottom:10px;">
             <?php endif; ?>
             <h3><?php echo e(institution_name()); ?><br>Face verification</h3>
+<<<<<<< HEAD
+=======
+=======
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-header">
+            <img src="../assets/logo.png" alt="<?php echo e(APP_NAME); ?>" style="width:72px;height:72px;object-fit:contain;margin-bottom:10px;">
+            <h3>Face verification</h3>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
             <p class="text-muted small mb-0">Look at the camera. Matric number is optional when 1:N match succeeds.</p>
         </div>
         <div class="login-body">
@@ -70,10 +105,19 @@ $prefillMatric = $_GET['matric'] ?? ($_COOKIE['cbt_remembered_matric'] ?? '');
             <button id="verifyBtn" class="btn btn-login w-100 mb-3" disabled>Verify face and continue</button>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     </div>
     <footer class="site-footer">
         <?php echo powered_by_credit(); ?>
     </footer>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <script src="../assets/js/face.js"></script>
     <script>
     (async function () {

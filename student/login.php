@@ -145,8 +145,17 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Student Login - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title>Student Login - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+    <title>Student Login - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <style>
@@ -155,16 +164,34 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
             --tsu-indigo-dark: #4f46e5;
             --tsu-navy: #1e2749;
         }
+<<<<<<< HEAD
         html, body { height: 100%; }
+=======
+<<<<<<< HEAD
+        html, body { height: 100%; }
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         body {
             background: #f4f5f7;
             min-height: 100vh;
             display: flex;
+<<<<<<< HEAD
             flex-direction: column;
+=======
+<<<<<<< HEAD
+            flex-direction: column;
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         .login-wrap {
             flex: 1 0 auto;
             display: flex;
@@ -185,6 +212,11 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
             border: 0;
             padding: 12px;
         }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         .login-card {
             background: white;
             border-radius: 16px;
@@ -264,6 +296,10 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
             color: #6c757d;
             font-size: 0.82rem;
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         .powered-by-credit {
             text-align: center;
             margin: 0;
@@ -272,6 +308,11 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
             font-weight: 600;
             letter-spacing: 0.2px;
         }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         @media (max-width: 576px) {
             .login-header {
                 padding: 25px 20px 15px;
@@ -284,6 +325,10 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
     </style>
 </head>
 <body>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <div class="login-wrap">
     <div class="login-card">
         <div class="login-header">
@@ -293,6 +338,16 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
                  alt="<?php echo e(institution_name()); ?> Logo" class="login-logo">
             <?php endif; ?>
             <h3><?php echo e(institution_name()); ?><br>CBT EXAMS LOGIN</h3>
+<<<<<<< HEAD
+=======
+=======
+    <div class="login-card">
+        <div class="login-header">
+            <img src="../assets/logo.png"
+                 alt="<?php echo e(APP_NAME); ?> Logo" class="login-logo">
+            <h3>TARABA STATE UNIVERSITY CBT<br>EXAMS LOGIN</h3>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         </div>
         <div class="login-body">
             <?php if ($error): ?>
@@ -341,10 +396,19 @@ $rememberChecked = isset($_POST['remember_me']) || !empty($_COOKIE[REMEMBER_MATR
             </form>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     </div>
     <footer class="site-footer">
         <?php echo powered_by_credit(); ?>
     </footer>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script>

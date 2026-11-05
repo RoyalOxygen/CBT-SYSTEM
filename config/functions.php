@@ -185,6 +185,10 @@ function optionalId($value): ?int {
     return $n > 0 ? $n : null;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 function splitStudentName(string $fullName): array {
     $fullName = trim(preg_replace('/\s+/', ' ', $fullName) ?? $fullName);
     if ($fullName === '') {
@@ -206,6 +210,11 @@ function splitStudentName(string $fullName): array {
     ];
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 function studentDisplayName($lastName, $firstName, $otherName = null, string $empty = 'Unnamed'): string {
     $last = trim((string) ($lastName ?? ''));
     $first = trim((string) ($firstName ?? ''));
@@ -397,8 +406,12 @@ function getAttemptStatusBadge(string $status): string {
         'in_progress' => '<span class="badge bg-primary">In Progress</span>',
         'submitted' => '<span class="badge bg-success">Submitted</span>',
         'auto_submitted' => '<span class="badge bg-warning text-dark">Auto-Submitted</span>',
+<<<<<<< HEAD
         'timed_out' => '<span class="badge bg-danger">Time Up</span>',
         'tab_switch' => '<span class="badge bg-danger">Tab Switch</span>',
+=======
+        'timed_out' => '<span class="badge bg-danger">Timed Out</span>',
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         'reset' => '<span class="badge bg-secondary">Reset</span>',
     ];
     return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
@@ -591,6 +604,7 @@ function setSetting(string $key, string $value, string $group = 'general'): void
     }
 }
 
+<<<<<<< HEAD
 function exam_ensure_attempt_schema(PDO $db): void {
     static $done = false;
     if ($done) {
@@ -683,6 +697,9 @@ function exam_submission_label(?string $status, ?string $method = null): array {
     return ['text' => 'Submitted', 'icon' => 'bi-check-circle', 'class' => 'submitted'];
 }
 
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 function institution_name(): string {
     $name = trim((string) getSetting('institution_name', ''));
     return $name !== '' ? $name : (defined('APP_NAME') ? APP_NAME : 'CBT System');
@@ -718,6 +735,11 @@ function powered_by_credit(string $extraClass = ''): string {
     return '<p class="' . e($class) . '">Powered by Oxygen Cloud Tech</p>';
 }
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 /**
  * Display toast notification
  */
@@ -751,15 +773,42 @@ function getFlashMessage(): array {
 // leaf can still reach the hub and receive the "unsuspend" policy.
 require_once __DIR__ . '/sync.php';
 require_once __DIR__ . '/face.php';
+<<<<<<< HEAD
 require_once __DIR__ . '/academic.php';
 require_once __DIR__ . '/sams.php';
 require_once __DIR__ . '/groq.php';
+=======
+<<<<<<< HEAD
+require_once __DIR__ . '/academic.php';
+require_once __DIR__ . '/sams.php';
+require_once __DIR__ . '/groq.php';
+=======
+<<<<<<< HEAD
+require_once __DIR__ . '/academic.php';
+require_once __DIR__ . '/sams.php';
+require_once __DIR__ . '/gemini.php';
+=======
+require_once __DIR__ . '/sams.php';
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 require_once __DIR__ . '/restrictions.php';
 
 try {
     if (function_exists('getDB')) {
+<<<<<<< HEAD
         academic_ensure_schema(getDB());
         exam_ensure_attempt_schema(getDB());
+=======
+<<<<<<< HEAD
+        academic_ensure_schema(getDB());
+=======
+<<<<<<< HEAD
+        academic_ensure_schema(getDB());
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         sams_ensure_schema(getDB());
         sams_register_background();
     }

@@ -16,8 +16,17 @@ $pageTitle = $pageTitle ?? 'Exam';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
+<<<<<<< HEAD
     <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+    <title><?php echo e($pageTitle); ?> - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <style>
@@ -299,7 +308,10 @@ $pageTitle = $pageTitle ?? 'Exam';
         // Global variables
         const APP_URL = '<?php echo APP_URL; ?>';
         const CSRF_TOKEN = '<?php echo generateCSRFToken(); ?>';
+<<<<<<< HEAD
         const TAB_SWITCH_TERMINATION_ENABLED = <?php echo exam_tab_switch_termination_enabled() ? 'true' : 'false'; ?>;
+=======
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         
         // Toast notification function
         function showToast(message, type = 'success') {
@@ -412,6 +424,7 @@ $pageTitle = $pageTitle ?? 'Exam';
         // made may not be saved." dialog when leaving/submitting.
         // =====================================================
         
+<<<<<<< HEAD
         let tabSwitchHandled = false;
         document.addEventListener('visibilitychange', function() {
             if (!TAB_SWITCH_TERMINATION_ENABLED || tabSwitchHandled) {
@@ -421,6 +434,21 @@ $pageTitle = $pageTitle ?? 'Exam';
                 tabSwitchHandled = true;
                 showToast('Tab switch detected. Your exam is being terminated.', 'warning');
                 forceAutoSubmit('tab_switch');
+=======
+        // Track tab visibility
+        let tabWarnings = 0;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && typeof examPageInProgress !== 'undefined' && examPageInProgress) {
+                tabWarnings++;
+                if (tabWarnings >= 3) {
+                    showToast('Multiple tab switches detected. Your exam will be submitted.', 'warning');
+                    if (typeof forceAutoSubmit === 'function') {
+                        setTimeout(forceAutoSubmit, 2000);
+                    }
+                } else {
+                    showToast(`Warning ${tabWarnings}/3: Switching tabs is not allowed during the exam!`, 'warning');
+                }
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
             }
         });
         

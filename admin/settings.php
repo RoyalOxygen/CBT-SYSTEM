@@ -31,7 +31,15 @@ require_once __DIR__ . '/../includes/header.php';
                 <h5 class="mb-0"><i class="bi bi-gear-fill me-2"></i>System Settings</h5>
             </div>
             <div class="card-body">
+<<<<<<< HEAD
                 <form id="settingsForm" enctype="multipart/form-data">
+=======
+<<<<<<< HEAD
+                <form id="settingsForm" enctype="multipart/form-data">
+=======
+                <form id="settingsForm">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                     <?php echo csrfField(); ?>
                     
                     <h6 class="text-muted mb-3">General Settings</h6>
@@ -39,7 +47,14 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="col-md-6">
                             <label class="form-label">Institution Name</label>
                             <input type="text" name="institution_name" class="form-control" value="<?php echo e($settings['institution_name'] ?? ''); ?>">
+<<<<<<< HEAD
                             <div class="form-text">Shown on student login, face login, and student headers.</div>
+=======
+<<<<<<< HEAD
+                            <div class="form-text">Shown on student login, face login, and student headers.</div>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Timezone</label>
@@ -49,6 +64,10 @@ require_once __DIR__ . '/../includes/header.php';
                                 <option value="Europe/London" <?php echo ($settings['timezone'] ?? '') === 'Europe/London' ? 'selected' : ''; ?>>Europe/London</option>
                             </select>
                         </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                         <div class="col-md-6">
                             <label class="form-label">Institution Logo</label>
                             <input type="file" name="institution_logo" class="form-control" accept="image/png,image/jpeg,image/gif,image/webp">
@@ -63,6 +82,11 @@ require_once __DIR__ . '/../includes/header.php';
                                 </div>
                             <?php endif; ?>
                         </div>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                     </div>
                     
                     <h6 class="text-muted mb-3">Exam Defaults</h6>
@@ -93,6 +117,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <label class="form-check-label" for="maintMode">Maintenance Mode</label>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="tab_switch_termination" value="1" id="tabSwitchTermination" <?php echo ($settings['tab_switch_termination'] ?? '1') == '1' ? 'checked' : ''; ?>>
@@ -100,6 +125,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
                             <div class="form-text">When enabled, leaving or hiding the exam tab immediately ends the exam and records it as a tab-switch termination. Time-up and manual submit are recorded separately.</div>
                         </div>
+=======
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                     </div>
                     
                     <h6 class="text-muted mb-3">Biometric Settings</h6>
@@ -156,6 +183,10 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                     <h6 class="text-muted mb-3">Groq question import</h6>
                     <p class="small text-muted">Used to extract multiple-choice questions from PDF, Word, and Excel uploads. Get a key from <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a>.</p>
                     <div class="row g-3 mb-4">
@@ -170,6 +201,27 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
 
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+                    <h6 class="text-muted mb-3">Gemini question import</h6>
+                    <p class="small text-muted">Used to extract multiple-choice questions from PDF, Word, and Excel uploads. Get a key from Google AI Studio.</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label class="form-label">Gemini API key</label>
+                            <input type="password" name="gemini_api_key" class="form-control" autocomplete="off" value="<?php echo e($settings['gemini_api_key'] ?? ''); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Model</label>
+                            <input type="text" name="gemini_model" class="form-control" value="<?php echo e($settings['gemini_model'] ?? 'gemini-3.8-flash'); ?>" placeholder="gemini-3.8-flash">
+                        </div>
+                    </div>
+
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                     <?php if (node_is_hub()): ?>
                     <h6 class="text-muted mb-3">Attendance (SAMS) sync</h6>
                     <p class="small text-muted">The online hub pulls students, passport photos and ArcFace templates from TSU-SAMS. Offline halls receive the same records through CBT hub/leaf sync.</p>

@@ -58,12 +58,19 @@ try {
         SELECT ea.*, e.exam_code, e.exam_title, e.duration,
                r.score as result_score, r.percentage as result_percentage, r.grade as result_grade, 
                r.remark as result_remark, r.published,
+<<<<<<< HEAD
                    CASE 
                    WHEN ea.submission_method = 'tab_switch' OR ea.status = 'tab_switch' THEN 'Terminated (tab switch)'
                    WHEN ea.submission_method = 'timed_out' OR ea.status = 'timed_out' THEN 'Time up'
                    WHEN ea.submission_method = 'admin' THEN 'Submitted by admin'
                    WHEN ea.status = 'submitted' THEN 'Submitted'
                    WHEN ea.status = 'auto_submitted' THEN 'Auto-Submitted'
+=======
+               CASE 
+                   WHEN ea.status = 'submitted' THEN 'Submitted'
+                   WHEN ea.status = 'auto_submitted' THEN 'Auto-Submitted'
+                   WHEN ea.status = 'timed_out' THEN 'Timed Out'
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                    ELSE ea.status
                END as attempt_status_label
         FROM exam_attempts ea
@@ -79,12 +86,19 @@ try {
     $pendingStmt = $db->prepare("
         SELECT ea.*, e.exam_code, e.exam_title, e.duration,
                r.id as result_id, r.published,
+<<<<<<< HEAD
                    CASE 
                    WHEN ea.submission_method = 'tab_switch' OR ea.status = 'tab_switch' THEN 'Terminated (tab switch)'
                    WHEN ea.submission_method = 'timed_out' OR ea.status = 'timed_out' THEN 'Time up'
                    WHEN ea.submission_method = 'admin' THEN 'Submitted by admin'
                    WHEN ea.status = 'submitted' THEN 'Submitted'
                    WHEN ea.status = 'auto_submitted' THEN 'Auto-Submitted'
+=======
+               CASE 
+                   WHEN ea.status = 'submitted' THEN 'Submitted'
+                   WHEN ea.status = 'auto_submitted' THEN 'Auto-Submitted'
+                   WHEN ea.status = 'timed_out' THEN 'Timed Out'
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                    ELSE ea.status
                END as attempt_status_label
         FROM exam_attempts ea

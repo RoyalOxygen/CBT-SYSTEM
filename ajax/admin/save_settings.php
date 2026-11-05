@@ -24,7 +24,10 @@ try {
     
     // Checkboxes
     setSetting('maintenance_mode', !empty($_POST['maintenance_mode']) ? '1' : '0', 'general');
+<<<<<<< HEAD
     setSetting('tab_switch_termination', !empty($_POST['tab_switch_termination']) ? '1' : '0', 'general');
+=======
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     setSetting('biometric_enabled', !empty($_POST['biometric_enabled']) ? '1' : '0', 'general');
     setSetting('face_login_enabled', !empty($_POST['face_login_enabled']) ? '1' : '0', 'general');
     setSetting('attendance_check_enabled', !empty($_POST['attendance_check_enabled']) ? '1' : '0', 'general');
@@ -39,6 +42,10 @@ try {
         setSetting('attendance_threshold', (string) $threshold, 'general');
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     if (isset($_POST['groq_api_key'])) {
         setSetting('groq_api_key', trim((string) $_POST['groq_api_key']), 'general');
     }
@@ -64,6 +71,22 @@ try {
     }
 
 
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+    if (isset($_POST['gemini_api_key'])) {
+        setSetting('gemini_api_key', trim((string) $_POST['gemini_api_key']), 'general');
+    }
+    if (isset($_POST['gemini_model'])) {
+        $model = trim((string) $_POST['gemini_model']);
+        setSetting('gemini_model', $model !== '' ? $model : gemini_default_model(), 'general');
+    }
+
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     if (node_is_hub()) {
         if (isset($_POST['sams_url'])) {
             setSetting('sams_url', rtrim(sanitize($_POST['sams_url']), '/'), 'general');

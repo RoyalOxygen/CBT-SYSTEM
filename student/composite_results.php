@@ -23,7 +23,15 @@ if ($submittedExamId) {
 require_once __DIR__ . '/../includes/student_header.php';
 ?>
 
+<<<<<<< HEAD
 <div class="py-4">
+=======
+<<<<<<< HEAD
+<div class="py-4">
+=======
+<div class="container py-5">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card border-0 shadow-lg text-center" style="border-radius: 20px; overflow: hidden;">

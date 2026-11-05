@@ -607,7 +607,15 @@ require_once __DIR__ . '/../includes/student_header.php';
 }
 </style>
 
+<<<<<<< HEAD
 <div class="student-dashboard-inner">
+=======
+<<<<<<< HEAD
+<div class="student-dashboard-inner">
+=======
+<div class="container">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
     <!-- Alerts -->
     <?php if (empty($student['fingerprint_enrolled'])): ?>
     <div class="alert alert-warning d-flex align-items-center mb-4" style="border-left: 4px solid #f9ab00;">
@@ -698,9 +706,22 @@ require_once __DIR__ . '/../includes/student_header.php';
                     $isBatchExam = (!$isComposite && !empty($exam['batch_id']));
                     
                     if ($hasAttempt && $attemptStatus && $attemptStatus !== 'in_progress') {
+<<<<<<< HEAD
                         $attemptLabel = exam_submission_label($attemptStatus, $submissionMethod);
                         $statusClass = $attemptLabel['class'] === 'expired' ? 'submitted' : $attemptLabel['class'];
                         $statusLabel = '<span class="exam-status-badge ' . e($attemptLabel['class']) . '"><i class="bi ' . e($attemptLabel['icon']) . ' me-1"></i>' . e($attemptLabel['text']) . '</span>';
+=======
+                        if ($attemptStatus === 'submitted') {
+                            $statusClass = 'submitted';
+                            $statusLabel = '<span class="exam-status-badge submitted"><i class="bi bi-check-circle me-1"></i>Submitted</span>';
+                        } elseif ($attemptStatus === 'auto_submitted') {
+                            $statusClass = 'submitted';
+                            $statusLabel = '<span class="exam-status-badge submitted"><i class="bi bi-clock-history me-1"></i>Auto-Submitted</span>';
+                        } elseif ($attemptStatus === 'timed_out') {
+                            $statusClass = 'submitted';
+                            $statusLabel = '<span class="exam-status-badge expired"><i class="bi bi-hourglass-end me-1"></i>Timed Out</span>';
+                        }
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                         $canStart = false;
                         $statusMessage = 'You have already taken this exam.';
                     } else {
@@ -902,9 +923,25 @@ require_once __DIR__ . '/../includes/student_header.php';
             <?php foreach ($allPending as $submitted): 
                 $isComposite = ($submitted['exam_type'] === 'composite');
                 
+<<<<<<< HEAD
                 $pendingLabel = exam_submission_label($submitted['status'] ?? null, $submitted['submission_method'] ?? null);
                 $statusIcon = $pendingLabel['icon'];
                 $statusText = $pendingLabel['text'];
+=======
+                $statusIcon = '';
+                $statusText = '';
+                
+                if ($submitted['status'] === 'submitted') {
+                    $statusIcon = 'bi-check-circle';
+                    $statusText = 'Submitted';
+                } elseif ($submitted['status'] === 'auto_submitted') {
+                    $statusIcon = 'bi-clock-history';
+                    $statusText = 'Auto-Submitted';
+                } else {
+                    $statusIcon = 'bi-hourglass-end';
+                    $statusText = 'Timed Out';
+                }
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
             ?>
             <div class="exam-list-item pending fade-in">
                 <!-- Icon -->
@@ -937,7 +974,11 @@ require_once __DIR__ . '/../includes/student_header.php';
                         <?php if (!empty($submitted['submission_method'])): ?>
                             <span class="meta-item">
                                 <i class="bi bi-info-circle"></i> 
+<<<<<<< HEAD
                                 <?php echo e(exam_submission_label($submitted['status'] ?? null, $submitted['submission_method'])['text']); ?>
+=======
+                                <?php echo $submitted['submission_method'] === 'manual' ? 'Manual Submission' : 'Auto Submission'; ?>
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
                             </span>
                         <?php endif; ?>
                     </div>

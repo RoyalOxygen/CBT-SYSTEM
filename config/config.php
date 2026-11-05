@@ -46,9 +46,25 @@ define('LOGIN_LOCKOUT_TIME', 900); // 15 minutes
 
 // Upload constants
 define('MAX_UPLOAD_SIZE', 5242880); // 5MB
+<<<<<<< HEAD
 define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Groq question import
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
 define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+<<<<<<< HEAD
+define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Groq question import
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+<<<<<<< HEAD
+define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Gemini question import
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 
 // Pagination
 define('DEFAULT_PAGE_SIZE', 20);

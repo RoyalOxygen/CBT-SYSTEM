@@ -240,7 +240,11 @@ CREATE TABLE IF NOT EXISTS `exam_attempts` (
   `status` enum('in_progress','submitted','auto_submitted','timed_out','reset') NOT NULL DEFAULT 'in_progress',
   `ip_address` varchar(45) DEFAULT NULL,
   `browser_info` varchar(255) DEFAULT NULL,
+<<<<<<< HEAD
   `submission_method` enum('manual','auto','timed_out','tab_switch','admin') DEFAULT NULL,
+=======
+  `submission_method` enum('manual','auto','admin') DEFAULT NULL,
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
   `original_duration` int(4) DEFAULT NULL,
   `time_extension_minutes` int(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

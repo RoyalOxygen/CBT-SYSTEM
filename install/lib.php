@@ -257,7 +257,10 @@ function install_seed(PDO $db, array $opts): void {
         'session_timeout' => '30',
         'biometric_threshold' => '90',
         'maintenance_mode' => '0',
+<<<<<<< HEAD
         'tab_switch_termination' => '1',
+=======
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
         'biometric_enabled' => '0',
         'face_api_url' => 'http://127.0.0.1:9000',
         'face_timeout' => '60',
