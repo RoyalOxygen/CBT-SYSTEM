@@ -18,6 +18,7 @@ try {
     if (empty($_POST['question_text']) || empty($_POST['option_a']) || empty($_POST['option_b']) || empty($_POST['correct_answer'])) {
         jsonResponse(false, 'Question text, options A & B, and correct answer are required');
     }
+<<<<<<< HEAD
 
     $correctAnswer = strtoupper(trim((string) $_POST['correct_answer']));
     if (!in_array($correctAnswer, ['A', 'B', 'C', 'D', 'E'], true)) {
@@ -41,6 +42,14 @@ try {
             jsonResponse(false, 'Image upload failed: ' . $upload['error']);
         }
         $imagePath = $upload['path'];
+=======
+    
+    // Handle image upload
+    $imagePath = null;
+    if (!empty($_FILES['question_image']) && $_FILES['question_image']['size'] > 0) {
+        $upload = uploadFile($_FILES['question_image'], QUESTION_IMAGE_PATH);
+        if ($upload['success']) $imagePath = $upload['path'];
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
     }
     
     // Get max order
@@ -54,6 +63,7 @@ try {
     
     $stmt->execute([
         $examId,
+<<<<<<< HEAD
         trim((string) $_POST['question_text']),
         $imagePath,
         trim((string) $_POST['option_a']),
@@ -62,6 +72,16 @@ try {
         $optionD !== '' ? $optionD : null,
         $optionE !== '' ? $optionE : null,
         $correctAnswer,
+=======
+        $_POST['question_text'],
+        $imagePath,
+        $_POST['option_a'],
+        $_POST['option_b'],
+        $_POST['option_c'] ?? null,
+        $_POST['option_d'] ?? null,
+        $_POST['option_e'] ?? null,
+        $_POST['correct_answer'],
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
         floatval($_POST['marks'] ?? 1),
         $maxOrder + 1
     ]);

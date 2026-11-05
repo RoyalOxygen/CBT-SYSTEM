@@ -602,14 +602,21 @@ function getFlashMessage(): array {
 // leaf can still reach the hub and receive the "unsuspend" policy.
 require_once __DIR__ . '/sync.php';
 require_once __DIR__ . '/face.php';
+<<<<<<< HEAD
 require_once __DIR__ . '/academic.php';
 require_once __DIR__ . '/sams.php';
 require_once __DIR__ . '/gemini.php';
+=======
+require_once __DIR__ . '/sams.php';
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 require_once __DIR__ . '/restrictions.php';
 
 try {
     if (function_exists('getDB')) {
+<<<<<<< HEAD
         academic_ensure_schema(getDB());
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
         sams_ensure_schema(getDB());
         sams_register_background();
     }

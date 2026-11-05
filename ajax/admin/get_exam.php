@@ -2,20 +2,35 @@
 define('CBT_SYSTEM', true);
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../../config/functions.php';
+<<<<<<< HEAD
 node_require('exam_edit');
 header('Content-Type: application/json');
 
 if (!isAdminLoggedIn()) {
+=======
+
+// Set error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+header('Content-Type: application/json');
+
+// Ensure user is admin
+if (!isset($_SESSION['admin_id']) || !$_SESSION['admin_id']) {
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
     echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
     exit;
 }
 
+<<<<<<< HEAD
 $csrf = $_GET[CSRF_TOKEN_NAME] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
 if (!validateCSRFToken($csrf)) {
     echo json_encode(['success' => false, 'message' => 'Invalid token']);
     exit;
 }
 
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 $exam_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($exam_id <= 0) {

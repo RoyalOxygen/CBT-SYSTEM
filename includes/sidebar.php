@@ -28,6 +28,7 @@ $role = $_SESSION['admin_role'] ?? 'admin';
         <?php if ($role === 'super_admin' || $role === 'admin'): ?>
         <!-- Academic Section - Super Admin & Admin only -->
         <li class="sidebar-heading">Academic</li>
+<<<<<<< HEAD
 
         <?php if ($role === 'super_admin'): ?>
         <li class="<?php echo $currentPage === 'faculties.php' ? 'active' : ''; ?>">
@@ -43,6 +44,8 @@ $role = $_SESSION['admin_role'] ?? 'admin';
             </a>
         </li>
         <?php endif; ?>
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
         
         <li class="<?php echo in_array($currentPage, ['students.php', 'bulk_upload.php']) ? 'active' : ''; ?>">
             <a href="<?php echo APP_URL; ?>/admin/students.php">

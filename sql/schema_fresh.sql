@@ -157,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `composite_sub_questions` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS `faculties` (
   `id` int(11) UNSIGNED NOT NULL,
   `faculty_code` varchar(20) NOT NULL,
@@ -166,11 +167,16 @@ CREATE TABLE IF NOT EXISTS `faculties` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 CREATE TABLE IF NOT EXISTS `departments` (
   `id` int(11) UNSIGNED NOT NULL,
   `dept_code` varchar(20) NOT NULL,
   `dept_name` varchar(100) NOT NULL,
+<<<<<<< HEAD
   `faculty_id` int(11) UNSIGNED DEFAULT NULL,
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
   `faculty` varchar(100) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -458,6 +464,7 @@ ALTER TABLE `composite_sub_questions` ADD PRIMARY KEY (`id`),
   ADD KEY `idx_composite_question` (`composite_question_id`),
   ADD KEY `idx_sub_order` (`sub_order`);
 
+<<<<<<< HEAD
 ALTER TABLE `faculties` ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_faculty_code` (`faculty_code`),
   ADD KEY `idx_faculty_status` (`status`);
@@ -466,6 +473,11 @@ ALTER TABLE `departments` ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_dept_code` (`dept_code`),
   ADD KEY `idx_status` (`status`),
   ADD KEY `idx_faculty` (`faculty_id`);
+=======
+ALTER TABLE `departments` ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uk_dept_code` (`dept_code`),
+  ADD KEY `idx_status` (`status`);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 
 ALTER TABLE `exams` ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uk_exam_code` (`exam_code`),
@@ -545,8 +557,11 @@ ALTER TABLE `composite_sub_options` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_I
 
 ALTER TABLE `composite_sub_questions` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+<<<<<<< HEAD
 ALTER TABLE `faculties` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 ALTER TABLE `departments` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `exams` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;

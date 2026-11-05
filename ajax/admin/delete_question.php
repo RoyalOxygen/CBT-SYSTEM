@@ -6,7 +6,10 @@ node_require('question_edit');
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') jsonResponse(false, 'Invalid method');
+<<<<<<< HEAD
 if (!validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? ''))) jsonResponse(false, 'Invalid token');
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 if (!isAdminLoggedIn()) jsonResponse(false, 'Not authenticated');
 
 try {

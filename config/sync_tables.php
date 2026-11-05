@@ -16,6 +16,7 @@ return [
     'settings' => [
         'priority' => 5,
         'natural_key' => ['setting_key'],
+<<<<<<< HEAD
         'local_keys' => ['face_api_url', 'face_timeout', 'sams_url', 'sams_sync_token', 'sams_sync_enabled', 'gemini_api_key', 'gemini_model'],
     ],
 
@@ -26,6 +27,12 @@ return [
             'faculty_id' => 'faculties',
         ],
     ],
+=======
+        'local_keys' => ['face_api_url', 'face_timeout', 'sams_url', 'sams_sync_token', 'sams_sync_enabled'],
+    ],
+
+    'departments' => ['priority' => 10],
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
     'levels' => ['priority' => 10],
     'semesters' => ['priority' => 10],
     'sessions' => ['priority' => 10],

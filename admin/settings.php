@@ -134,6 +134,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
+<<<<<<< HEAD
                     <h6 class="text-muted mb-3">Gemini question import</h6>
                     <p class="small text-muted">Used to extract multiple-choice questions from PDF, Word, and Excel uploads. Get a key from Google AI Studio.</p>
                     <div class="row g-3 mb-4">
@@ -147,6 +148,8 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
                     <?php if (node_is_hub()): ?>
                     <h6 class="text-muted mb-3">Attendance (SAMS) sync</h6>
                     <p class="small text-muted">The online hub pulls students, passport photos and ArcFace templates from TSU-SAMS. Offline halls receive the same records through CBT hub/leaf sync.</p>

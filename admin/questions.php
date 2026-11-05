@@ -36,7 +36,11 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="mb-0">Questions</h4>
     <div>
+<<<<<<< HEAD
         <a href="?<?php echo $examId ? 'exam_id=' . $examId . '&' : ''; ?>import=1" class="btn btn-info me-2">
+=======
+        <a href="?exam_id=<?php echo $examId; ?>&import=1" class="btn btn-info me-2">
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
             <i class="bi bi-upload me-1"></i>Bulk Import
         </a>
         <?php if ($examId): ?>
@@ -74,7 +78,11 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
+<<<<<<< HEAD
 <?php if (isset($_GET['import'])): ?>
+=======
+<?php if (isset($_GET['import']) && $examId): ?>
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 <!-- Bulk Import -->
 <div class="card border-0 shadow-sm mb-4">
     <div class="card-header bg-white">
@@ -82,6 +90,7 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
     <div class="card-body">
         <div class="alert alert-info">
+<<<<<<< HEAD
             Upload a PDF, Word, or Excel file. Gemini extracts multiple-choice questions and the marked correct answers.
             Mark answers in the source (asterisk, bold, tick, ANSWER:, or a numbered answer key). Do not guess unmarked answers.
         </div>
@@ -119,6 +128,21 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="col-md-4 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100" id="importQuestionsBtn">
                         <i class="bi bi-cloud-upload me-1"></i>Extract and import
+=======
+            <strong>CSV Format:</strong> question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, marks<br>
+            <small>correct_answer should be A, B, C, D, or E</small>
+        </div>
+        <form id="importQuestionsForm" enctype="multipart/form-data">
+            <?php echo csrfField(); ?>
+            <input type="hidden" name="exam_id" value="<?php echo $examId; ?>">
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <input type="file" name="csv_file" class="form-control" accept=".csv" required>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-cloud-upload me-1"></i>Import
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
                     </button>
                 </div>
             </div>
@@ -294,16 +318,22 @@ document.getElementById('addQuestionForm').addEventListener('submit', async func
         showToast('An error occurred', 'error');
     }
 });
+<<<<<<< HEAD
 <?php endif; ?>
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 
 <?php if (isset($_GET['import'])): ?>
 document.getElementById('importQuestionsForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const formData = new FormData(this);
+<<<<<<< HEAD
     const btn = document.getElementById('importQuestionsBtn');
     const originalHtml = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Extracting...';
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
     
     try {
         const response = await fetch(APP_URL + '/ajax/admin/bulk_upload_questions.php', {
@@ -314,23 +344,34 @@ document.getElementById('importQuestionsForm').addEventListener('submit', async 
         const data = await response.json();
         
         if (data.success) {
+<<<<<<< HEAD
             showToast(data.message, 'success');
             const examId = formData.get('exam_id');
             setTimeout(() => window.location.href = '?exam_id=' + encodeURIComponent(examId), 1000);
+=======
+            showToast(`Imported ${data.imported} questions`, 'success');
+            setTimeout(() => window.location.href = '?exam_id=<?php echo $examId; ?>', 1000);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
         } else {
             showToast(data.message, 'error');
         }
     } catch (error) {
         showToast('Import failed', 'error');
+<<<<<<< HEAD
     } finally {
         btn.disabled = false;
         btn.innerHTML = originalHtml;
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
     }
 });
 <?php endif; ?>
 
+<<<<<<< HEAD
 <?php if ($examId): ?>
 
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
 async function deleteQuestion(id) {
     if (!confirm('Delete this question?')) return;
     

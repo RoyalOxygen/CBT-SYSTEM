@@ -208,6 +208,7 @@ function install_seed(PDO $db, array $opts): void {
         $db->prepare('UPDATE sessions SET is_current = 1, status = 1 WHERE session_name = ?')->execute([$sessionName]);
     }
 
+<<<<<<< HEAD
     $faculty = $db->query("SELECT id FROM faculties WHERE faculty_code = 'GEN' LIMIT 1")->fetch();
     if (!$faculty) {
         $db->prepare('INSERT INTO faculties (faculty_code, faculty_name, status) VALUES (?, ?, 1)')
@@ -221,6 +222,12 @@ function install_seed(PDO $db, array $opts): void {
     if (!$dept) {
         $db->prepare('INSERT INTO departments (dept_code, dept_name, faculty_id, faculty, status) VALUES (?, ?, ?, ?, 1)')
             ->execute(['GEN', 'General', $facultyId, 'General']);
+=======
+    $dept = $db->query("SELECT id FROM departments WHERE dept_code = 'GEN' LIMIT 1")->fetch();
+    if (!$dept) {
+        $db->prepare('INSERT INTO departments (dept_code, dept_name, faculty, status) VALUES (?, ?, ?, 1)')
+            ->execute(['GEN', 'General', 'General']);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
     }
 
     $settings = [
