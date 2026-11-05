@@ -1,0 +1,221 @@
+/**
+ * CBT System - Student Portal Styles
+ */
+
+.student-login-page {
+    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.login-icon {
+    font-size: 3rem;
+    color: #0d6efd;
+}
+
+/* Student Dashboard */
+.student-dashboard {
+    background: #f0f2f5;
+    min-height: 100vh;
+}
+
+.student-navbar {
+    background: #fff;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 0;
+}
+
+.exam-card {
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s;
+}
+
+.exam-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+.exam-card .card-header {
+    border-radius: 12px 12px 0 0;
+    background: #fff;
+}
+
+/* Exam Taking Interface */
+.exam-interface {
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.exam-header {
+    background: #fff;
+    border-bottom: 2px solid #0d6efd;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.timer-display {
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.timer-display.success { background: #d4edda; color: #155724; }
+.timer-display.warning { background: #fff3cd; color: #856404; }
+.timer-display.danger { background: #f8d7da; color: #721c24; animation: pulse 1s infinite; }
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Question Area */
+.question-area {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    min-height: 400px;
+}
+
+.question-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.question-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Options */
+.option-item {
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.option-item:hover {
+    border-color: #0d6efd;
+    background: rgba(13, 110, 253, 0.05);
+}
+
+.option-item.selected {
+    border-color: #0d6efd;
+    background: rgba(13, 110, 253, 0.1);
+}
+
+.option-item input[type="radio"] {
+    margin-top: 3px;
+}
+
+/* Question Palette */
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.palette-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    background: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.palette-btn:hover { border-color: #0d6efd; }
+.palette-btn.answered { background: #198754; color: #fff; border-color: #198754; }
+.palette-btn.current { border-color: #0d6efd; border-width: 3px; transform: scale(1.1); }
+.palette-btn.review { background: #ffc107; color: #212529; border-color: #ffc107; }
+
+/* Navigation Buttons */
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Biometric */
+.biometric-container {
+    text-align: center;
+    padding: 40px;
+}
+
+.scanner-placeholder {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 4px solid #0d6efd;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.scanner-placeholder.scanning {
+    animation: scanPulse 2s infinite;
+}
+
+@keyframes scanPulse {
+    0% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.4); }
+    50% { box-shadow: 0 0 0 25px rgba(13, 110, 253, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+}
+
+/* Fullscreen warning */
+.fullscreen-warning {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timer-display { font-size: 1.3rem; }
+    .question-area { padding: 20px; }
+    .login-card { padding: 30px 20px; }
+}

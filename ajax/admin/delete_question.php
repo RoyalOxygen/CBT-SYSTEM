@@ -1,0 +1,29 @@
+<?php
+define('CBT_SYSTEM', true);
+require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/functions.php';
+node_require('question_edit');
+header('Content-Type: application/json');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') jsonResponse(false, 'Invalid method');
+<<<<<<< HEAD
+if (!validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? ''))) jsonResponse(false, 'Invalid token');
+=======
+<<<<<<< HEAD
+if (!validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? ''))) jsonResponse(false, 'Invalid token');
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+if (!isAdminLoggedIn()) jsonResponse(false, 'Not authenticated');
+
+try {
+    $db = getDB();
+    $data = json_decode(file_get_contents('php://input'), true);
+    $id = intval($data['question_id'] ?? 0);
+    
+    $db->prepare("UPDATE questions SET status = 0 WHERE id = ?")->execute([$id]);
+    logActivity('admin', $_SESSION['admin_id'], 'delete_question', "Deleted question ID: $id");
+    jsonResponse(true, 'Question deleted');
+} catch (PDOException $e) {
+    jsonResponse(false, 'Error: ' . $e->getMessage());
+}
