@@ -1,0 +1,8 @@
+config/node.local.php
+config/db.local.php
+storage/sync/*
+!storage/sync/.gitkeep
+storage/exam_archives/*
+!storage/exam_archives/.gitkeep
+logs/*
+!logs/.gitkeep
