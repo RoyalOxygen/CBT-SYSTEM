@@ -185,6 +185,13 @@ function optionalId($value): ?int {
     return $n > 0 ? $n : null;
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function splitStudentName(string $fullName): array {
     $fullName = trim(preg_replace('/\s+/', ' ', $fullName) ?? $fullName);
     if ($fullName === '') {
@@ -206,6 +213,14 @@ function splitStudentName(string $fullName): array {
     ];
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function studentDisplayName($lastName, $firstName, $otherName = null, string $empty = 'Unnamed'): string {
     $last = trim((string) ($lastName ?? ''));
     $first = trim((string) ($firstName ?? ''));
@@ -396,8 +411,18 @@ function getAttemptStatusBadge(string $status): string {
     $badges = [
         'in_progress' => '<span class="badge bg-primary">In Progress</span>',
         'submitted' => '<span class="badge bg-success">Submitted</span>',
+<<<<<<< HEAD
         'auto_submitted' => '<span class="badge bg-danger">Terminated</span>',
         'timed_out' => '<span class="badge bg-warning text-dark">Timed Out</span>',
+=======
+        'auto_submitted' => '<span class="badge bg-warning text-dark">Auto-Submitted</span>',
+<<<<<<< HEAD
+        'timed_out' => '<span class="badge bg-danger">Time Up</span>',
+        'tab_switch' => '<span class="badge bg-danger">Tab Switch</span>',
+=======
+        'timed_out' => '<span class="badge bg-danger">Timed Out</span>',
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         'reset' => '<span class="badge bg-secondary">Reset</span>',
     ];
     return $badges[$status] ?? '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
@@ -590,6 +615,7 @@ function setSetting(string $key, string $value, string $group = 'general'): void
     }
 }
 
+<<<<<<< HEAD
 function tab_switch_enabled(): bool {
     return getSetting('tab_switch_enabled', '1') === '1';
 }
@@ -605,6 +631,104 @@ function tab_switch_warning_limit(): int {
     return $n;
 }
 
+=======
+<<<<<<< HEAD
+function exam_ensure_attempt_schema(PDO $db): void {
+    static $done = false;
+    if ($done) {
+        return;
+    }
+    $done = true;
+    try {
+        $col = $db->query("SHOW COLUMNS FROM exam_attempts LIKE 'submission_method'")->fetch();
+        if ($col && strpos((string) $col['Type'], 'tab_switch') === false) {
+            $db->exec("ALTER TABLE exam_attempts MODIFY COLUMN submission_method enum('manual','auto','timed_out','tab_switch','admin') DEFAULT NULL");
+        }
+    } catch (Throwable $e) {
+        error_log('exam_ensure_attempt_schema: ' . $e->getMessage());
+    }
+}
+
+function exam_tab_switch_termination_enabled(): bool {
+    return (string) getSetting('tab_switch_termination', '1') === '1';
+}
+
+function exam_normalize_submit_reason($reason, $autoSubmit = false): string {
+    $reason = strtolower(trim((string) $reason));
+    if ($reason === 'auto') {
+        $reason = 'timed_out';
+    }
+    $allowed = ['manual', 'timed_out', 'tab_switch', 'admin'];
+    if (in_array($reason, $allowed, true)) {
+        return $reason;
+    }
+    $auto = $autoSubmit === true || $autoSubmit === 1 || $autoSubmit === '1' || $autoSubmit === 'true';
+    return $auto ? 'timed_out' : 'manual';
+}
+
+function exam_submit_reason_meta(string $reason): array {
+    switch (exam_normalize_submit_reason($reason)) {
+        case 'tab_switch':
+            return [
+                'status' => 'auto_submitted',
+                'method' => 'tab_switch',
+                'action' => 'tab_switch_submit_exam',
+                'title' => 'Exam Terminated',
+                'message' => 'Your exam was terminated because you switched away from the exam tab.',
+                'label' => 'Terminated (tab switch)',
+            ];
+        case 'timed_out':
+            return [
+                'status' => 'timed_out',
+                'method' => 'timed_out',
+                'action' => 'timeout_submit_exam',
+                'title' => "Time's Up",
+                'message' => 'Your exam time expired and your answers were submitted automatically.',
+                'label' => 'Submitted (time up)',
+            ];
+        case 'admin':
+            return [
+                'status' => 'auto_submitted',
+                'method' => 'admin',
+                'action' => 'admin_submit_exam',
+                'title' => 'Exam Submitted',
+                'message' => 'Your exam was submitted by an invigilator.',
+                'label' => 'Submitted by admin',
+            ];
+        default:
+            return [
+                'status' => 'submitted',
+                'method' => 'manual',
+                'action' => 'submit_exam',
+                'title' => 'Exam Submitted Successfully',
+                'message' => 'You submitted your exam successfully. You can now return to your dashboard.',
+                'label' => 'Submitted',
+            ];
+    }
+}
+
+function exam_submission_label(?string $status, ?string $method = null): array {
+    $method = strtolower(trim((string) $method));
+    $status = strtolower(trim((string) $status));
+    if ($method === 'tab_switch' || $status === 'tab_switch') {
+        return ['text' => 'Terminated (tab switch)', 'icon' => 'bi-window-stack', 'class' => 'expired'];
+    }
+    if ($method === 'timed_out' || $status === 'timed_out') {
+        return ['text' => 'Time up', 'icon' => 'bi-hourglass-end', 'class' => 'expired'];
+    }
+    if ($method === 'admin') {
+        return ['text' => 'Submitted by admin', 'icon' => 'bi-person-gear', 'class' => 'submitted'];
+    }
+    if ($method === 'auto' || $status === 'auto_submitted') {
+        return ['text' => 'Auto-submitted', 'icon' => 'bi-clock-history', 'class' => 'submitted'];
+    }
+    return ['text' => 'Submitted', 'icon' => 'bi-check-circle', 'class' => 'submitted'];
+}
+
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function institution_name(): string {
     $name = trim((string) getSetting('institution_name', ''));
     return $name !== '' ? $name : (defined('APP_NAME') ? APP_NAME : 'CBT System');
@@ -640,6 +764,14 @@ function powered_by_credit(string $extraClass = ''): string {
     return '<p class="' . e($class) . '">Powered by Oxygen Cloud Tech</p>';
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 /**
  * Display toast notification
  */
@@ -673,15 +805,53 @@ function getFlashMessage(): array {
 // leaf can still reach the hub and receive the "unsuspend" policy.
 require_once __DIR__ . '/sync.php';
 require_once __DIR__ . '/face.php';
+<<<<<<< HEAD
 require_once __DIR__ . '/academic.php';
 require_once __DIR__ . '/sams.php';
 require_once __DIR__ . '/groq.php';
 require_once __DIR__ . '/attempt_archive.php';
+=======
+<<<<<<< HEAD
+require_once __DIR__ . '/academic.php';
+require_once __DIR__ . '/sams.php';
+require_once __DIR__ . '/groq.php';
+=======
+<<<<<<< HEAD
+require_once __DIR__ . '/academic.php';
+require_once __DIR__ . '/sams.php';
+require_once __DIR__ . '/groq.php';
+=======
+<<<<<<< HEAD
+require_once __DIR__ . '/academic.php';
+require_once __DIR__ . '/sams.php';
+require_once __DIR__ . '/gemini.php';
+=======
+require_once __DIR__ . '/sams.php';
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 require_once __DIR__ . '/restrictions.php';
 
 try {
     if (function_exists('getDB')) {
+<<<<<<< HEAD
         academic_ensure_schema(getDB());
+=======
+<<<<<<< HEAD
+        academic_ensure_schema(getDB());
+        exam_ensure_attempt_schema(getDB());
+=======
+<<<<<<< HEAD
+        academic_ensure_schema(getDB());
+=======
+<<<<<<< HEAD
+        academic_ensure_schema(getDB());
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         sams_ensure_schema(getDB());
         sams_register_background();
     }

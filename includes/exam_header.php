@@ -16,8 +16,22 @@ $pageTitle = $pageTitle ?? 'Exam';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
+<<<<<<< HEAD
     <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+    <title><?php echo e($pageTitle); ?> - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <style>
@@ -297,10 +311,19 @@ $pageTitle = $pageTitle ?? 'Exam';
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script>
         // Global variables
+<<<<<<< HEAD
         window.APP_URL = window.APP_URL || '<?php echo APP_URL; ?>';
         window.CSRF_TOKEN = window.CSRF_TOKEN || '<?php echo generateCSRFToken(); ?>';
         const APP_URL = window.APP_URL;
         const CSRF_TOKEN = window.CSRF_TOKEN;
+=======
+        const APP_URL = '<?php echo APP_URL; ?>';
+        const CSRF_TOKEN = '<?php echo generateCSRFToken(); ?>';
+<<<<<<< HEAD
+        const TAB_SWITCH_TERMINATION_ENABLED = <?php echo exam_tab_switch_termination_enabled() ? 'true' : 'false'; ?>;
+=======
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         
         // Toast notification function
         function showToast(message, type = 'success') {
@@ -413,6 +436,37 @@ $pageTitle = $pageTitle ?? 'Exam';
         // made may not be saved." dialog when leaving/submitting.
         // =====================================================
         
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        let tabSwitchHandled = false;
+        document.addEventListener('visibilitychange', function() {
+            if (!TAB_SWITCH_TERMINATION_ENABLED || tabSwitchHandled) {
+                return;
+            }
+            if (document.hidden && typeof examPageInProgress !== 'undefined' && examPageInProgress && typeof forceAutoSubmit === 'function') {
+                tabSwitchHandled = true;
+                showToast('Tab switch detected. Your exam is being terminated.', 'warning');
+                forceAutoSubmit('tab_switch');
+=======
+        // Track tab visibility
+        let tabWarnings = 0;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && typeof examPageInProgress !== 'undefined' && examPageInProgress) {
+                tabWarnings++;
+                if (tabWarnings >= 3) {
+                    showToast('Multiple tab switches detected. Your exam will be submitted.', 'warning');
+                    if (typeof forceAutoSubmit === 'function') {
+                        setTimeout(forceAutoSubmit, 2000);
+                    }
+                } else {
+                    showToast(`Warning ${tabWarnings}/3: Switching tabs is not allowed during the exam!`, 'warning');
+                }
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+            }
+        });
+        
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         // Disable F12, Ctrl+Shift+I, Ctrl+U
         document.addEventListener('keydown', function(e) {
             if (e.key === 'F12' || 

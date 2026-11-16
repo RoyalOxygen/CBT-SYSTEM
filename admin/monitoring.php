@@ -14,7 +14,10 @@ $examId = intval($_GET['exam_id'] ?? 0);
 $examType = $_GET['type'] ?? 'regular'; // 'regular' or 'composite'
 $exam = null;
 $activeAttempts = [];
+<<<<<<< HEAD
 $interruptedAttempts = [];
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 
 // =====================================================
 // LOAD SELECTED EXAM DATA
@@ -38,6 +41,7 @@ if ($examId) {
                 ORDER BY cea.start_time DESC");
             $stmt->execute([$examId]);
             $activeAttempts = $stmt->fetchAll();
+<<<<<<< HEAD
 
             $stmt = $db->prepare("SELECT cea.*, s.matric_number, s.first_name, s.last_name, s.photo
                 FROM composite_exam_attempts cea
@@ -46,6 +50,8 @@ if ($examId) {
                 ORDER BY cea.end_time DESC");
             $stmt->execute([$examId]);
             $interruptedAttempts = $stmt->fetchAll();
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         }
     } else {
         // Load regular exam
@@ -63,6 +69,7 @@ if ($examId) {
                 ORDER BY ea.start_time DESC");
             $stmt->execute([$examId]);
             $activeAttempts = $stmt->fetchAll();
+<<<<<<< HEAD
 
             $stmt = $db->prepare("SELECT ea.*, s.matric_number, s.first_name, s.last_name, s.photo
                 FROM exam_attempts ea
@@ -71,6 +78,8 @@ if ($examId) {
                 ORDER BY ea.end_time DESC");
             $stmt->execute([$examId]);
             $interruptedAttempts = $stmt->fetchAll();
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         }
     }
 }
@@ -380,6 +389,7 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
+<<<<<<< HEAD
 <?php if (!empty($interruptedAttempts)): ?>
 <div class="card border-0 shadow-sm mt-4">
     <div class="card-header bg-white">
@@ -424,6 +434,8 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 <?php endif; ?>
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 <style>
 @keyframes pulse {
     0%, 100% { opacity: 1; }

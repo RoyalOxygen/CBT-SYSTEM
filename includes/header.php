@@ -15,8 +15,22 @@ $pageTitle = $pageTitle ?? 'Dashboard';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
+<<<<<<< HEAD
     <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
     <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+    <title><?php echo e($pageTitle); ?> - <?php echo e(institution_name()); ?></title>
+    <?php echo student_favicon_tags(); ?>
+=======
+    <title><?php echo e($pageTitle); ?> - <?php echo APP_NAME; ?></title>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<?php echo APP_URL; ?>/assets/css/admin.css">
@@ -68,6 +82,13 @@ $pageTitle = $pageTitle ?? 'Dashboard';
         </div>
     <?php endif; ?>
     <div class="wrapper">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
         <?php require_once __DIR__ . '/sidebar.php'; ?>
         
@@ -79,6 +100,24 @@ $pageTitle = $pageTitle ?? 'Dashboard';
                     </button>
                     
                     <h5 class="mb-0 admin-page-title"><?php echo e($pageTitle); ?></h5>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+        <?php require_once __DIR__ . '/sidebar.php'; ?>
+        
+        <div class="main-content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-lg-none" id="sidebarToggle">
+                        <i class="bi bi-list fs-4"></i>
+                    </button>
+                    
+                    <h5 class="mb-0 d-none d-md-block"><?php echo e($pageTitle); ?></h5>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                     
                     <div class="d-flex align-items-center gap-3">
                         <!-- Theme Toggle -->

@@ -18,6 +18,13 @@ try {
     if (empty($_POST['question_text']) || empty($_POST['option_a']) || empty($_POST['option_b']) || empty($_POST['correct_answer'])) {
         jsonResponse(false, 'Question text, options A & B, and correct answer are required');
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 
     $correctAnswer = strtoupper(trim((string) $_POST['correct_answer']));
     if (!in_array($correctAnswer, ['A', 'B', 'C', 'D', 'E'], true)) {
@@ -41,8 +48,27 @@ try {
             jsonResponse(false, 'Image upload failed: ' . $upload['error']);
         }
         $imagePath = $upload['path'];
+<<<<<<< HEAD
     }
     
+=======
+<<<<<<< HEAD
+    }
+    
+=======
+=======
+    
+    // Handle image upload
+    $imagePath = null;
+    if (!empty($_FILES['question_image']) && $_FILES['question_image']['size'] > 0) {
+        $upload = uploadFile($_FILES['question_image'], QUESTION_IMAGE_PATH);
+        if ($upload['success']) $imagePath = $upload['path'];
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+    }
+    
+    // Get max order
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     $orderStmt = $db->prepare("SELECT MAX(question_order) FROM questions WHERE exam_id = ?");
     $orderStmt->execute([$examId]);
     $maxOrder = $orderStmt->fetchColumn() ?? 0;
@@ -53,6 +79,13 @@ try {
     
     $stmt->execute([
         $examId,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         trim((string) $_POST['question_text']),
         $imagePath,
         trim((string) $_POST['option_a']),
@@ -61,6 +94,22 @@ try {
         $optionD !== '' ? $optionD : null,
         $optionE !== '' ? $optionE : null,
         $correctAnswer,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+        $_POST['question_text'],
+        $imagePath,
+        $_POST['option_a'],
+        $_POST['option_b'],
+        $_POST['option_c'] ?? null,
+        $_POST['option_d'] ?? null,
+        $_POST['option_e'] ?? null,
+        $_POST['correct_answer'],
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         floatval($_POST['marks'] ?? 1),
         $maxOrder + 1
     ]);

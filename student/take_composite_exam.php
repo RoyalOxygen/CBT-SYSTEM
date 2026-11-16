@@ -205,6 +205,7 @@ $elapsedSeconds = (int) $elapsedStmt->fetchColumn();
 $timeRemainingSeconds = max(0, $totalDurationSeconds - $elapsedSeconds);
 
 if ($timeRemainingSeconds <= 0) {
+<<<<<<< HEAD
     try {
         composite_attempt_archive_save($db, $attemptId, 'timeout');
     } catch (Throwable $e) {
@@ -219,6 +220,10 @@ if ($timeRemainingSeconds <= 0) {
         error_log('Composite timeout finalize failed: ' . $e->getMessage());
     }
     redirect(APP_URL . '/student/composite_results.php?submitted=' . $examId . '&reason=timeout', 'Time expired. Your exam was submitted automatically.');
+=======
+    $db->prepare("UPDATE composite_exam_attempts SET status = 'timed_out', end_time = NOW() WHERE id = ?")->execute([$attemptId]);
+    redirect(APP_URL . '/student/composite_results.php?submitted=' . $examId, 'Time expired. Your exam has been auto-submitted.');
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 }
 
 // =====================================================
@@ -264,7 +269,14 @@ if ($answeredJson === false) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="csrf-token" content="<?php echo generateCSRFToken(); ?>">
 <title><?php echo e($exam['exam_code']); ?> - <?php echo e($exam['exam_title']); ?></title>
+<<<<<<< HEAD
 <?php echo student_favicon_tags(); ?>
+=======
+<<<<<<< HEAD
+<?php echo student_favicon_tags(); ?>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../assets/font/bootstrap-icons.css">
 <style>
@@ -274,7 +286,14 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     min-height: 100vh;
     padding: 0;
+<<<<<<< HEAD
     padding-bottom: 3.25rem;
+=======
+<<<<<<< HEAD
+    padding-bottom: 3.25rem;
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 }
 
 .merged-header {
@@ -287,10 +306,22 @@ body {
     z-index: 100;
     box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 .merged-header .container-fluid { max-width: 100%; padding: 0 20px; }
 .merged-header .uni-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .merged-header .uni-brand i { font-size: 1.6rem; color: #e8c84c; }
 .merged-header .uni-brand img { width: 40px; height: 40px; object-fit: contain; background: #fff; border-radius: 8px; padding: 2px; }
+<<<<<<< HEAD
+=======
+=======
+.merged-header .container-fluid { max-width: 1600px; padding: 0 20px; }
+.merged-header .uni-brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.merged-header .uni-brand i { font-size: 1.6rem; color: #e8c84c; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 .merged-header .uni-brand h1 { font-weight: 700; font-size: 1.1rem; margin: 0; letter-spacing: 0.5px; line-height: 1.2; }
 .merged-header .uni-brand small { display: block; font-size: 0.65rem; opacity: 0.75; font-weight: 300; }
 .merged-header .exam-info { display: flex; align-items: center; gap: 15px; flex: 1; justify-content: center; flex-wrap: wrap; }
@@ -331,7 +362,15 @@ body {
 .force-submit-overlay .progress-bar { background: linear-gradient(90deg, #dc3545, #ff6b35); transition: width 0.3s ease; }
 .force-submit-overlay .status-text { margin-top: 12px; font-size: 0.85rem; color: #6c757d; }
 
+<<<<<<< HEAD
 .main-container { max-width: 100%; width: 100%; margin: 0; padding: 12px 20px 20px; display: flex; gap: 15px; }
+=======
+<<<<<<< HEAD
+.main-container { max-width: 100%; width: 100%; margin: 0; padding: 12px 20px 20px; display: flex; gap: 15px; }
+=======
+.main-container { max-width: 1600px; margin: 0 auto; padding: 12px 20px 20px; display: flex; gap: 15px; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 .content-col { flex: 1; min-width: 0; }
 
 .question-card { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 20px 25px; margin-bottom: 12px; }
@@ -468,10 +507,22 @@ body {
 }
 @media (max-width: 768px) {
     .merged-header { padding: 8px 0; }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     .merged-header .container-fluid { padding: 0 12px; }
     .merged-header .uni-brand h1 { font-size: 0.9rem; }
     .merged-header .uni-brand i { font-size: 1.3rem; }
     .main-container { padding: 10px 10px 20px; }
+<<<<<<< HEAD
+=======
+=======
+    .merged-header .uni-brand h1 { font-size: 0.9rem; }
+    .merged-header .uni-brand i { font-size: 1.3rem; }
+    .main-container { padding: 10px; }
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     .question-card { padding: 16px; }
     .sidebar-col { grid-template-columns: 1fr; }
     .palette-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); }
@@ -491,6 +542,10 @@ body {
 }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .spin { animation: spin 1s linear infinite; display: inline-block; }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 .site-footer {
     position: fixed;
     left: 0;
@@ -503,6 +558,11 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 .powered-by-credit { text-align: center; margin: 0; color: #5c6370; font-size: 0.78rem; font-weight: 600; }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 </style>
 </head>
 <body>
@@ -512,6 +572,10 @@ body {
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between gap-3">
             <div class="uni-brand">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 <?php $examLogo = institution_logo_url(); ?>
                 <?php if ($examLogo !== ''): ?>
                     <img src="<?php echo e($examLogo); ?>" alt="">
@@ -521,6 +585,15 @@ body {
                 <div>
                     <h1><?php echo e(institution_name()); ?></h1>
                     <small>Composite Examination Portal &middot; Powered by Oxygen Cloud Tech</small>
+<<<<<<< HEAD
+=======
+=======
+                <i class="bi bi-mortarboard-fill"></i>
+                <div>
+                    <h1>OXYGEN CBT SYSTEM</h1>
+                    <small>Composite Examination Portal</small>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 </div>
             </div>
             <div class="exam-info">
@@ -561,9 +634,15 @@ body {
 <!-- Force Submit Overlay -->
 <div id="forceSubmitOverlay" class="force-submit-overlay">
     <div class="modal-box">
+<<<<<<< HEAD
         <div class="icon-timeout" id="forceSubmitIcon"><i class="bi bi-clock-fill"></i></div>
         <h3 id="forceSubmitTitle">Time's up</h3>
         <p id="forceSubmitMessage">Your exam time has expired. Your answers are being submitted automatically.</p>
+=======
+        <div class="icon-timeout"><i class="bi bi-clock-fill"></i></div>
+        <h3>⏰ Time's Up!</h3>
+        <p>Your exam time has expired. Your answers are being submitted automatically.</p>
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         <div class="progress">
             <div class="progress-bar" id="forceSubmitProgress" style="width: 0%;"></div>
         </div>
@@ -715,9 +794,12 @@ let autoSubmitTriggered = false;
 let isSubmitting = false;
 let forceSubmitInProgress = false;
 let examPageInProgress = true;
+<<<<<<< HEAD
 let tabSwitchWarnings = 0;
 const TAB_SWITCH_ENABLED = <?php echo tab_switch_enabled() ? 'true' : 'false'; ?>;
 const TAB_SWITCH_LIMIT = <?php echo tab_switch_warning_limit(); ?>;
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 
 const CIRCUMFERENCE = 157.08;
 
@@ -791,7 +873,11 @@ function startTimer() {
             
             if (timeRemaining <= 0) {
                 clearInterval(timerInterval);
+<<<<<<< HEAD
                 forceSubmitExam('timeout');
+=======
+                forceAutoSubmit();
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
             }
         }
     }, 1000);
@@ -1104,7 +1190,11 @@ async function submitExam() {
         const response = await fetch(APP_URL + '/ajax/student/submit_composite_exam.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
+<<<<<<< HEAD
             body: JSON.stringify({ attempt_id: attemptId, auto_submit: false, reason: 'manual' })
+=======
+            body: JSON.stringify({ attempt_id: attemptId, auto_submit: false })
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         });
         const data = await response.json();
         
@@ -1132,6 +1222,7 @@ async function submitExam() {
     }
 }
 
+<<<<<<< HEAD
 function forceAutoSubmit() {
     return forceSubmitExam('timeout');
 }
@@ -1157,6 +1248,10 @@ function configureForceOverlay(reason) {
 async function forceSubmitExam(reason) {
     if (autoSubmitTriggered || forceSubmitInProgress) return;
     const submitReason = reason === 'tab_switch' ? 'tab_switch' : 'timeout';
+=======
+async function forceAutoSubmit() {
+    if (autoSubmitTriggered || forceSubmitInProgress) return;
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     autoSubmitTriggered = true;
     forceSubmitInProgress = true;
     isSubmitting = true;
@@ -1165,12 +1260,18 @@ async function forceSubmitExam(reason) {
     clearInterval(timerInterval);
     clearInterval(autoSaveInterval);
     
+<<<<<<< HEAD
     const mainContainer = document.getElementById('mainContainer');
     const submitBtn = document.getElementById('submitBtn');
     if (mainContainer) mainContainer.style.opacity = '0.5';
     if (submitBtn) submitBtn.disabled = true;
     
     configureForceOverlay(submitReason);
+=======
+    document.getElementById('mainContainer').style.opacity = '0.5';
+    document.getElementById('submitBtn').disabled = true;
+    
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     const overlay = document.getElementById('forceSubmitOverlay');
     if (overlay) overlay.classList.add('show');
     
@@ -1184,7 +1285,11 @@ async function forceSubmitExam(reason) {
         if (progress > 95) progress = 95;
         if (progressBar) progressBar.style.width = progress + '%';
         
+<<<<<<< HEAD
         const statuses = ['Submitting your answers...', 'Processing responses...', 'Calculating your score...', 'Saving your results...'];
+=======
+        const statuses = ['⏳ Submitting...', '📝 Processing...', '🧮 Calculating...', '💾 Saving...'];
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         const idx = Math.min(Math.floor(progress / 25), statuses.length - 1);
         if (statusText) statusText.textContent = statuses[idx];
     }, 250);
@@ -1193,21 +1298,36 @@ async function forceSubmitExam(reason) {
         const response = await fetch(APP_URL + '/ajax/student/submit_composite_exam.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
+<<<<<<< HEAD
             body: JSON.stringify({ attempt_id: attemptId, auto_submit: true, reason: submitReason })
+=======
+            body: JSON.stringify({ attempt_id: attemptId, auto_submit: true })
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         });
         const data = await response.json();
         
         clearInterval(progressInterval);
         if (progressBar) progressBar.style.width = '100%';
+<<<<<<< HEAD
         if (statusText) statusText.textContent = data.message || 'Exam submitted.';
+=======
+        if (statusText) statusText.textContent = '✅ Exam submitted successfully!';
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         if (spinner) spinner.style.display = 'none';
         
         if (data.success) {
             setTimeout(() => {
+<<<<<<< HEAD
                 window.location.href = APP_URL + '/student/composite_results.php?submitted=' + examId + '&reason=' + encodeURIComponent(submitReason);
             }, 1500);
         } else {
             if (statusText) statusText.textContent = data.message || 'Submission completed with issues.';
+=======
+                window.location.href = APP_URL + '/student/composite_results.php?submitted=' + examId;
+            }, 1500);
+        } else {
+            if (statusText) statusText.textContent = '⚠️ Submission completed with issues.';
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
             setTimeout(() => {
                 window.location.href = APP_URL + '/student/dashboard.php?error=submission_issue';
             }, 3000);
@@ -1215,7 +1335,11 @@ async function forceSubmitExam(reason) {
     } catch (error) {
         console.error('Force auto-submit error:', error);
         clearInterval(progressInterval);
+<<<<<<< HEAD
         if (statusText) statusText.textContent = 'Submission failed.';
+=======
+        if (statusText) statusText.textContent = '❌ Submission failed.';
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         setTimeout(() => {
             window.location.href = APP_URL + '/student/dashboard.php?error=submission_failed';
         }, 3000);
@@ -1229,6 +1353,7 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+<<<<<<< HEAD
 document.addEventListener('visibilitychange', function() {
     if (!TAB_SWITCH_ENABLED || !document.hidden || !examPageInProgress || autoSubmitTriggered || isSubmitting || forceSubmitInProgress) {
         return;
@@ -1247,5 +1372,15 @@ document.addEventListener('DOMContentLoaded', initExam);
 <footer class="site-footer">
 <?php echo powered_by_credit(); ?>
 </footer>
+=======
+document.addEventListener('DOMContentLoaded', initExam);
+</script>
+<<<<<<< HEAD
+<footer class="site-footer">
+<?php echo powered_by_credit(); ?>
+</footer>
+=======
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 </body>
 </html>

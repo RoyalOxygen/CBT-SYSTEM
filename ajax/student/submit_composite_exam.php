@@ -17,21 +17,28 @@ header('Content-Type: application/json');
 
 if (!isStudentLoggedIn()) jsonResponse(false, 'Unauthorized');
 
+<<<<<<< HEAD
 $rawInput = file_get_contents('php://input');
 $input = json_decode($rawInput, true);
 if (!is_array($input)) {
     $input = $_POST;
 }
 
+=======
+$input = json_decode(file_get_contents('php://input'), true);
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 $csrf_token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $input['csrf_token'] ?? '';
 if (!validateCSRFToken($csrf_token)) jsonResponse(false, 'Invalid token');
 
 $attemptId = intval($input['attempt_id'] ?? 0);
 $autoSubmit = !empty($input['auto_submit']);
+<<<<<<< HEAD
 $reason = strtolower(trim((string) ($input['reason'] ?? '')));
 if (!in_array($reason, ['manual', 'timeout', 'tab_switch'], true)) {
     $reason = $autoSubmit ? 'timeout' : 'manual';
 }
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 
 if (!$attemptId) jsonResponse(false, 'Invalid attempt');
 
@@ -189,6 +196,7 @@ try {
     // ============================================================
     // 8. Save everything in a transaction
     // ============================================================
+<<<<<<< HEAD
     if ($reason === 'timeout') {
         $attemptStatus = 'timed_out';
         $submissionMethod = 'auto';
@@ -207,6 +215,8 @@ try {
         $reason = 'manual';
     }
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     $db->beginTransaction();
     
     // Update attempt
@@ -219,7 +229,11 @@ try {
             total_questions = ?,
             total_sub_questions = ?,
             end_time = NOW(), 
+<<<<<<< HEAD
             status = ?, 
+=======
+            status = 'submitted', 
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
             submission_method = ?
         WHERE id = ?
     ")->execute([
@@ -229,8 +243,12 @@ try {
         $answeredCount,
         count($lockedMainQuestionIds),
         $totalSubQuestionsActual,
+<<<<<<< HEAD
         $attemptStatus,
         $submissionMethod,
+=======
+        $autoSubmit ? 'auto' : 'manual',
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         $attemptId
     ]);
     
@@ -303,6 +321,7 @@ try {
         WHERE composite_exam_id = ? AND student_id = ?
     ")->execute([$attempt['composite_exam_id'], $_SESSION['student_id']]);
     
+<<<<<<< HEAD
     if (in_array($reason, ['timeout', 'tab_switch'], true)) {
         try {
             composite_attempt_archive_save($db, $attemptId, $reason);
@@ -311,6 +330,8 @@ try {
         }
     }
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     // ============================================================
     // 9. DELETE STUDENT'S ANSWERS TO FREE DATABASE SPACE
     //    (Results are preserved in composite_exam_results)
@@ -335,14 +356,22 @@ try {
     logActivity(
         'student', 
         $_SESSION['student_id'], 
+<<<<<<< HEAD
         $action,
+=======
+        $autoSubmit ? 'auto_submit_composite' : 'submit_composite',
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         "Submitted composite exam: {$attempt['exam_code']} — Score: $totalScore/$totalMarksAvailable ($percentage%) — $deletedAnswerCount answer rows cleaned"
     );
     
     // ============================================================
     // 11. Response
     // ============================================================
+<<<<<<< HEAD
     jsonResponse(true, $message, [
+=======
+    jsonResponse(true, $autoSubmit ? 'Exam auto-submitted' : 'Exam submitted successfully', [
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         'score' => round($totalScore, 2),
         'total_marks' => round($totalMarksAvailable, 2),
         'percentage' => round($percentage, 2),

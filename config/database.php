@@ -27,14 +27,28 @@ class Database {
                 $charset = 'utf8mb4';
 
                 $dsn = "mysql:host=" . $host . ";dbname=" . $name . ";charset=" . $charset;
+<<<<<<< HEAD
                 $initCommandAttr = class_exists(\Pdo\Mysql::class)
                     ? \Pdo\Mysql::ATTR_INIT_COMMAND
                     : PDO::MYSQL_ATTR_INIT_COMMAND;
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 $options = [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_EMULATE_PREPARES => false,
+<<<<<<< HEAD
                     $initCommandAttr => "SET NAMES " . $charset . " COLLATE utf8mb4_unicode_ci, time_zone = '+01:00'"
+=======
+                    // Pin MySQL's session timezone to match PHP's
+                    // date_default_timezone_set('Africa/Lagos') in config.php.
+                    // Without this, MySQL defaults to its own SYSTEM/global
+                    // timezone, which can differ from PHP's - causing NOW()
+                    // timestamps written by MySQL to be misread by PHP's
+                    // strtotime(), and vice versa. That mismatch is what was
+                    // producing wildly wrong exam timer values.
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $charset . " COLLATE utf8mb4_unicode_ci, time_zone = '+01:00'"
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 ];
                 self::$instance = new PDO($dsn, $user, $pass, $options);
 

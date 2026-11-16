@@ -607,7 +607,19 @@ require_once __DIR__ . '/../includes/student_header.php';
 }
 </style>
 
+<<<<<<< HEAD
 <div class="student-dashboard-inner">
+=======
+<<<<<<< HEAD
+<div class="student-dashboard-inner">
+=======
+<<<<<<< HEAD
+<div class="student-dashboard-inner">
+=======
+<div class="container">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     <!-- Alerts -->
     <?php if (empty($student['fingerprint_enrolled'])): ?>
     <div class="alert alert-warning d-flex align-items-center mb-4" style="border-left: 4px solid #f9ab00;">
@@ -708,7 +720,11 @@ require_once __DIR__ . '/../includes/student_header.php';
                             $statusLabel = '<span class="exam-status-badge submitted"><i class="bi bi-check-circle me-1"></i>Submitted</span>';
                         } elseif ($attemptStatus === 'auto_submitted') {
                             $statusClass = 'submitted';
+<<<<<<< HEAD
                             $statusLabel = '<span class="exam-status-badge expired"><i class="bi bi-exclamation-octagon me-1"></i>Terminated</span>';
+=======
+                            $statusLabel = '<span class="exam-status-badge submitted"><i class="bi bi-clock-history me-1"></i>Auto-Submitted</span>';
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                         } elseif ($attemptStatus === 'timed_out') {
                             $statusClass = 'submitted';
                             $statusLabel = '<span class="exam-status-badge expired"><i class="bi bi-hourglass-end me-1"></i>Timed Out</span>';
@@ -927,8 +943,13 @@ require_once __DIR__ . '/../includes/student_header.php';
                     $statusIcon = 'bi-check-circle';
                     $statusText = 'Submitted';
                 } elseif ($submitted['status'] === 'auto_submitted') {
+<<<<<<< HEAD
                     $statusIcon = 'bi-exclamation-octagon';
                     $statusText = 'Terminated';
+=======
+                    $statusIcon = 'bi-clock-history';
+                    $statusText = 'Auto-Submitted';
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 } else {
                     $statusIcon = 'bi-hourglass-end';
                     $statusText = 'Timed Out';
@@ -966,6 +987,7 @@ require_once __DIR__ . '/../includes/student_header.php';
                         <?php if (!empty($submitted['submission_method'])): ?>
                             <span class="meta-item">
                                 <i class="bi bi-info-circle"></i> 
+<<<<<<< HEAD
                                 <?php
                                 if ($submitted['status'] === 'timed_out') {
                                     echo 'Time expired';
@@ -975,6 +997,13 @@ require_once __DIR__ . '/../includes/student_header.php';
                                     echo 'Manual submission';
                                 }
                                 ?>
+=======
+<<<<<<< HEAD
+                                <?php echo e(exam_submission_label($submitted['status'] ?? null, $submitted['submission_method'])['text']); ?>
+=======
+                                <?php echo $submitted['submission_method'] === 'manual' ? 'Manual Submission' : 'Auto Submission'; ?>
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                             </span>
                         <?php endif; ?>
                     </div>

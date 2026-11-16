@@ -23,6 +23,7 @@ if ($submittedExamId) {
 require_once __DIR__ . '/../includes/student_header.php';
 ?>
 
+<<<<<<< HEAD
 <div class="py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -53,6 +54,26 @@ require_once __DIR__ . '/../includes/student_header.php';
                     </div>
                     <h2 class="mb-2"><?php echo e($resultTitle); ?></h2>
                     <p class="mb-0 opacity-75"><?php echo e($resultText); ?></p>
+=======
+<<<<<<< HEAD
+<div class="py-4">
+=======
+<<<<<<< HEAD
+<div class="py-4">
+=======
+<div class="container py-5">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg text-center" style="border-radius: 20px; overflow: hidden;">
+                <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%); padding: 50px 30px; color: white;">
+                    <div style="font-size: 5rem; margin-bottom: 20px;">
+                        <i class="bi bi-check-circle-fill" style="color: #34a853;"></i>
+                    </div>
+                    <h2 class="mb-2">Composite Exam Submitted!</h2>
+                    <p class="mb-0 opacity-75">Your answers have been saved successfully.</p>
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 </div>
                 <div class="card-body p-4">
                     <?php if ($submittedExam): ?>

@@ -39,10 +39,17 @@ if ($justSubmittedExamId) {
 =======
 
 if ($justSubmittedExamId) {
+<<<<<<< HEAD
     $examStmt = $db->prepare("SELECT e.*, ea.id as attempt_id, ea.score, ea.percentage, ea.total_questions, ea.answered_count, ea.correct_count, ea.status, ea.submission_method
                               FROM exams e 
                               JOIN exam_attempts ea ON ea.exam_id = e.id 
                               WHERE e.id = ? AND ea.student_id = ? AND ea.status IN ('submitted', 'auto_submitted', 'timed_out')
+=======
+    $examStmt = $db->prepare("SELECT e.*, ea.id as attempt_id, ea.score, ea.percentage, ea.total_questions, ea.answered_count, ea.correct_count, ea.status
+                              FROM exams e 
+                              JOIN exam_attempts ea ON ea.exam_id = e.id 
+                              WHERE e.id = ? AND ea.student_id = ? AND ea.status IN ('submitted', 'auto_submitted')
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                               ORDER BY ea.id DESC LIMIT 1");
     $examStmt->execute([$justSubmittedExamId, $studentId]);
     $submittedExam = $examStmt->fetch();
@@ -237,6 +244,16 @@ require_once __DIR__ . '/../includes/student_header.php';
 }
 </style>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<div class="container py-4">
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     <!-- Success Hero -->
     <div class="success-hero success-animation">
         <div class="checkmark-wrapper">
@@ -246,6 +263,7 @@ require_once __DIR__ . '/../includes/student_header.php';
             </svg>
         </div>
         
+<<<<<<< HEAD
         <?php
         $endReason = strtolower((string) ($_GET['reason'] ?? ''));
         $attemptStatus = is_array($submittedExam) ? (string) ($submittedExam['status'] ?? '') : '';
@@ -270,6 +288,21 @@ require_once __DIR__ . '/../includes/student_header.php';
         <h2><?php echo e($resultTitle); ?></h2>
         <p class="subtext">
             <?php echo e($resultText); ?>
+=======
+<<<<<<< HEAD
+        <h2><?php echo e($submitMeta['title']); ?></h2>
+        <p class="subtext">
+            <?php echo e($submitMeta['message']); ?>
+=======
+<<<<<<< HEAD
+        <h2>Exam Submitted Successfully!</h2>
+=======
+        <h2>Exam Submitted Successfully! 🎉</h2>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+        <p class="subtext">
+            Your exam has been submitted successfully. You can now return to your dashboard.
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         </p>
         
         <?php if ($submittedExam): ?>
@@ -282,7 +315,15 @@ require_once __DIR__ . '/../includes/student_header.php';
                 <div class="col-sm-4">
                     <div class="label">Status</div>
                     <div class="value">
+<<<<<<< HEAD
                         <span class="badge <?php echo e($resultBadgeClass); ?>"><?php echo e($resultBadge); ?></span>
+=======
+<<<<<<< HEAD
+                        <span class="badge <?php echo $submitMeta['method'] === 'manual' ? 'bg-success' : 'bg-warning text-dark'; ?>"><?php echo e($submitMeta['label']); ?></span>
+=======
+                        <span class="badge bg-success"><?php echo ucfirst(str_replace('_', ' ', $submittedExam['status'] ?? 'Submitted')); ?></span>
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -336,4 +377,16 @@ require_once __DIR__ . '/../includes/student_header.php';
         </div>
     </div>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    
+</div>
+
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

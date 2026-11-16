@@ -7,6 +7,13 @@ if (!defined('CBT_SYSTEM')) {
 }
 ?>
     </div> <!-- Close container -->
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     </div> <!-- Close student-page-wrap -->
     
     <!-- Footer -->
@@ -14,6 +21,19 @@ if (!defined('CBT_SYSTEM')) {
         <div class="container-fluid text-center">
             <small class="text-muted d-block">&copy; <?php echo date('Y'); ?> <?php echo e(institution_name()); ?> - Student Portal. All rights reserved.</small>
             <?php echo powered_by_credit('mt-1'); ?>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+    
+    <!-- Footer -->
+    <footer class="bg-white border-top mt-5 py-3">
+        <div class="container text-center">
+            <small class="text-muted">&copy; <?php echo date('Y'); ?> <?php echo APP_NAME; ?> - Student Portal. All rights reserved.</small>
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         </div>
     </footer>
     

@@ -68,8 +68,14 @@ try {
 =======
                CASE 
                    WHEN ea.status = 'submitted' THEN 'Submitted'
+<<<<<<< HEAD
                     WHEN ea.status = 'auto_submitted' THEN 'Terminated'
                     WHEN ea.status = 'timed_out' THEN 'Timed Out'
+=======
+                   WHEN ea.status = 'auto_submitted' THEN 'Auto-Submitted'
+                   WHEN ea.status = 'timed_out' THEN 'Timed Out'
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                    ELSE ea.status
                END as attempt_status_label
         FROM exam_attempts ea
@@ -95,8 +101,14 @@ try {
 =======
                CASE 
                    WHEN ea.status = 'submitted' THEN 'Submitted'
+<<<<<<< HEAD
                     WHEN ea.status = 'auto_submitted' THEN 'Terminated'
                     WHEN ea.status = 'timed_out' THEN 'Timed Out'
+=======
+                   WHEN ea.status = 'auto_submitted' THEN 'Auto-Submitted'
+                   WHEN ea.status = 'timed_out' THEN 'Timed Out'
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                    ELSE ea.status
                END as attempt_status_label
         FROM exam_attempts ea

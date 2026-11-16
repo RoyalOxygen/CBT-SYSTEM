@@ -2,7 +2,10 @@ config/node.local.php
 config/db.local.php
 storage/sync/*
 !storage/sync/.gitkeep
+<<<<<<< HEAD
 storage/exam_archives/*
 !storage/exam_archives/.gitkeep
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 logs/*
 !logs/.gitkeep

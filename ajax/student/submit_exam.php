@@ -18,12 +18,25 @@ if (!isStudentLoggedIn()) {
 // Refresh session activity to keep student session alive during exam
 refreshStudentSessionActivity();
 
+<<<<<<< HEAD
 $rawInput = file_get_contents('php://input');
 $input = json_decode($rawInput, true);
 if (!is_array($input)) {
     $input = $_POST;
 }
 
+=======
+<<<<<<< HEAD
+$raw = file_get_contents('php://input');
+$input = json_decode($raw, true);
+if (!is_array($input) || empty($input)) {
+    $input = $_POST;
+}
+
+$csrf_token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ($input['csrf_token'] ?? '');
+=======
+$input = json_decode(file_get_contents('php://input'), true);
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 $csrf_token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $input['csrf_token'] ?? '';
 >>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
 
@@ -33,12 +46,28 @@ if (!validateCSRFToken($csrf_token)) {
 }
 
 $attempt_id = intval($input['attempt_id'] ?? 0);
+<<<<<<< HEAD
 $auto_submit = !empty($input['auto_submit']);
 $reason = strtolower(trim((string) ($input['reason'] ?? '')));
 if (!in_array($reason, ['manual', 'timeout', 'tab_switch'], true)) {
     $reason = $auto_submit ? 'timeout' : 'manual';
 }
 
+=======
+$auto_submit = isset($input['auto_submit']) ? $input['auto_submit'] : false;
+<<<<<<< HEAD
+$submit_reason = exam_normalize_submit_reason($input['submit_reason'] ?? '', $auto_submit);
+
+if ($submit_reason === 'tab_switch' && !exam_tab_switch_termination_enabled()) {
+    echo json_encode(['success' => false, 'message' => 'Tab switch termination is disabled']);
+    exit;
+}
+
+$reasonMeta = exam_submit_reason_meta($submit_reason);
+=======
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 if ($attempt_id <= 0) {
     echo json_encode(['success' => false, 'message' => 'Invalid attempt ID']);
     exit;
@@ -120,6 +149,7 @@ try {
     $total_marks_display = $computed['total_marks'];
     $percentage = $computed['percentage'];
     
+<<<<<<< HEAD
     $grade = getGrade($percentage);
     if ($reason === 'timeout') {
         $attempt_status = 'timed_out';
@@ -139,6 +169,10 @@ try {
         $reason = 'manual';
     }
 
+=======
+    // Update exam attempt
+    $grade = getGrade($percentage);
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     $updateStmt = $db->prepare("
         UPDATE exam_attempts 
         SET score = ?, 
@@ -147,11 +181,36 @@ try {
             correct_count = ?, 
             answered_count = ?,
             end_time = NOW(),
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
             status = ?,
             submission_method = ?
         WHERE id = ?
     ");
+<<<<<<< HEAD
     $updateStmt->execute([$score_display, $percentage, $grade['grade'], $total_correct, $answered_count, $attempt_status, $submission_method, $attempt_id]);
+=======
+    $updateStmt->execute([
+        $score_display,
+        $percentage,
+        $grade['grade'],
+        $total_correct,
+        $answered_count,
+        $reasonMeta['status'],
+        $reasonMeta['method'],
+        $attempt_id
+    ]);
+=======
+            status = 'submitted',
+            submission_method = ?
+        WHERE id = ?
+    ");
+    $submission_method = $auto_submit ? 'auto' : 'manual';
+    $updateStmt->execute([$score_display, $percentage, $grade['grade'], $total_correct, $answered_count, $submission_method, $attempt_id]);
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     
     // Check if result already exists
     $checkResultStmt = $db->prepare("
@@ -195,6 +254,14 @@ try {
             $_SESSION['student_id']
         ]);
         
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        $message = $reasonMeta['message'];
+=======
+        $message = $auto_submit ? 'Exam auto-submitted successfully!' : 'Exam submitted successfully!';
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     } else {
         // INSERT new result
         $resultStmt = $db->prepare("
@@ -214,6 +281,7 @@ try {
             $grade['grade'], $grade['remark'], $total_correct
         ]);
         
+<<<<<<< HEAD
     }
     
     if (in_array($reason, ['timeout', 'tab_switch'], true)) {
@@ -224,6 +292,15 @@ try {
         }
     }
 
+=======
+<<<<<<< HEAD
+        $message = $reasonMeta['message'];
+=======
+        $message = $auto_submit ? 'Exam auto-submitted successfully!' : 'Exam submitted successfully!';
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+    }
+    
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     // Delete answers from the answers table after successful submission
     // This clears the student's answers but results are preserved in results table
     $deleteAnswersStmt = $db->prepare("DELETE FROM answers WHERE attempt_id = ?");
@@ -246,7 +323,16 @@ try {
     }
     
     // Log activity
+<<<<<<< HEAD
     logActivity('student', $_SESSION['student_id'], $action, "Submitted exam ({$reason}): {$attempt['exam_code']}");
+=======
+<<<<<<< HEAD
+    logActivity('student', $_SESSION['student_id'], $reasonMeta['action'], "Submitted exam: {$attempt['exam_code']} ({$reasonMeta['label']})");
+=======
+    $action = $auto_submit ? 'auto_submit_exam' : 'submit_exam';
+    logActivity('student', $_SESSION['student_id'], $action, "Submitted exam: {$attempt['exam_code']}");
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     
     // Prepare response data
     $response_data = [
@@ -259,10 +345,21 @@ try {
         'total_questions' => $total_questions,
         'wrong_count' => $wrong_count,
         'answered_count' => $answered_count,
+<<<<<<< HEAD
         'auto_submitted' => $reason !== 'manual',
         'reason' => $reason,
         'status' => $attempt_status,
         'submission_method' => $submission_method,
+=======
+<<<<<<< HEAD
+        'auto_submitted' => $submit_reason !== 'manual',
+        'submit_reason' => $reasonMeta['method'],
+        'submit_label' => $reasonMeta['label'],
+        'redirect' => APP_URL . '/student/results.php?submitted=' . $attempt['exam_id'] . '&reason=' . urlencode($reasonMeta['method']),
+=======
+        'auto_submitted' => $auto_submit,
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         'show_result' => $attempt['show_result'] == 1
     ];
     

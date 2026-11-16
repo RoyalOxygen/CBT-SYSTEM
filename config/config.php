@@ -6,6 +6,7 @@ require_once __DIR__ . '/node.php';
 define('STUDENT_SESSION_TIMEOUT', 2592000); // 30 days - students stay logged in as long as possible
 $sessionLifetime = STUDENT_SESSION_TIMEOUT;
 
+<<<<<<< HEAD
 function cbt_request_is_https(): bool {
     $forwarded = strtolower(trim(explode(',', (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''))[0]));
     if ($forwarded === 'https') {
@@ -41,13 +42,19 @@ function cbt_request_app_url(): ?string {
     return ($https ? 'https' : 'http') . '://' . $host . $dir;
 }
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 if (session_status() === PHP_SESSION_NONE) {
     // Use a persistent cookie so student sessions survive browser restarts
     session_set_cookie_params([
         'lifetime' => $sessionLifetime,
         'path' => '/',
         'domain' => '',
+<<<<<<< HEAD
         'secure' => cbt_request_is_https(),
+=======
+        'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         'httponly' => true,
         'samesite' => 'Lax',
     ]);
@@ -68,6 +75,7 @@ date_default_timezone_set('Africa/Lagos');
 // Application constants
 define('APP_NAME', 'OXYGEN CBT SYSTEM');
 if (!defined('APP_URL')) {
+<<<<<<< HEAD
     $detectedAppUrl = cbt_request_app_url();
     $configuredAppUrl = NODE_APP_URL ?: 'http://localhost/cbt-system';
     if ($detectedAppUrl) {
@@ -78,6 +86,9 @@ if (!defined('APP_URL')) {
         }
     }
     define('APP_URL', $configuredAppUrl);
+=======
+    define('APP_URL', NODE_APP_URL ?: 'http://localhost/cbt-system'); // Override in config/node.local.php
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 }
 define('APP_VERSION', '1.1.0');
 
@@ -90,9 +101,31 @@ define('LOGIN_LOCKOUT_TIME', 900); // 15 minutes
 
 // Upload constants
 define('MAX_UPLOAD_SIZE', 5242880); // 5MB
+<<<<<<< HEAD
 define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Groq question import
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
 define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+<<<<<<< HEAD
+define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Groq question import
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+<<<<<<< HEAD
+define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Groq question import
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+<<<<<<< HEAD
+define('MAX_DOCUMENT_UPLOAD_SIZE', 20971520); // 20MB for Gemini question import
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+define('QUESTION_IMAGE_PATH', dirname(__DIR__) . '/assets/uploads/question_images/');
+=======
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 
 // Pagination
 define('DEFAULT_PAGE_SIZE', 20);

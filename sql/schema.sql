@@ -1570,9 +1570,18 @@ INSERT INTO `settings` (`id`, `setting_key`, `setting_value`, `setting_group`) V
 (6, 'session_timeout', '30', 'general'),
 (7, 'biometric_threshold', '90', 'general'),
 (8, 'maintenance_mode', '0', 'general'),
+<<<<<<< HEAD
 (9, 'biometric_enabled', '0', 'general'),
 (10, 'tab_switch_enabled', '1', 'general'),
 (11, 'tab_switch_warnings', '3', 'general');
+=======
+<<<<<<< HEAD
+(9, 'biometric_enabled', '0', 'general'),
+(10, 'tab_switch_termination', '1', 'general');
+=======
+(9, 'biometric_enabled', '0', 'general');
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 
 -- --------------------------------------------------------
 

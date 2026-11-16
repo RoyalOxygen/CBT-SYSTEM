@@ -8,14 +8,42 @@ A complete, production-ready Computer Based Testing (CBT) application built with
 - **Dashboard** - Statistics, charts, recent activity
 - **Student Management** - Add/edit/delete students, bulk CSV upload
 - **Exam Management** - Create, publish, start, end, archive exams
+<<<<<<< HEAD
 - **Question Bank** - Add individual questions, or bulk-import from PDF/Word/Excel via Groq
+=======
+<<<<<<< HEAD
+- **Question Bank** - Add individual questions, or bulk-import from PDF/Word/Excel via Groq
+=======
+<<<<<<< HEAD
+- **Question Bank** - Add individual questions, or bulk-import from PDF/Word/Excel via Gemini
+=======
+- **Question Bank** - Add individual or bulk upload questions with images
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 - **Student Assignment** - Filter and assign students to exams with batch scheduling
 - **Live Monitoring** - Real-time student tracking with time extension and force submit controls
 - **Biometric Enrollment** - Web-based fingerprint capture with multiple SDK support
 - **Results & Analytics** - Grade distribution, pass/fail statistics, CSV export
+<<<<<<< HEAD
 - **Faculties** - Super-admin add/edit/delete faculties
 - **Departments** - Super-admin add/edit/delete departments under a faculty
 - **Settings** - System configuration, grading scale, biometric settings, Groq API key
+=======
+<<<<<<< HEAD
+- **Faculties** - Super-admin add/edit/delete faculties
+- **Departments** - Super-admin add/edit/delete departments under a faculty
+- **Settings** - System configuration, grading scale, biometric settings, Groq API key
+=======
+<<<<<<< HEAD
+- **Faculties** - Super-admin add/edit/delete faculties
+- **Departments** - Super-admin add/edit/delete departments under a faculty
+- **Settings** - System configuration, grading scale, biometric settings, Gemini API key
+=======
+- **Settings** - System configuration, grading scale, biometric settings
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 - **Offline Nodes** - Control offline exam halls from the online hub (sync, restrictions, signed updates)
 
 ### Student Portal
@@ -84,8 +112,21 @@ cbt-system/
 │   ├── monitoring.php        # Live monitoring
 │   ├── results.php           # Results & analytics
 │   ├── biometric_enroll.php  # Biometric enrollment
+<<<<<<< HEAD
 │   ├── faculties.php         # Faculty management (super-admin)
 │   ├── departments.php       # Department management (super-admin)
+=======
+<<<<<<< HEAD
+│   ├── faculties.php         # Faculty management (super-admin)
+│   ├── departments.php       # Department management (super-admin)
+=======
+<<<<<<< HEAD
+│   ├── faculties.php         # Faculty management (super-admin)
+│   ├── departments.php       # Department management (super-admin)
+=======
+>>>>>>> c2f3db94eeb05dddf4e2a299051e40ec27455b93
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 │   ├── settings.php          # System settings
 │   └── logout.php            # Logout
 ├── student/                  # Student portal

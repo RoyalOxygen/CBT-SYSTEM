@@ -16,6 +16,7 @@ function groq_model(): string {
     return $model !== '' ? $model : groq_default_model();
 }
 
+<<<<<<< HEAD
 function groq_default_vision_model(): string {
     return 'meta-llama/llama-4-scout-17b-16e-instruct';
 }
@@ -25,6 +26,8 @@ function groq_vision_model(): string {
     return $model !== '' ? $model : groq_default_vision_model();
 }
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function groq_question_schema(): array {
     return [
         'type' => 'object',
@@ -102,7 +105,11 @@ function groq_error_message(array $json, string $raw, int $status): string {
 }
 
 function groq_clean_text(string $text): string {
+<<<<<<< HEAD
     $text = str_replace(["\x00", "\x0C"], '', $text);
+=======
+    $text = str_replace("\x00", '', $text);
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     $text = html_entity_decode($text, ENT_QUOTES | ENT_XML1, 'UTF-8');
     $text = preg_replace("/[ \t]+/", ' ', $text) ?? $text;
     $text = preg_replace("/\r\n|\r/", "\n", $text) ?? $text;
@@ -110,6 +117,7 @@ function groq_clean_text(string $text): string {
     return trim($text);
 }
 
+<<<<<<< HEAD
 function groq_bin(string $name): string {
     foreach (['/usr/bin/' . $name, '/usr/local/bin/' . $name] as $path) {
         if (is_executable($path)) {
@@ -184,6 +192,8 @@ function groq_text_is_useful(string $text): bool {
     return strlen($alnum) >= 8;
 }
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function groq_pdf_unescape(string $s): string {
     $s = str_replace(['\\n', '\\r', '\\t', '\\(', '\\)', '\\\\'], ["\n", "\r", "\t", '(', ')', '\\'], $s);
     $s = preg_replace_callback('/\\\\([0-7]{1,3})/', static function ($m) {
@@ -192,6 +202,7 @@ function groq_pdf_unescape(string $s): string {
     return $s;
 }
 
+<<<<<<< HEAD
 function groq_pdf_inflate(string $chunk): string {
     $tries = [@gzuncompress($chunk), @gzinflate($chunk), @gzinflate(substr($chunk, 2))];
     foreach ($tries as $inflated) {
@@ -203,6 +214,32 @@ function groq_pdf_inflate(string $chunk): string {
 }
 
 function groq_pdf_parse_strings(string $source): string {
+=======
+function groq_pdf_text(string $path): string {
+    $content = file_get_contents($path);
+    if ($content === false || $content === '') {
+        return '';
+    }
+    $decoded = '';
+    if (preg_match_all('/stream\s*\r?\n(.*?)\r?\nendstream/s', $content, $streams)) {
+        foreach ($streams[1] as $stream) {
+            $chunk = $stream;
+            if (strncmp($chunk, "\x78\x9c", 2) === 0 || strncmp($chunk, "\x78\x01", 2) === 0 || strncmp($chunk, "\x78\xda", 2) === 0) {
+                $inflated = @gzuncompress($chunk);
+                if ($inflated !== false) {
+                    $chunk = $inflated;
+                }
+            } else {
+                $inflated = @gzinflate($chunk);
+                if ($inflated !== false) {
+                    $chunk = $inflated;
+                }
+            }
+            $decoded .= $chunk . "\n";
+        }
+    }
+    $source = $decoded !== '' ? $decoded : $content;
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     $parts = [];
     if (preg_match_all('/\[(.*?)\]\s*TJ/s', $source, $blocks)) {
         foreach ($blocks[1] as $block) {
@@ -212,6 +249,7 @@ function groq_pdf_parse_strings(string $source): string {
                     $line .= groq_pdf_unescape(substr($s, 1, -1));
                 }
             }
+<<<<<<< HEAD
             if (preg_match_all('/<([0-9A-Fa-f\s]+)>/', $block, $hexes)) {
                 foreach ($hexes[1] as $hex) {
                     $hex = preg_replace('/\s+/', '', $hex) ?? $hex;
@@ -224,6 +262,9 @@ function groq_pdf_parse_strings(string $source): string {
                 }
             }
             if (trim($line) !== '') {
+=======
+            if ($line !== '') {
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                 $parts[] = $line;
             }
         }
@@ -238,6 +279,7 @@ function groq_pdf_parse_strings(string $source): string {
     return groq_clean_text(implode("\n", $parts));
 }
 
+<<<<<<< HEAD
 function groq_pdf_stream_text(string $path): string {
     $content = file_get_contents($path);
     if ($content === false || $content === '') {
@@ -321,6 +363,8 @@ function groq_pdf_text(string $path): string {
     return $fallback !== '' ? $fallback : groq_pdf_stream_text($path);
 }
 
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function groq_zip_xml(string $path, string $inner): string {
     if (!class_exists('ZipArchive')) {
         return '';
@@ -334,6 +378,7 @@ function groq_zip_xml(string $path, string $inner): string {
     return is_string($xml) ? $xml : '';
 }
 
+<<<<<<< HEAD
 function groq_docx_part_text(string $xml): string {
     if ($xml === '') {
         return '';
@@ -371,6 +416,17 @@ function groq_docx_text(string $path): string {
     return groq_clean_text(implode("\n", $chunks));
 }
 
+=======
+function groq_docx_text(string $path): string {
+    $xml = groq_zip_xml($path, 'word/document.xml');
+    if ($xml === '') {
+        return '';
+    }
+    $xml = str_replace(['</w:p>', '</w:tr>', '</w:tbl>'], "\n", $xml);
+    return groq_clean_text(strip_tags($xml));
+}
+
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 function groq_odt_text(string $path): string {
     $xml = groq_zip_xml($path, 'content.xml');
     if ($xml === '') {
@@ -451,6 +507,7 @@ function groq_binary_office_text(string $path): string {
     if (preg_match_all('/[\x20-\x7E]{4,}/', $data, $m)) {
         $chunks = $m[0];
     }
+<<<<<<< HEAD
     $noise = ['Microsoft', 'WordDocument', 'Normal.dot', 'Times New Roman', 'Calibri', 'Arial', 'Root Entry'];
     $kept = [];
     foreach ($chunks as $chunk) {
@@ -799,6 +856,32 @@ function groq_extract_document_text(string $filePath, string $displayName): arra
     }
     if (!groq_text_is_useful($text)) {
         return ['ok' => false, 'error' => 'Could not read text from the document after OCR'];
+=======
+    return groq_clean_text(implode("\n", $chunks));
+}
+
+function groq_extract_document_text(string $filePath, string $displayName): array {
+    $ext = strtolower(pathinfo($displayName, PATHINFO_EXTENSION));
+    $text = '';
+    if ($ext === 'pdf') {
+        $text = groq_pdf_text($filePath);
+    } elseif ($ext === 'docx') {
+        $text = groq_docx_text($filePath);
+    } elseif ($ext === 'odt') {
+        $text = groq_odt_text($filePath);
+    } elseif (in_array($ext, ['xlsx', 'ods'], true)) {
+        $text = $ext === 'xlsx' ? groq_xlsx_text($filePath) : groq_odt_text($filePath);
+    } elseif (in_array($ext, ['txt', 'csv'], true)) {
+        $raw = file_get_contents($filePath);
+        $text = groq_clean_text($raw === false ? '' : $raw);
+    } elseif (in_array($ext, ['doc', 'xls'], true)) {
+        $text = groq_binary_office_text($filePath);
+    } else {
+        return ['ok' => false, 'error' => 'Unsupported file type. Upload PDF, DOCX, DOC, XLSX, XLS, or TXT'];
+    }
+    if ($text === '') {
+        return ['ok' => false, 'error' => 'Could not read text from the document. Try a text-based PDF, DOCX, or XLSX'];
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     }
     $limit = 80000;
     if (strlen($text) > $limit) {
@@ -812,6 +895,7 @@ function groq_output_text(array $json): string {
     if (is_string($content) && $content !== '') {
         return trim($content);
     }
+<<<<<<< HEAD
     if (is_array($content)) {
         $parts = [];
         foreach ($content as $item) {
@@ -826,6 +910,8 @@ function groq_output_text(array $json): string {
             return $joined;
         }
     }
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
     if (!empty($json['output_text']) && is_string($json['output_text'])) {
         return trim($json['output_text']);
     }

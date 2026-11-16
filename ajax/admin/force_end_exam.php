@@ -15,6 +15,7 @@ try {
     $type = $data['type'] ?? 'regular';
     
     if ($type === 'composite') {
+<<<<<<< HEAD
         try {
             composite_attempt_archive_save($db, $attemptId, 'admin');
         } catch (Throwable $e) {
@@ -58,6 +59,14 @@ try {
                 ->execute([$ended['exam_id'], $ended['student_id']]);
             $db->prepare("UPDATE students SET current_exam_id = NULL WHERE id = ?")->execute([$ended['student_id']]);
         }
+=======
+        $db->prepare("UPDATE composite_exam_attempts SET status = 'submitted', end_time = NOW(), submission_method = 'admin' WHERE id = ?")
+            ->execute([$attemptId]);
+        logActivity('admin', $_SESSION['admin_id'], 'force_end_composite', "Force ended composite attempt $attemptId");
+    } else {
+        $db->prepare("UPDATE exam_attempts SET status = 'submitted', end_time = NOW(), submission_method = 'admin' WHERE id = ?")
+            ->execute([$attemptId]);
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         logActivity('admin', $_SESSION['admin_id'], 'force_end', "Force ended attempt $attemptId");
     }
     

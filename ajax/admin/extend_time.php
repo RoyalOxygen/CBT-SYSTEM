@@ -16,11 +16,16 @@ try {
     $type = $data['type'] ?? 'regular';
     
     if ($type === 'composite') {
+<<<<<<< HEAD
         $stmt = $db->prepare("SELECT time_extension_minutes, composite_exam_id, student_id, status FROM composite_exam_attempts WHERE id = ?");
+=======
+        $stmt = $db->prepare("SELECT time_extension_minutes, composite_exam_id, student_id FROM composite_exam_attempts WHERE id = ?");
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         $stmt->execute([$attemptId]);
         $attempt = $stmt->fetch();
         
         if (!$attempt) jsonResponse(false, 'Attempt not found');
+<<<<<<< HEAD
         if ($minutes < 1) jsonResponse(false, 'Minutes must be at least 1');
 
         if (in_array((string) $attempt['status'], attempt_archive_resumable_statuses(), true)) {
@@ -33,6 +38,8 @@ try {
             logActivity('admin', $_SESSION['admin_id'], 'resume_composite_attempt', "Restored composite attempt $attemptId with $minutes extra minutes");
             jsonResponse(true, "Exam re-enabled with $minutes extra minutes. The student can continue.");
         }
+=======
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         
         $newExtension = ($attempt['time_extension_minutes'] ?? 0) + $minutes;
         $db->prepare("UPDATE composite_exam_attempts SET time_extension_minutes = ? WHERE id = ?")
@@ -42,11 +49,16 @@ try {
                    "Added $minutes min to composite attempt $attemptId");
         jsonResponse(true, "Added $minutes minutes");
     } else {
+<<<<<<< HEAD
         $stmt = $db->prepare("SELECT time_extension_minutes, exam_id, student_id, status FROM exam_attempts WHERE id = ?");
+=======
+        $stmt = $db->prepare("SELECT time_extension_minutes, exam_id, student_id FROM exam_attempts WHERE id = ?");
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         $stmt->execute([$attemptId]);
         $attempt = $stmt->fetch();
         
         if (!$attempt) jsonResponse(false, 'Attempt not found');
+<<<<<<< HEAD
         if ($minutes < 1) jsonResponse(false, 'Minutes must be at least 1');
 
         if (in_array((string) $attempt['status'], attempt_archive_resumable_statuses(), true)) {
@@ -60,6 +72,9 @@ try {
             jsonResponse(true, "Exam re-enabled with $minutes extra minutes. The student can continue.");
         }
 
+=======
+        
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
         $newExtension = ($attempt['time_extension_minutes'] ?? 0) + $minutes;
         $db->prepare("UPDATE exam_attempts SET time_extension_minutes = ? WHERE id = ?")
             ->execute([$newExtension, $attemptId]);

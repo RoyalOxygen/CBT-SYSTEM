@@ -520,6 +520,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <div class="mt-2">
                                 <small class="text-muted">
                                     <i class="bi bi-info-circle"></i> 
+<<<<<<< HEAD
                                     <?php
                                     if (($result['attempt_status'] ?? '') === 'timed_out' || ($result['submission_method'] === 'auto' && ($result['attempt_status'] ?? '') === 'timed_out')) {
                                         echo 'Time expired';
@@ -531,6 +532,13 @@ require_once __DIR__ . '/../includes/header.php';
                                         echo 'Auto-submitted';
                                     }
                                     ?>
+=======
+<<<<<<< HEAD
+                                    <?php echo e(exam_submission_label($result['attempt_status'] ?? null, $result['submission_method'])['text']); ?>
+=======
+                                    <?php echo $result['submission_method'] === 'manual' ? 'Manually submitted' : 'Auto-submitted'; ?>
+>>>>>>> d4cb62fcac2514a16b9152443c4440f47b4e3b36
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
                                 </small>
                             </div>
                         <?php endif; ?>

@@ -3,8 +3,18 @@
  */
 
 /* Smooth transitions */
+<<<<<<< HEAD
 a, button, .btn, .card, .form-control, .form-select {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+=======
+<<<<<<< HEAD
+a, button, .btn, .card, .form-control, .form-select {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+=======
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+>>>>>>> 8cf9559f70483e81ff43fbb996cf1fd85a0e394c
+>>>>>>> 577fa60932f24e4df65a88e28187ee1b0012f1a1
 }
 
 /* Card hover effects */
